@@ -399,7 +399,7 @@ export default function StartupApplicationPage() {
               Submit Application
             </button>
             <p className={styles.submitNote}>
-              After submitting, you'll be redirected to a Google confirmation page.<br/>
+              After submitting, you will be redirected to a Google confirmation page.<br/>
               Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>
             </p>
           </div>
