@@ -1,1156 +1,689 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>YaleHelix</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yale Helix</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <link rel="stylesheet" href="assets/css/main.css">
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="assets/js/main.js" defer></script>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: Helix
-  * Template URL: https://bootstrapmade.com/gp-free-multipurpose-html-bootstrap-template/
-  * Updated: Jun 29 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
-
-<body class="index-page">
-
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-
-      <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">HELIX</h1>
-        <span>.</span>
-      </a>
-
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="#hero" class="active">Home<br></a></li>
-          <li><a href="#about">About</a></li>
-          <!--<li><a href="#services">Services</a></li> -->
-          <li><a href="#portfolio">Startups</a></li>
-          <li><a href="#team">Team</a></li>
-          <!--<li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">HELIX<span class="dot">.</span></a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#hero" class="active">Home</a></li>
+                    <li><a href="#timeline">Timeline</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#startups">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
-          -->
-          <li><a href="#resume">Timeline</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
+            </nav>
+            <a href="/apply" class="apply-btn">Apply Now</a>
+        </div>
+    </header>
 
-      <a class="btn-getstarted" href="#call-to-action">Apply Now</a>
-
+    <!-- Hero Container -->
+    <div class="hero-container">
+        <section class="hero-section" id="hero">
+            <div class="hero-background"></div>
+            
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="highlight">YALE HELIX</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Healthcare & Biotech Startup Incubator
+                </p>
+                
+                <div class="hero-actions">
+                    <a href="/apply" target="_blank" class="action-card">
+                        <i class="bi bi-person-plus"></i>
+                        <h3>Apply for Students</h3>
+                    </a>
+                    <a href="/apply" target="_blank" class="action-card">
+                        <i class="bi bi-building"></i>
+                        <h3>Apply for Startups</h3>
+                    </a>
+                </div>
+            </div>
+        </section>
     </div>
-  </header>
-
-  <main class="main">
-
-    <!-- Hero Section -->
-    <section id="hero" class="hero section dark-background">
-
-      <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
-
-      <div class="container">
-
-        <div class="row justify-content-center text-center" data-aos="fade-up" data-aos-delay="100">
-          <div class="col-xl-6 col-lg-8">
-            <h2> <span>YALE HELIX</span></h2>
-            <p>Yale's premier student healthcare + biotech incubator</p>
-          </div>
-        </div>
-
-        <div class="row gy-4 mt-5 justify-content-center" data-aos="fade-up" data-aos-delay="200">
-          <div class="col-xl-2 col-md-4" data-aos="fade-up" data-aos-delay="300">
-            <div class="icon-box">
-              <i class="bi bi-card-list"></i>
-              <h3><a href="https://forms.gle/thcitgxzF5yxFU18A" target="_blank">Apply (For Students)</a></h3>
-            </div>
-          </div>
-          <div class="col-xl-2 col-md-4" data-aos="fade-up" data-aos-delay="450">
-            <div class="icon-box">
-              <i class="bi bi-card-list"></i>
-              <h3><a href="https://forms.gle/YC2bsoJAAGHyoD4UA" target="_blank">Apply (For Startups)</a></h3>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </section><!-- /Hero Section -->
-
-    <!-- About Section -->
-    <section id="about" class="about section">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-          <div class="col-lg-6 order-1 order-lg-2">
-            <img src="assets/img/about.jpg" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-6 order-2 order-lg-1 content">
-            <h3>Yale's Student Healthcare and Biotech Incubator.</h3>
-            <p class="fst-italic">
-              We are Yale’s only student-run incubator on campus. We focus on accelerating healthcare, healthtech, and biotech startups. Our mission is to connect ambitious undergraduate entrepreneurs with visionary founders from Yale and the New Haven community. Every year, we select from some of the most promising startups in various health-focused fields at Yale, each at a unique stage of development, to join our incubator. Our passionate and driven students play a pivotal role in helping these startups reach critical milestones and accelerate their growth. Last year, we proudly supported 4 innovative ventures, and we are excited to build on this success in the 2024-2025 academic year.
-            </p>
-            <p class=""fst-italic">
-              We provide startups with the workforce to accelerate their product development, capital raises, and contracts with industry partners. Students in the program have the opportunity to hone their skills in science, software development, marketing, and finance - all while working in a high-impact real world setting, taking on initiates, and building networks with industry professionals.
-            </p>
-            <p class="fst-italic">
-              Are you ready to dive headfirst into Yale’s entrepreneurship community? With the fall semester just around the corner, we’re looking for passionate, curious, and driven students to join our team. No startup experience? No problem! Whether you’re a seasoned entrepreneur or just eager to learn, we welcome all levels of experience. If you’re excited about making an impact and working with some of Yale’s most innovative startups, fill out our application above!
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-
-    <script type="text/plain">
-    <![CDATA[ 
-
-
-    </section><!-- /About Section -->
-
-    <!-- Clients Section -->
-    <!--
-    <section id="clients" class="clients section">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              },
-              "breakpoints": {
-                "320": {
-                  "slidesPerView": 2,
-                  "spaceBetween": 40
-                },
-                "480": {
-                  "slidesPerView": 3,
-                  "spaceBetween": 60
-                },
-                "640": {
-                  "slidesPerView": 4,
-                  "spaceBetween": 80
-                },
-                "992": {
-                  "slidesPerView": 6,
-                  "spaceBetween": 120
-                }
-              }
-            }
-
-            ]]>
-          </script>
-
-          
-          </script>
-
-          <script type="text/plain">
-            <![CDATA[ 
-
-          <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide"><img src="assets/img/clients/client-1.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/client-2.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/client-3.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/client-4.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/client-5.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/client-6.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/client-7.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="assets/img/clients/client-8.png" class="img-fluid" alt=""></div>
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
-      </div>
-    -->
-
-    </section><!-- /Clients Section -->
-
-    ]]>
-  </script>
-
 
     <!-- Features Section -->
-    <section id="features" class="features section">
+    <section class="features-section">
+        <div class="features-content">
+            <div class="features-text-container">
+                <div class="features-text-line line-1">
+                    <span>Connecting</span>
+                </div>
+                <div class="features-text-line line-2">
+                    <span>Visionary Startups</span>
+                </div>
+                <div class="features-text-line line-3">
+                    <span>And College Talent</span>
+                </div>
+                <div class="features-text-line line-4">
+                    <span>At Yale</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <div class="container">
+    <!-- Spacer Section -->
+    <section class="spacer-section"></section>
 
-        <div class="row gy-4">
-          <div class="features-image col-lg-6" data-aos="fade-up" data-aos-delay="100"><img src="assets/img/features-bg.jpg" alt=""></div>
-          <div class="col-lg-6">
+    <!-- What We Do Section -->
+    <section class="what-we-do-section">
+        <div class="content-section">
+            <!-- Geometric patterns -->
+            <div class="geometric-patterns">
+                <div class="hexagon hex-1"></div>
+                <div class="hexagon hex-2"></div>
+                <div class="hexagon hex-3"></div>
+            </div>
+            
+            <!-- Section Header -->
+            <div class="section-header">
+                <div class="header-line">
+                    <div class="header-text">
+                        <span class="small-text">WHAT WE DO</span>
+                    </div>
+                    <div class="header-divider"></div>
+                </div>
+                <h2 class="main-header">This is how we help ambitious companies succeed.</h2>
+            </div>
+            
+            <!-- Description -->
+            <div class="description-section">
+                <p>We take pride in bringing together a broad spectrum of some of Yale's most talented, motivated, and ambitious entrepreneurs and students to challenge real-world problems in software, healthcare, and biotech.</p>
+            </div>
+            
+            <!-- Service Cards -->
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Product Building</h3>
+                    <p>From ideation to prototypes and product building, we help accelerate software development, whether it be a site for the business or building out a software product</p>
+                </div>
+                <div class="service-card">
+                    <h3>Business Research</h3>
+                    <p>Research on competitors, existing incumbents, and existing business models to best position your startup for successful funding rounds and market entry.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Branding</h3>
+                    <p>We develop distinctive visual identities that communicate startups to VC's, investors, and potential partners</p>
+                </div>
+                <div class="service-card">
+                    <h3>Community</h3>
+                    <p>Join a group united by shared passion for healthcare innovation and diverse expertise. Meet our founders, our advisors.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <div class="features-item d-flex ps-0 ps-lg-3 pt-4 pt-lg-0" data-aos="fade-up" data-aos-delay="200">
-              <i class="bi bi-archive flex-shrink-0"></i>
-              <div>
-                <h4>History</h4>
-                <p>Helix was founded in 2018 by a cohort of passionate Yale undergraduates in partnership with Yale Tsai City. 
-                  Since then, Helix has helped accelerate startups from a diverse client base, from life-saving biomedical devices, to social service platforms, 
-                  next-generation medical diagnostics, and global health solutions. </p>
-              </div>
-            </div><!-- End Features Item-->
-
-            <div class="features-item d-flex mt-5 ps-0 ps-lg-3" data-aos="fade-up" data-aos-delay="300">
-              <i class="bi bi-basket flex-shrink-0"></i>
-              <div>
-                <h4>Projects</h4>
-                <p>We take pride in bringing together a broad spectrum of some of Yale's most talented, motivated, and ambitious students to tackle high-impact real-world challenges
-                   in health and biotech. Each year, we recruit 4-5 startups to our cohort, alongside 16-20 students. Startups and students are paired off based on talent and fit.</p>
-              </div>
-            </div><!-- End Features Item-->
-
-            <div class="features-item d-flex mt-5 ps-0 ps-lg-3" data-aos="fade-up" data-aos-delay="400">
-              <i class="bi bi-broadcast flex-shrink-0"></i>
-              <div>
-                <h4>Community</h4>
-                <p> Helix is a closely-knit group bonded by shared interests and diverse backgrounds. New and old students and founders can connect over weekend retreats, founder dinners, teem meetings, and more!</p>
-              </div>
-            </div><!-- End Features Item-->
-
-            <div class="features-item d-flex mt-5 ps-0 ps-lg-3" data-aos="fade-up" data-aos-delay="500">
-              <i class="bi bi-camera-reels flex-shrink-0"></i>
-              <div>
-                <h4>People</h4>
-                <p>Our members come from varied academic backgrounds including but not limited to Economics, Computer Science, Statistics & Data Science, Biomedical Engineering, Political Science, Molecular Biochemistry and Biophysics, and more.
-                  Current members can connect with a wide range of Helix alumni in Venture Captial, Product Management, Software Engineering, Medicine, and beyond.
+    <!-- Timeline Section -->
+    <section class="timeline-section" id="timeline">
+        <div class="timeline-content">
+            <div class="timeline-header">
+                <span class="small-text">RECRUITMENT TIMELINE</span>
+                <h2 class="main-header">Application Process</h2>
+                <p class="timeline-description">
+                    Ready to dive headfirst into Yale's entrepreneurship community? Here's everything you need to know about our application timeline and process.
                 </p>
-              </div>
-            </div><!-- End Features Item-->
-
-          </div>
+            </div>
+            
+            <div class="timeline-container">
+                <!-- Student Timeline -->
+                <div class="timeline-column">
+                    <h3 class="timeline-title">Undergraduate Recruitment 2025</h3>
+                    <div class="timeline-items">
+                        <div class="timeline-item">
+                            <div class="timeline-date">August 15th</div>
+                            <div class="timeline-event">Applications Open</div>
+                            <div class="timeline-description-item">The application will ask for your resume and relevant experiences. It includes a series of short questions. We appreciate and thank you for your time!</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">September 1</div>
+                            <div class="timeline-event">EC Bazaar</div>
+                            <div class="timeline-description-item">Join us at our table in the EC Bazaar! Talk to directors and learn more directly from members about Helix</div>
+                            <div class="timeline-location">2-4pm at Commons, Location TBD</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">September 2</div>
+                            <div class="timeline-event">General Information Session</div>
+                            <div class="timeline-description-item">This meeting will include a formal presentation of Helix, expected work from students, past projects, and the application process. Directors will be available to answer any questions and offer first-hand accounts of their time in Helix.</div>
+                            <div class="timeline-location">Location TBD</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">September 5th</div>
+                            <div class="timeline-event">Drop-In Office Hours 1</div>
+                            <div class="timeline-description-item">Chat in a more casual setting with directors, questions about applications are encouraged!</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">September 7th</div>
+                            <div class="timeline-event">Drop-In Office Hours</div>
+                            <div class="timeline-description-item">Chat in a more casual setting with directors, questions about applications are encouraged!</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">September 8</div>
+                            <div class="timeline-event">Applications Due</div>
+                            <div class="timeline-description-item">Applications are due at 11:59 PM Eastern Time.</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">TBD - announced soon!</div>
+                            <div class="timeline-event">First Meeting</div>
+                            <div class="timeline-description-item">Join us for our first meeting! Get to know each other, we hope you will come to see Helix as a family! We will also set out expectations and discuss the training bootcamp timeline, startup onboarding, etc</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Startup Timeline -->
+                <div class="timeline-column">
+                    <h3 class="timeline-title">Startup Recruitment</h3>
+                    <div class="timeline-items">
+                        <div class="timeline-item">
+                            <div class="timeline-date">August 10 - September 5</div>
+                            <div class="timeline-event">Startup Recruitment</div>
+                            <div class="timeline-description-item">Initial Outreach and Conversations</div>
+                            <div class="timeline-details">
+                                <ul>
+                                    <li>Apply Through the Startup Application Form</li>
+                                    <li>Schedule Conversations with the Directors</li>
+                                    <li>Tell Us Your Needs</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">September 15</div>
+                            <div class="timeline-event">Pitches to Directors</div>
+                            <div class="timeline-location">Tsai City</div>
+                            <div class="timeline-details">
+                                <ul>
+                                    <li>Provide Details on Startup and Ideation</li>
+                                    <li>Present on Desired Talent and Expected Roles</li>
+                                    <li>Provide a Timeline for Development</li>
+                                    <li>Create Proposals on MVP and Current Progress</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">September 22</div>
+                            <div class="timeline-event">Offers Extended</div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-date">TBD</div>
+                            <div class="timeline-event">Pitches to Helix Fellows</div>
+                            <div class="timeline-location">Tsai City</div>
+                            <div class="timeline-details">
+                                <ul>
+                                    <li>Provide Details on Startup and Ideation</li>
+                                    <li>Present on Desired Talent and Expected Roles</li>
+                                    <li>Provide a Timeline for Development</li>
+                                    <li>Create Proposals on MVP and Current Progress</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-      </div>
-
-    </section><!-- /Features Section -->
-
-    <script type="text/plain">
-      <![CDATA[    
-
-
-
-    <!-- Services Section -->
-    <section id="services" class="services section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Services</h2>
-        <p>Check our Services</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-activity"></i>
-              </div>
-              <a href="service-details.html" class="stretched-link">
-                <h3>Nesciunt Mete</h3>
-              </a>
-              <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-broadcast"></i>
-              </div>
-              <a href="service-details.html" class="stretched-link">
-                <h3>Eosle Commodi</h3>
-              </a>
-              <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-easel"></i>
-              </div>
-              <a href="service-details.html" class="stretched-link">
-                <h3>Ledo Markt</h3>
-              </a>
-              <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-bounding-box-circles"></i>
-              </div>
-              <a href="service-details.html" class="stretched-link">
-                <h3>Asperiores Commodit</h3>
-              </a>
-              <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
-              <a href="service-details.html" class="stretched-link"></a>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-calendar4-week"></i>
-              </div>
-              <a href="service-details.html" class="stretched-link">
-                <h3>Velit Doloremque</h3>
-              </a>
-              <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
-              <a href="service-details.html" class="stretched-link"></a>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-chat-square-text"></i>
-              </div>
-              <a href="service-details.html" class="stretched-link">
-                <h3>Dolori Architecto</h3>
-              </a>
-              <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
-              <a href="service-details.html" class="stretched-link"></a>
-            </div>
-          </div><!-- End Service Item -->
-
-        </div>
-
-      </div>
-
-
-
-      ]]>
-    </script>
-
-
-
-    </section><!-- /Services Section -->
-
-    <!-- Call To Action Section -->
-    <section id="call-to-action" class="call-to-action section dark-background">
-
-      <img src="assets/img/cta-bg.jpg" alt="">
-
-      <div class="container">
-        <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
-          <div class="col-xl-10">
-            <div class="text-center">
-              <h3>Apply Now</h3>
-              <p>And learn more about the future of biotech together with the Helix Community!</p>
-              <a class="cta-btn" href="https://forms.gle/thcitgxzF5yxFU18A" target="_blank">Apply Now</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section><!-- /Call To Action Section -->
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Startups</h2>
-        <p>See Our Startup Partners</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-
-          <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
-            <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-app">App</li>
-            <li data-filter=".filter-product">Card</li>
-            <li data-filter=".filter-branding">Web</li>
-          </ul><!-- End Portfolio Filters -->
-
-          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Lucid.Care</h4>
-                <p>The digital labwork for behavioral health. Winner of the NIH behavioral health prize and funded by Forum Ventures</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-1.jpg" title="App 1" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://lucid.care" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Ambrosia</h4>
-                <p>Nutrition-first food delivery.</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" title="Product 1" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://www.ambrosiameals.com" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-product">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-5.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>UpKeep Care</h4>
-                <p>Connecting elderly adults and their caregivers with the resources and benefits through conversational AI. Winner of the Rita Wilson Seed Grant and the Startup Yale Thorne Healthcare Innovation Prize</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-5.jpg" title="Product 2" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://upkeepcare.org" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-3.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>EnlighteN</h4>
-                <p>Naloxone Sensory Injector to detect and reverse opioid overdose. 
-                  Winner of Rothberg Catalyzer Fund, Winner of 10k from the NIH.</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-3.jpg" title="Branding 1" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://medium.com/tsai-city/kickstarting-healthcare-innovation-with-the-rothberg-catalyzer-prototype-fund-6f5a1f37c5c2" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-app">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-4.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Luminous</h4>
-                <p>Smart hospital supply rooms.
-                  Winner of 30k Bioscience Pipeline.</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-4.jpg" title="App 2" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://www.luminousbio.com" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-branding">
-              <img src="assets/img/masonry-portfolio/masonry-portfolio-6.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Make Deaths Count</h4>
-                <p>Improving mortality surveillance worldwide where no death goes unaccounted for.</p>
-                <a href="assets/img/masonry-portfolio/masonry-portfolio-6.jpg" title="Branding 2" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://makedeathscount.org" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-          </div><!-- End Portfolio Container -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Portfolio Section -->
+    </section>
 
     <!-- Stats Section -->
-    <section id="stats" class="stats section">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4 align-items-center justify-content-between">
-
-          <div class="col-lg-5">
-            <img src="assets/img/stats-img.jpg" alt="" class="img-fluid">
-          </div>
-
-          <div class="col-lg-6">
-
-            <h3 class="fw-bold fs-2 mb-3">Helix by the Numbers.</h3>
-            <p>
-              Empowering the greater Yale biotech innovation space for over half a decade, supporting founders and students in challenging real-world problems.
-            </p>
-
-            <div class="row gy-4">
-
-              <div class="col-lg-6">
-                <div class="stats-item d-flex">
-                  <i class="bi bi-emoji-smile flex-shrink-0"></i>
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="6" data-purecounter-duration="1" class="purecounter"></span>
-                    <p><strong>Years Operating</strong> <span>since 2018</span></p>
-                  </div>
-                </div>
-              </div><!-- End Stats Item -->
-
-              <div class="col-lg-6">
-                <div class="stats-item d-flex">
-                  <i class="bi bi-journal-richtext flex-shrink-0"></i>
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="56" data-purecounter-duration="1" class="purecounter"></span>
-                    <p><strong>Selected Startups</strong> <span>since Helix's founding</span></p>
-                  </div>
-                </div>
-              </div><!-- End Stats Item -->
-
-              <div class="col-lg-6">
-                <div class="stats-item d-flex">
-                  <i class="bi bi-headset flex-shrink-0"></i>
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="3200" data-purecounter-duration="1" class="purecounter"></span>
-                    <p><strong>Hours Of Support</strong> <span>provided in the last year</span></p>
-                  </div>
-                </div>
-              </div><!-- End Stats Item -->
-
-              <div class="col-lg-6">
-                <div class="stats-item d-flex">
-                  <i class="bi bi-people flex-shrink-0"></i>
-                  <div>
-                    <span data-purecounter-start="0" data-purecounter-end="224" data-purecounter-duration="1" class="purecounter"></span>
-                    <p><strong>Yale Students</strong> <span>paired with startups through Helix</span></p>
-                  </div>
-                </div>
-              </div><!-- End Stats Item -->
-
+    <section class="stats-section" id="stats">
+        <div class="stats-content">
+            <div class="stats-image">
+                <img src="assets/img/stats-img.jpg" alt="">
             </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section><!-- /Stats Section -->
-    
-
-
-    <script type="text/plain">
-      <![CDATA[    
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section dark-background">
-
-      <img src="assets/img/testimonials-bg.jpg" class="testimonials-bg" alt="">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              }
-            }
-          
-            ]]>
-          </script>
-      
-
-          </script>
-
-
-          <script type="text/plain">
-            <![CDATA[ 
-
-
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                <h3>Sara Wilsson</h3>
-                <h4>Designer</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                <h3>Jena Karlis</h3>
-                <h4>Store Owner</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                <h3>Matt Brandon</h3>
-                <h4>Freelancer</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                <h3>John Larson</h3>
-                <h4>Entrepreneur</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
-      </div>
-    -->
-
-    </section><!-- /Testimonials Section -->
-    
-    
-    ]]>
-    </script>
-    
-    <!-- Team Section -->
-    <section id="team" class="team section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Team</h2>
-        <p>our Team</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Apurva Mishra</h4>
-                <span>Helix Co-Director</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="assets/img/team/team-2.jpeg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Issy Earp</h4>
-                <span>Helix Co-Director</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="assets/img/team/team-3.JPG" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>William Liu</h4>
-                <span>Head of Outreach</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Jiya Mody</h4>
-                <span>Head of Events</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="500">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="assets/img/team/team-5.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Georgio Maroun</h4>
-                <span>Vice President of Operations</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="assets/img/team/team-6.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Saj Agarwala</h4>
-                <span>Head of Finance</span>
-              </div> 
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="assets/img/team/team-7.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Usmaan Siddiqi</h4>
-                <span>Head of External Relations</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Team Section -->
-
-
-
-
-
-    <!-- Resume Section -->
-    <section id="resume" class="resume section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Recruitment</h2>
-        <p>Recruitment Timeline</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row">
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-
-            <h3 class="resume-title">Undergraduate Recruitment 2024</h3>
-            <div class="resume-item">
-              <h4>Applications Open</h4>
-              <h5>August 15th</h5>
-              <p><em>The application will ask for your resume and relevant experinces. It includes a series of short questions. We appreciate and thank you for your time!</em></p>
-            </div><!-- Edn Resume Item -->
-
-            <div class="resume-item">
-              <h4>EC Bazaar</h4>
-              <h5>September 1</h5>
-              <p><em>Join us at our table in the EC Bazaar! Talk to directors and learn more directly from members about Helix</em></p>
-              <ul>
-                <li>2-4pm at Commons, Location TBD</li>
-              </ul>
-            </div><!-- Edn Resume Item -->
-
-            <div class="resume-item">
-              <h4>General Information Session</h4>
-              <h5>September 2</h5>
-              <p><em>This meeting will include a formal presentation of Helix, expected work from students, past projects, and the application process. Directors will be available to answer any questions and offer first-hand accounts of their time in Helix.</em></p>
-              <ul>
-                <li>Location TBD</li>
-              </ul>
-            </div><!-- Edn Resume Item -->
-
-            <div class="resume-item">
-              <h4>Drop-In Office Hours 1</h4>
-              <h5>September 5th</h5>
-              <p><em>Chat in a more casual setting with directors, questions about applications are encouraged!</em></p>
-            </div><!-- Edn Resume Item -->
-
-            <div class="resume-item">
-              <h4>Drop-In Office Hours</h4>
-              <h5>September 7th</h5>
-              <p><em>Chat in a more casual setting with directors, questions about applications are encouraged!</em></p>
-            </div><!-- Edn Resume Item -->
-
-            <div class="resume-item">
-              <h4>Applications Due</h4>
-              <h5>September 8</h5>
-              <p><em>Applications are due at 11:59 PM Eastern Time.</em></p>
-            </div><!-- Edn Resume Item -->
-
-            <div class="resume-item">
-              <h4>First Meeting</h4>
-              <h5>TBD - announced soon!</h5>
-              <p><em>Join us for our first meeting! Get to know eachother, we hope you will come to see Helix as a family! We will also set out expectations and discuss the training bootcamp timeline, startup onboarding, etc</em></p>
-            </div><!-- Edn Resume Item -->
-
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <h3 class="resume-title">Startup Recruitment</h3>
-            <div class="resume-item">
-              <h4>Startup Rescruitment</h4>
-              <h5>August 6 - September 5</h5>
-              <p>Initial Outreach and Conversations</p>
-              <ul>
-                <li>Apply Through the Startup Application Form</li>
-                <li>Schedule Conversations with the Directors </li>
-                <li>Tell Us Your Needs</li>
-              </ul>
-            </div><!-- Edn Resume Item -->
-
-            <div class="resume-item">
-              <h4>Pitches to Directors</h4>
-              <h5>September 15</h5>
-              <p><em>Tsai City</em></p>
-              <ul>
-                <li>Provide Details on Startup and Ideation</li>
-                <li>Present on Desired Talent and Expected Roles</li>
-                <li>Provide a Timeline for Development</li>
-                <li>Create Proposals on MVP and Current Progress</li>
-              </ul>
-            </div><!-- Edn Resume Item -->
-
-            <div class="resume-item">
-              <h4>Offers Extended</h4>
-              <h5>September 22</h5>
-            </div><!-- Edn Resume Item -->
-
-            <div class="resume-item">
-              <h4>Pitches to Helix Fellows</h4>
-              <h5>TDB</h5>
-              <p><em>Tsai City</em></p>
-              <ul>
-                <li>Provide Details on Startup and Ideation</li>
-                <li>Present on Desired Talent and Expected Roles</li>
-                <li>Provide a Timeline for Development</li>
-                <li>Create Proposals on MVP and Current Progress</li>
-              </ul>
-            </div><!-- Edn Resume Item -->
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section><!-- /Resume Section -->
-
-
-
-
-
-
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Contact Us</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="mb-4" data-aos="fade-up" data-aos-delay="200">
-          <iframe style="border:0; width: 100%; height: 270px;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.825175843388!2d-72.92756642338199!3d41.31266667130953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e7d9b65bda1af9%3A0x8670f1728b6ffb13!2s17%20Prospect%20St%2C%20New%20Haven%2C%20CT%2006511!5e0!3m2!1sen!2sus!4v1722963443319!5m2!1sen!2sus" frameborder="0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div><!-- End Google Maps -->
-
-        <div class="row gy-4">
-
-          <div class="col-lg-4">
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
-              <i class="bi bi-geo-alt flex-shrink-0"></i>
-              <div>
-                <h3>Address</h3>
-                <p>17 Prospect St, New Haven, CT 06511</p>
-              </div>
-            </div><!-- End Info Item -->
             
-            <!--
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
-              <i class="bi bi-telephone flex-shrink-0"></i>
-              <div>
-                <h3>Call Us</h3>
-                <p>+1 5589 55488 55</p>
-              </div>
+            <div class="stats-text">
+                <h3 class="stats-title">Helix by the Numbers.</h3>
+                <p class="stats-description">
+                    Empowering the greater Yale biotech innovation space for over half a decade, supporting founders and students in challenging real-world problems.
+                </p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <i class="bi bi-emoji-smile"></i>
+                        <span class="stat-number" data-target="9">0</span>
+                        <p class="stat-label">Years Operating</p>
+                        <span class="stat-sublabel">since 2016</span>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <i class="bi bi-journal-richtext"></i>
+                        <span class="stat-number" data-target="56">0</span>
+                        <p class="stat-label">Selected Startups</p>
+                        <span class="stat-sublabel">since Helix's founding</span>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <i class="bi bi-headset"></i>
+                        <span class="stat-number" data-target="32000">0</span>
+                        <p class="stat-label">Hours Of Support</p>
+                        <span class="stat-sublabel">provided in the last year</span>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <i class="bi bi-people"></i>
+                        <span class="stat-number" data-target="224">0</span>
+                        <p class="stat-label">Yale Students</p>
+                        <span class="stat-sublabel">paired with startups through Helix</span>
+                    </div>
+                </div>
             </div>
-            -->
-            <!-- End Info Item -->
+        </div>
+    </section>
 
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="500">
-              <i class="bi bi-envelope flex-shrink-0"></i>
-              <div>
-                <h3>Email Us</h3>
-                <p>admin@yalehelix.org</p>
-              </div>
-            </div><!-- End Info Item -->
-
-          </div>
-
-          <div class="col-lg-8">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+    <!-- Team Section -->
+    <section class="team-section" id="team">
+        <div class="team-content">
+            <div class="team-header">
+                <h2 class="team-title">Our Team</h2>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/jiya.jpg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Jiya Mody</h4>
+                        <span class="member-role">Helix Co-President</span>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/william.jpg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">William Liu</h4>
+                        <span class="member-role">Helix Co-President</span>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/kavya.jpg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Kavya Gupta</h4>
+                        <span class="member-role">Exective Board Member</span>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/rohan.jpg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Rohan Suri</h4>
+                        <span class="member-role">Exective Board Member</span>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/gautham.jpg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Gautham Ramshankar</h4>
+                        <span class="member-role">Exective Board Member</span>
+                    </div>
                 </div>
 
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/justin.jpg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Justin Xie</h4>
+                        <span class="member-role">Exective Board Member</span>
+                    </div>
                 </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/maya.jpeg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Maya Kulesza</h4>
+                        <span class="member-role">Exective Board Member</span>
+                    </div>
                 </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">MA</div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Mark Alkadious</h4>
+                        <span class="member-role">Exective Board Member</span>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
+    <!-- Advisory Board Section -->
+    <section class="team-section" id="advisory">
+        <div class="team-content">
+            <div class="team-header">
+                <h2 class="team-title">Advisory Board</h2>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/jorge_torres.jpg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Advisor</h4>
+                        <span class="member-role">Jorge Torres</span><br>
+                        <span class="member-role">JD, Tsai CITY Entrepreneural Advisor</span><br>
+                    </div>
                 </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/howard_forman.jpg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Advisor</h4>
+                        <span class="member-role">Howard P. Forman</span><br>
+                        <span class="member-role">MD, MBA</span>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="member-placeholder">
+                            <img src="assets/img/team/david_rosenthal.jpg" alt="">
+                        </div>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4 class="member-name">Advisor</h4>
+                        <span class="member-role">David Rosenthal</span> <br>
+                        <span class="member-role">MD, Venture Partner, Alleycorp</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-              </div>
-            </form>
-          </div><!-- End Contact Form -->
 
+
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section" id="startups">
+        <!-- Portfolio Title Section -->
+        <div class="portfolio-title-section">
+            <div class="portfolio-title-content">
+                <h2 class="portfolio-main-title">Selected Portfolio</h2>
+                <p class="portfolio-subtitle">Discover some past startups we've partnered with across health software and therapeutics sectors.</p>
+            </div>
         </div>
 
-      </div>
-
-    </section><!-- /Contact Section -->
-
-  </main>
-
-  <footer id="footer" class="footer dark-background">
-
-    <div class="footer-top">
-      <div class="container">
-        <div class="row gy-4">
-          <div class="col-lg-4 col-md-6 footer-about">
-            <a href="index.html" class="logo d-flex align-items-center">
-              <span class="sitename">Helix</span>
-            </a>
-            <div class="footer-contact pt-3">
-              <p>17 Prospect St</p>
-              <p>New Haven, CT 06511</p>
-              <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-              <p><strong>Email:</strong> <span>admin@yalehelix.org</span></p>
+        <div class="portfolio-container" id="portfolioContainer">
+            <!-- Sticky Titles -->
+            <div class="sticky-titles">
+                <h2 class="sticky-title health-software-title" id="healthSoftwareTitle">
+                    Health<br>Software
+                </h2>
+                <h2 class="sticky-title therapeutics-title" id="therapeuticsTitle">
+                    Biotech &<br>Therapeutics 
+                </h2>
             </div>
-            <div class="social-links d-flex mt-4">
-              <a href=""><i class="bi bi-twitter-x"></i></a>
-              <a href=""><i class="bi bi-facebook"></i></a>
-              <a href=""><i class="bi bi-instagram"></i></a>
-              <a href=""><i class="bi bi-linkedin"></i></a>
+
+            <!-- Health Software Section -->
+            <div class="portfolio-wrapper" id="health-software">
+                <div class="startup-grid">
+                    <div class="startup-image" data-startup="lucid-care">
+                        <img src="assets/img/masonry-portfolio/lucidcare.png" alt="">
+                        <div class="startup-overlay">
+                            <h3 class="startup-name">Lucid.Care</h3>
+                            <p class="startup-description">Digital labwork and longitudinal tracking for behavioral health.</p>
+                            <p class="startup-description">Venture-backed startup by Forum Ventures</p>
+                            <a href="https://lucid.care/" target="_blank" class="visit-link">→</a>
+                        </div>
+                    </div>
+                    
+                    <div class="startup-image" data-startup="CTRLTrial">
+                        <img src="assets/img/masonry-portfolio/ctrltrial.png" alt="">
+                        <div class="startup-overlay">
+                            <h3 class="startup-name">CTRLTrial</h3>
+                            <p class="startup-description">Accelerating Clinical Trial Recruitment with AI</p>
+                            <p class="startup-description">$1.3 million raised to-date, pilot study partnerships with Yale New Haven Health, Pfizer, & Eli Lilly</p>
+                            <a href="https://www.ctrltrial.com/" target="_blank" class="visit-link">→</a>
+                        </div>
+                    </div>
+                    
+                    <div class="startup-image" data-startup="FulcrumCare">
+                        <img src="assets/img/masonry-portfolio/fulcrum-care2.png" alt="">
+                        <div class="startup-overlay">
+                            <h3 class="startup-name">Fulcrum Care</h3>
+                            <p class="startup-description">Tech-enabled dental care organization improving access for individuals with complex needs</p>
+                            <p class="startup-description">2025 Startup Yale Thorne Prize winner</p>
+                            <a href="https://www.getfulcrumcare.com/" target="_blank" class="visit-link">→</a>
+                        </div>
+                    </div>
+
+                    <div class="startup-image" data-startup="upkeep-care">
+                        <img src="assets/img/masonry-portfolio/upkeepcare.png" alt="">
+                        <div class="startup-overlay">
+                            <h3 class="startup-name">UpKeep Care</h3>
+                            <p class="startup-description">AI-powered care & social services platform for elderly adults.</p>
+                            <p class="startup-description">Rita Wilson Seed Grant recipient. Winner of the 2024 Startup Yale Thorne Healthcare Innovation Prize. Partnered with 211 United Way</p>
+                            <a href="https://www.upkeepcare.org/" target="_blank" class="visit-link">→</a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-          </div>
 
-          <div class="col-lg-2 col-md-3 footer-links">
-            <h4>Useful Links</h4>
-            <ul>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Home</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> About us</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Services</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Terms of service</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Privacy policy</a></li>
-            </ul>
-          </div>
+            <!-- Therapeutics & Health Section -->
+            <div class="portfolio-wrapper therapeutics" id="therapeutics">
+                <div class="startup-grid">
+                    
+                    <div class="startup-image" data-startup="precision-health">
+                        <img src="assets/img/masonry-portfolio/enlighten.png" alt="">
+                        <div class="startup-overlay">
+                            <h3 class="startup-name">EnlighteN</h3>
+                            <p class="startup-description">Naloxone sensory injector for opioid overdose detection and reversal.</p>
+                            <p class="startup-description">Winner of Rothberg Catalyzer Fund, Winner of 10k from the NIH</p>
+                            <a href="https://medium.com/tsai-city/kickstarting-healthcare-innovation-with-the-rothberg-catalyzer-prototype-fund-6f5a1f37c5c2" target="_blank" class="visit-link">→</a>
+                        </div>
+                    </div>
+                    
+                    <div class="startup-image" data-startup="Ceidon Therapeutics">
+                        <img src="assets/img/masonry-portfolio/ceidon.png" alt="">
+                        <div class="startup-overlay">
+                            <h3 class="startup-name">Ceidon Therapeutics</h3>
+                            <p class="startup-description">Calcium-targetting oncology therapeutic</p>
+                            <a href="https://drive.google.com/file/d/12IUlcfpuW_ZvuLNukURd-9_ejSuzUh4Y/view" target="_blank" class="visit-link">→</a>
+                        </div>
+                    </div>
 
-          <!--
-          <div class="col-lg-2 col-md-3 footer-links">
-            <h4>Our Services</h4>
-            <ul>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Web Design</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Web Development</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Product Management</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Marketing</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#"> Graphic Design</a></li>
-            </ul>
-          </div>
-          -->
+                    <div class="startup-image" data-startup="precision-health">
+                        <img src="assets/img/masonry-portfolio/luminous.png" alt="">
+                        <div class="startup-overlay">
+                            <h3 class="startup-name">Luminous</h3>
+                            <p class="startup-description">Smart hospital supply rooms.</p>
+                            <p class="startup-description">Winner of 30k Bioscience Pipeline</p>
+                        </div>
+                    </div>
+                    
+                    <div class="startup-image" data-startup="EpiTET Therapeutics">
+                        <img src="assets/img/masonry-portfolio/epitet.png" alt="">
+                        <div class="startup-overlay">
+                            <h3 class="startup-name">EpiTET Therapeutics</h3>
+                            <p class="startup-description">First in-class therapeutic for endometriosis</p>
+                            <p class="startup-description">Nucleate Venture Prize Recipient, Winner of the BioLabs Golden Ticket</p>
+                            <a href="https://www.epitettx.com/" target="_blank" class="visit-link">→</a>
+                        </div>
+                    </div>
 
-          <div class="col-lg-4 col-md-12 footer-newsletter">
-            <h4>Our Newsletter</h4>
-            <p>Subscribe to our newsletter and receive the latest news about Helix</p>
-            <form action="forms/newsletter.php" method="post" class="php-email-form">
-              <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">Your subscription request has been sent. Thank you!</div>
-            </form>
-          </div>
+                </div>
+            </div>
 
+            <!-- Application Forms Section -->
+            <div class="portfolio-spacer" id="apply">
+                <div class="spacer-content">
+                    <h3>Ready to Join Yale Helix?</h3>
+                    <div class="application-buttons">
+                        <a href="/apply" target="_blank" class="app-button startup">Startup Application</a>
+                        <a href="https://forms.gle/thcitgxzF5yxFU18A" target="_blank" class="app-button student">Student Application</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
+
+    <!-- Loading Indicator -->
+    <div class="loading-indicator">
+        <span>Scroll to explore</span>
+        <div class="scroll-indicator">
+            <div class="scroll-progress"></div>
+        </div>
     </div>
 
-    <div class="copyright">
-      <div class="container text-center">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">YaleHelix</strong> <span>All Rights Reserved</span></p>
-        <div class="credits">
-          <!-- All the links in the footer should remain intact. -->
-          <!-- You can delete the links only if you've purchased the pro version. -->
-          <!-- Licensing information: https://bootstrapmade.com/license/ -->
-          <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+
+    <footer class="main-footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">Helix</h3>
+                <div class="footer-info">
+                    <p>17 Prospect St</p>
+                    <p>New Haven, CT 06511</p>
+                    <p><strong>Phone:</strong> +1 5589 55488 55</p>
+                    <p><strong>Email:</strong> admin@yalehelix.org</p>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3 class="footer-title">Useful Links</h3>
+                <div class="footer-links">
+                    <a href="#hero">Home</a>
+                    <a href="#about">About us</a>
+                    <a href="#timeline">Timeline</a>
+                    <a href="#startups">Startups</a>
+                    <a href="#team">Team</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3 class="footer-title">Our Newsletter</h3>
+                <p class="newsletter-text">Subscribe to our newsletter and receive the latest news about Helix</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" class="newsletter-input">
+                    <button type="submit" class="newsletter-button">Subscribe</button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-  </footer>
-
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Preloader -->
-  <div id="preloader"></div>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
-
+        <div class="footer-bottom">
+            <p>&copy; Copyright <strong>YaleHelix</strong> All Rights Reserved</p>
+        </div>
+    </footer>
+    
 </body>
-
 </html>
