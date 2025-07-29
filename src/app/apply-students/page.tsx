@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import Select from "react-select";
+import FileUpload from "../components/FileUpload";
 
 // Add a type for the form data
 interface StudentFormData {
@@ -70,6 +71,143 @@ export default function StudentApplicationPage() {
     router.push("/");
   };
 
+  // Add state to track if current file has been uploaded
+  const [currentFileUploaded, setCurrentFileUploaded] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Check if there's a selected file that hasn't been uploaded yet
+    if (selectedFile && !currentFileUploaded) {
+        try {
+            // Show loading state
+            setIsUploading(true);
+            
+            // Upload the file first
+            const base64 = await new Promise<string>((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const result = reader.result as string;
+                    const base64Data = result.split(",")[1];
+                    resolve(base64Data);
+                };
+                reader.readAsDataURL(selectedFile);
+            });
+
+            const response = await fetch("/api/upload-to-drive", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fileName: selectedFile.name,
+                    fileType: selectedFile.type,
+                    fileData: base64,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Upload failed");
+            }
+
+            const result = await response.json();
+            const driveLink = result.driveLink;
+            
+            // Update form data with the drive link
+            setFormData(prev => ({ ...prev, resume: driveLink }));
+            setCurrentFileUploaded(true); // Mark current file as uploaded
+            
+            // Wait a moment for state to update, then submit
+            setTimeout(() => {
+                submitFormToGoogle(driveLink);
+            }, 100);
+            
+        } catch (error) {
+            console.error("Upload error:", error);
+            alert("Failed to upload file. Please try again.");
+            setIsUploading(false);
+            return;
+        }
+    } else {
+        // No file to upload, submit directly
+        submitFormToGoogle(formData.resume);
+    }
+  };
+
+  const submitFormToGoogle = (resumeLink: string) => {
+    // Create a temporary form to submit to Google Forms
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSfJL1qgGgfl31AFpVn_M8NZBuRePz6XrmWoQjlUqHA024It8g/formResponse';
+    // Removed target="_blank" to avoid pop-up blockers - form will submit in same window
+    
+    // Add all form fields
+    const fields = [
+        { name: 'entry.231588117', value: formData.firstName },
+        { name: 'entry.254464927', value: formData.lastName },
+        { name: 'entry.673409248', value: formData.email },
+        { name: 'entry.1720462299', value: formData.classYear },
+        { name: 'entry.1837266616', value: formData.intendedMajor },
+        { name: 'entry.1907843651', value: formData.linkedin },
+        { name: 'entry.535815391', value: resumeLink },
+        { name: 'entry.2107500991', value: formData.whyHelix },
+        { name: 'entry.1678797299', value: formData.building },
+        { name: 'entry.766347532', value: formData.goals },
+        { name: 'entry.497833455', value: formData.longForm },
+    ];
+
+    // Add areas of interest (multiple values)
+    formData.areasOfInterest.forEach(area => {
+        const areaOption = areaOptions.find(option => option.value === area);
+        if (areaOption) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'entry.1486721923';
+            input.value = areaOption.label;
+            form.appendChild(input);
+        }
+    });
+
+    // Add all other fields
+    fields.forEach(field => {
+        if (field.value) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = field.name;
+            input.value = field.value;
+            form.appendChild(input);
+        }
+    });
+
+    // Submit the form in the same window (no pop-up blockers)
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+    
+    // Reset upload state
+    setIsUploading(false);
+    setSelectedFile(null);
+    setCurrentFileUploaded(false);
+  };
+
+  // Add state for file upload
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  // Handler for when a new file is selected
+  const handleFileSelect = (file: File | null) => {
+      if (file) {
+          setSelectedFile(file);
+          setCurrentFileUploaded(false); // Reset upload state for new file
+          setFormData(prev => ({ ...prev, resume: "" })); // Clear previous drive link
+      } else {
+          // File was removed
+          setSelectedFile(null);
+          setCurrentFileUploaded(false);
+          setFormData(prev => ({ ...prev, resume: "" }));
+      }
+  };
+
   return (
     <div className={styles.applicationPage}>
       <div className={styles.applicationContent}>
@@ -91,8 +229,8 @@ export default function StudentApplicationPage() {
           </p>
         </div>
 
-        {/* Application Form - Using native form submission */}
-        <form action="https://docs.google.com/forms/d/e/1FAIpQLSfJL1qgGgfl31AFpVn_M8NZBuRePz6XrmWoQjlUqHA024It8g/formResponse" method="POST" target="_blank" className={styles.applicationForm}>
+        {/* Application Form - Using controlled submission */}
+        <form onSubmit={handleSubmit} className={styles.applicationForm}>
           {/* Basic Information Section */}
           <div className={styles.formSection}>
             <div className={styles.sectionHeader}>
@@ -255,17 +393,25 @@ export default function StudentApplicationPage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="entry.535815391" className={styles.label}>
-                  Upload Resume
-                </label>
-                <input
-                  type="url"
-                  id="entry.535815391"
-                  name="entry.535815391"
-                  value={formData.resume}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, resume: e.target.value }))}
-                  className={styles.input}
+                <FileUpload
+                  onUploadComplete={(driveLink) => {
+                      setFormData((prev) => ({ ...prev, resume: driveLink }));
+                      setCurrentFileUploaded(true); // Mark as uploaded
+                  }}
+                  onFileSelect={handleFileSelect} // Use the new handler
+                  acceptedFileTypes={[".pdf", ".doc", ".docx"]}
+                  maxFileSize={10}
+                  label="Upload Resume"
+                  placeholder="Drag and drop your resume here, or click to browse"
                 />
+                {/* Hidden input for Google Forms submission */}
+                {formData.resume && (
+                  <input
+                    type="hidden"
+                    name="entry.535815391"
+                    value={formData.resume}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -437,11 +583,18 @@ export default function StudentApplicationPage() {
 
           {/* Submit Button */}
           <div className={styles.submitSection}>
-            <button type="submit" className={styles.submitButton}>
-              Submit Application
+            <button 
+              type="submit" 
+              className={styles.submitButton}
+              disabled={isUploading}
+            >
+              {isUploading ? "Uploading File..." : "Submit Application"}
             </button>
             <p className={styles.submitNote}>
-              After submitting, you will be redirected to a Google confirmation page.
+              {isUploading 
+                ? "Please wait while we upload your file..."
+                : "After submitting, you will be redirected to a Google confirmation page."
+              }
               <br />
               Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>
             </p>
