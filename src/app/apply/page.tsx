@@ -1,53 +1,54 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import styles from './page.module.css';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import styles from "./page.module.css";
 
 export default function StartupApplicationPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    startupName: '',
-    contactName: '',
-    email: '',
-    website: '',
-    linkedin: '',
-    startupDescription: '',
-    primaryProblem: '',
-    solution: '',
-    currentStage: '',
-    targetCustomers: '',
-    businessModel: '',
-    competitors: '',
-    team: '',
-    milestoneAchievements: '',
-    twelveMonthGoals: '',
-    studentRoles: '',
-    otherAccelerators: '',
-    additionalInfo: ''
+    startupName: "",
+    contactName: "",
+    email: "",
+    website: "",
+    linkedin: "",
+    startupDescription: "",
+    primaryProblem: "",
+    solution: "",
+    currentStage: "",
+    targetCustomers: "",
+    businessModel: "",
+    competitors: "",
+    team: "",
+    milestoneAchievements: "",
+    twelveMonthGoals: "",
+    studentRoles: "",
+    otherAccelerators: "",
+    additionalInfo: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleReturnToMain = () => {
-    router.push('/');
+    router.push("/");
   };
 
   return (
     <div className={styles.applicationPage}>
+      <div className={styles.headerWithNav}>
+        <button onClick={handleReturnToMain} className={styles.returnButton}>
+          ← Return to Homepage
+        </button>
+      </div>
+
       <div className={styles.applicationContent}>
         {/* Header with Return Button */}
-        <div className={styles.headerWithNav}>
-          <button onClick={handleReturnToMain} className={styles.returnButton}>
-            ← Return to Homepage
-          </button>
-        </div>
 
         {/* Header */}
         <div className={styles.applicationHeader}>
@@ -55,9 +56,10 @@ export default function StartupApplicationPage() {
           <h1 className={styles.mainHeader}>Yale Helix Incubator</h1>
           <h2 className={styles.subHeader}>Startup Application 2025-2026</h2>
           <p className={styles.headerDescription}>
-            Are you a founder in the healthcare, digital health, or biotech space ready to fast-track your growth? 
-            We invite startups at any stage to apply, particularly those connected to the Yale and New Haven community, including Yale alumni, graduate, and undergraduate students.
-            Discover how the Yale Helix Incubator can be a valuable opportunity for your team.
+            Are you a founder in the healthcare, digital health, or biotech space ready to fast-track your growth? We invite
+            startups at any stage to apply, particularly those connected to the Yale and New Haven community, including Yale
+            alumni, graduate, and undergraduate students. Discover how the Yale Helix Incubator can be a valuable opportunity
+            for your team.
           </p>
         </div>
 
@@ -68,14 +70,13 @@ export default function StartupApplicationPage() {
           target="_blank"
           className={styles.applicationForm}
         >
-          
           {/* Basic Information Section */}
           <div className={styles.formSection}>
             <div className={styles.sectionHeader}>
               <h3 className={styles.sectionTitle}>Basic Information</h3>
               <div className={styles.sectionLine}></div>
             </div>
-            
+
             <div className={styles.formGrid}>
               <div className={styles.formGroup}>
                 <label htmlFor="entry.161973672" className={styles.label}>
@@ -86,7 +87,7 @@ export default function StartupApplicationPage() {
                   id="entry.161973672"
                   name="entry.161973672"
                   value={formData.startupName}
-                  onChange={(e) => setFormData(prev => ({ ...prev, startupName: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, startupName: e.target.value }))}
                   className={styles.input}
                   required
                 />
@@ -101,7 +102,7 @@ export default function StartupApplicationPage() {
                   id="entry.1292942263"
                   name="entry.1292942263"
                   value={formData.contactName}
-                  onChange={(e) => setFormData(prev => ({ ...prev, contactName: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, contactName: e.target.value }))}
                   className={styles.input}
                   required
                 />
@@ -116,7 +117,7 @@ export default function StartupApplicationPage() {
                   id="entry.2092094953"
                   name="entry.2092094953"
                   value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
                   className={styles.input}
                   required
                 />
@@ -131,7 +132,7 @@ export default function StartupApplicationPage() {
                   id="entry.263108220"
                   name="entry.263108220"
                   value={formData.website}
-                  onChange={(e) => setFormData(prev => ({ ...prev, website: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, website: e.target.value }))}
                   className={styles.input}
                   placeholder="https://"
                 />
@@ -146,7 +147,7 @@ export default function StartupApplicationPage() {
                   id="entry.1907843651"
                   name="entry.1907843651"
                   value={formData.linkedin}
-                  onChange={(e) => setFormData(prev => ({ ...prev, linkedin: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, linkedin: e.target.value }))}
                   className={styles.input}
                   placeholder="https://linkedin.com/in/"
                 />
@@ -170,7 +171,7 @@ export default function StartupApplicationPage() {
                   id="entry.184834358"
                   name="entry.184834358"
                   value={formData.startupDescription}
-                  onChange={(e) => setFormData(prev => ({ ...prev, startupDescription: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, startupDescription: e.target.value }))}
                   className={styles.textarea}
                   rows={3}
                   required
@@ -185,7 +186,7 @@ export default function StartupApplicationPage() {
                   id="entry.2089020112"
                   name="entry.2089020112"
                   value={formData.primaryProblem}
-                  onChange={(e) => setFormData(prev => ({ ...prev, primaryProblem: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, primaryProblem: e.target.value }))}
                   className={styles.textarea}
                   rows={4}
                   required
@@ -200,7 +201,7 @@ export default function StartupApplicationPage() {
                   id="entry.1063815956"
                   name="entry.1063815956"
                   value={formData.solution}
-                  onChange={(e) => setFormData(prev => ({ ...prev, solution: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, solution: e.target.value }))}
                   className={styles.textarea}
                   rows={4}
                   required
@@ -215,7 +216,7 @@ export default function StartupApplicationPage() {
                   id="entry.1750629714"
                   name="entry.1750629714"
                   value={formData.currentStage}
-                  onChange={(e) => setFormData(prev => ({ ...prev, currentStage: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, currentStage: e.target.value }))}
                   className={styles.select}
                   required
                 >
@@ -235,7 +236,7 @@ export default function StartupApplicationPage() {
                   id="entry.1032800288"
                   name="entry.1032800288"
                   value={formData.targetCustomers}
-                  onChange={(e) => setFormData(prev => ({ ...prev, targetCustomers: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, targetCustomers: e.target.value }))}
                   className={styles.textarea}
                   rows={3}
                   required
@@ -250,7 +251,7 @@ export default function StartupApplicationPage() {
                   id="entry.277254229"
                   name="entry.277254229"
                   value={formData.businessModel}
-                  onChange={(e) => setFormData(prev => ({ ...prev, businessModel: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, businessModel: e.target.value }))}
                   className={styles.textarea}
                   rows={3}
                   required
@@ -265,7 +266,7 @@ export default function StartupApplicationPage() {
                   id="entry.2001232321"
                   name="entry.2001232321"
                   value={formData.competitors}
-                  onChange={(e) => setFormData(prev => ({ ...prev, competitors: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, competitors: e.target.value }))}
                   className={styles.textarea}
                   rows={4}
                   required
@@ -289,7 +290,7 @@ export default function StartupApplicationPage() {
                 id="entry.1189492363"
                 name="entry.1189492363"
                 value={formData.team}
-                onChange={(e) => setFormData(prev => ({ ...prev, team: e.target.value }))}
+                onChange={(e) => setFormData((prev) => ({ ...prev, team: e.target.value }))}
                 className={styles.textarea}
                 rows={6}
                 required
@@ -313,7 +314,7 @@ export default function StartupApplicationPage() {
                   id="entry.45775880"
                   name="entry.45775880"
                   value={formData.milestoneAchievements}
-                  onChange={(e) => setFormData(prev => ({ ...prev, milestoneAchievements: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, milestoneAchievements: e.target.value }))}
                   className={styles.textarea}
                   rows={4}
                   required
@@ -322,13 +323,14 @@ export default function StartupApplicationPage() {
 
               <div className={styles.formGroup}>
                 <label htmlFor="entry.1881769432" className={styles.label}>
-                  What are your key goals for the next 6-12 months and how can Helix help? <span className={styles.required}>*</span>
+                  What are your key goals for the next 6-12 months and how can Helix help?{" "}
+                  <span className={styles.required}>*</span>
                 </label>
                 <textarea
                   id="entry.1881769432"
                   name="entry.1881769432"
                   value={formData.twelveMonthGoals}
-                  onChange={(e) => setFormData(prev => ({ ...prev, twelveMonthGoals: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, twelveMonthGoals: e.target.value }))}
                   className={styles.textarea}
                   rows={4}
                   required
@@ -337,13 +339,14 @@ export default function StartupApplicationPage() {
 
               <div className={styles.formGroup}>
                 <label htmlFor="entry.2011166899" className={styles.label}>
-                  What role(s) would you see students from Helix taking in your startup? <span className={styles.required}>*</span>
+                  What role(s) would you see students from Helix taking in your startup?{" "}
+                  <span className={styles.required}>*</span>
                 </label>
                 <textarea
                   id="entry.2011166899"
                   name="entry.2011166899"
                   value={formData.studentRoles}
-                  onChange={(e) => setFormData(prev => ({ ...prev, studentRoles: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, studentRoles: e.target.value }))}
                   className={styles.textarea}
                   rows={4}
                   required
@@ -368,7 +371,7 @@ export default function StartupApplicationPage() {
                   id="entry.1001509675"
                   name="entry.1001509675"
                   value={formData.otherAccelerators}
-                  onChange={(e) => setFormData(prev => ({ ...prev, otherAccelerators: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, otherAccelerators: e.target.value }))}
                   className={styles.textarea}
                   rows={3}
                 />
@@ -382,7 +385,7 @@ export default function StartupApplicationPage() {
                   id="entry.367328821"
                   name="entry.367328821"
                   value={formData.additionalInfo}
-                  onChange={(e) => setFormData(prev => ({ ...prev, additionalInfo: e.target.value }))}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, additionalInfo: e.target.value }))}
                   className={styles.textarea}
                   rows={4}
                 />
@@ -392,14 +395,12 @@ export default function StartupApplicationPage() {
 
           {/* Submit Button */}
           <div className={styles.submitSection}>
-            <button 
-              type="submit" 
-              className={styles.submitButton}
-            >
+            <button type="submit" className={styles.submitButton}>
               Submit Application
             </button>
             <p className={styles.submitNote}>
-              After submitting, you will be redirected to a Google confirmation page.<br/>
+              After submitting, you will be redirected to a Google confirmation page.
+              <br />
               Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>
             </p>
           </div>

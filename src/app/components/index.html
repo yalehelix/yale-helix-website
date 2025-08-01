@@ -1,88 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Yale Helix</title>
-    
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Bootstrap Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
-    
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <link rel="stylesheet" href="assets/css/main.css">
+
+    <link rel="stylesheet" href="assets/css/main.css" />
 
     <script src="assets/js/main.js" defer></script>
-
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <a href="#" class="logo">HELIX<span class="dot">.</span></a>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="#hero" class="active">Home</a></li>
-                    <li><a href="#timeline">Timeline</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li><a href="#startups">Portfolio</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-            <a href="/apply" class="apply-btn">Apply Now</a>
-        </div>
+      <div class="header-content">
+        <a href="#top" class="logo">HELIX<span class="dot">.</span></a>
+        <nav>
+          <ul class="nav-menu">
+            <li><a href="#hero" class="active">Home</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#startups">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <a href="/apply" class="apply-btn">Apply Now</a>
+      </div>
     </header>
 
     <!-- Hero Container -->
     <div class="hero-container">
-        <section class="hero-section" id="hero">
-            <div class="hero-background"></div>
-            
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="highlight">YALE HELIX</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Healthcare & Biotech Startup Incubator
-                </p>
-                
-                <div class="hero-actions">
-                    <a href="/apply" target="_blank" class="action-card">
-                        <i class="bi bi-person-plus"></i>
-                        <h3>Apply for Students</h3>
-                    </a>
-                    <a href="/apply" target="_blank" class="action-card">
-                        <i class="bi bi-building"></i>
-                        <h3>Apply for Startups</h3>
-                    </a>
-                </div>
-            </div>
-        </section>
+      <section class="hero-section" id="hero">
+        <div class="hero-background"></div>
+
+        <div class="hero-content">
+          <h1 class="hero-title">
+            <span class="highlight">YALE HELIX</span>
+          </h1>
+          <p class="hero-subtitle">Healthcare & Biotech Startup Incubator</p>
+
+          <div class="hero-actions">
+            <a href="/apply-students" target="_self" class="action-card">
+              <i class="bi bi-person-plus"></i>
+              <h3>Apply for Students</h3>
+            </a>
+            <a href="/apply" target="_self" class="action-card">
+              <i class="bi bi-building"></i>
+              <h3>Apply for Startups</h3>
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
 
     <!-- Features Section -->
     <section class="features-section">
-        <div class="features-content">
-            <div class="features-text-container">
-                <div class="features-text-line line-1">
-                    <span>Connecting</span>
-                </div>
-                <div class="features-text-line line-2">
-                    <span>Visionary Startups</span>
-                </div>
-                <div class="features-text-line line-3">
-                    <span>And College Talent</span>
-                </div>
-                <div class="features-text-line line-4">
-                    <span>At Yale</span>
-                </div>
-            </div>
+      <div class="features-content">
+        <div class="features-text-container">
+          <div class="features-text-line line-1">
+            <span>Connecting</span>
+          </div>
+          <div class="features-text-line line-2">
+            <span>Visionary Startups</span>
+          </div>
+          <div class="features-text-line line-3">
+            <span>And College Talent</span>
+          </div>
+          <div class="features-text-line line-4">
+            <span>At Yale</span>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Spacer Section -->
@@ -90,600 +93,639 @@
 
     <!-- What We Do Section -->
     <section class="what-we-do-section">
-        <div class="content-section">
-            <!-- Geometric patterns -->
-            <div class="geometric-patterns">
-                <div class="hexagon hex-1"></div>
-                <div class="hexagon hex-2"></div>
-                <div class="hexagon hex-3"></div>
-            </div>
-            
-            <!-- Section Header -->
-            <div class="section-header">
-                <div class="header-line">
-                    <div class="header-text">
-                        <span class="small-text">WHAT WE DO</span>
-                    </div>
-                    <div class="header-divider"></div>
-                </div>
-                <h2 class="main-header">This is how we help ambitious companies succeed.</h2>
-            </div>
-            
-            <!-- Description -->
-            <div class="description-section">
-                <p>We take pride in bringing together a broad spectrum of some of Yale's most talented, motivated, and ambitious entrepreneurs and students to challenge real-world problems in software, healthcare, and biotech.</p>
-            </div>
-            
-            <!-- Service Cards -->
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3>Product Building</h3>
-                    <p>From ideation to prototypes and product building, we help accelerate software development, whether it be a site for the business or building out a software product</p>
-                </div>
-                <div class="service-card">
-                    <h3>Business Research</h3>
-                    <p>Research on competitors, existing incumbents, and existing business models to best position your startup for successful funding rounds and market entry.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Branding</h3>
-                    <p>We develop distinctive visual identities that communicate startups to VC's, investors, and potential partners</p>
-                </div>
-                <div class="service-card">
-                    <h3>Community</h3>
-                    <p>Join a group united by shared passion for healthcare innovation and diverse expertise. Meet our founders, our advisors.</p>
-                </div>
-            </div>
+      <div class="content-section">
+        <!-- Geometric patterns -->
+        <div class="geometric-patterns">
+          <div class="hexagon hex-1"></div>
+          <div class="hexagon hex-2"></div>
+          <div class="hexagon hex-3"></div>
         </div>
+
+        <!-- Section Header -->
+        <div class="section-header">
+          <div class="header-line">
+            <div class="header-text">
+              <span class="small-text">WHAT WE DO</span>
+            </div>
+            <div class="header-divider"></div>
+          </div>
+          <h2 class="main-header">This is how we help ambitious companies succeed.</h2>
+        </div>
+
+        <!-- Description -->
+        <div class="description-section">
+          <p>
+            We take pride in bringing together a broad spectrum of some of Yale's most talented, motivated, and ambitious
+            entrepreneurs and students to challenge real-world problems in software, healthcare, and biotech.
+          </p>
+        </div>
+
+        <!-- Service Cards -->
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Product Building</h3>
+            <p>
+              From ideation to prototypes and product building, we help accelerate software development, whether it be a site
+              for the business or building out a software product
+            </p>
+          </div>
+          <div class="service-card">
+            <h3>Business Research</h3>
+            <p>
+              Research on competitors, existing incumbents, and existing business models to best position your startup for
+              successful funding rounds and market entry.
+            </p>
+          </div>
+          <div class="service-card">
+            <h3>Branding</h3>
+            <p>
+              We develop distinctive visual identities that communicate startups to VC's, investors, and potential partners
+            </p>
+          </div>
+          <div class="service-card">
+            <h3>Community</h3>
+            <p>
+              Join a group united by shared passion for healthcare innovation and diverse expertise. Meet our founders, our
+              advisors.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Timeline Section -->
     <section class="timeline-section" id="timeline">
-        <div class="timeline-content">
-            <div class="timeline-header">
-                <span class="small-text">RECRUITMENT TIMELINE</span>
-                <h2 class="main-header">Application Process</h2>
-                <p class="timeline-description">
-                    Ready to dive headfirst into Yale's entrepreneurship community? Here's everything you need to know about our application timeline and process.
-                </p>
-            </div>
-            
-            <div class="timeline-container">
-                <!-- Student Timeline -->
-                <div class="timeline-column">
-                    <h3 class="timeline-title">Undergraduate Recruitment 2025</h3>
-                    <div class="timeline-items">
-                        <div class="timeline-item">
-                            <div class="timeline-date">August 15th</div>
-                            <div class="timeline-event">Applications Open</div>
-                            <div class="timeline-description-item">The application will ask for your resume and relevant experiences. It includes a series of short questions. We appreciate and thank you for your time!</div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-date">September 1</div>
-                            <div class="timeline-event">EC Bazaar</div>
-                            <div class="timeline-description-item">Join us at our table in the EC Bazaar! Talk to directors and learn more directly from members about Helix</div>
-                            <div class="timeline-location">2-4pm at Commons, Location TBD</div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-date">September 2</div>
-                            <div class="timeline-event">General Information Session</div>
-                            <div class="timeline-description-item">This meeting will include a formal presentation of Helix, expected work from students, past projects, and the application process. Directors will be available to answer any questions and offer first-hand accounts of their time in Helix.</div>
-                            <div class="timeline-location">Location TBD</div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-date">September 5th</div>
-                            <div class="timeline-event">Drop-In Office Hours 1</div>
-                            <div class="timeline-description-item">Chat in a more casual setting with directors, questions about applications are encouraged!</div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-date">September 7th</div>
-                            <div class="timeline-event">Drop-In Office Hours</div>
-                            <div class="timeline-description-item">Chat in a more casual setting with directors, questions about applications are encouraged!</div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-date">September 8</div>
-                            <div class="timeline-event">Applications Due</div>
-                            <div class="timeline-description-item">Applications are due at 11:59 PM Eastern Time.</div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-date">TBD - announced soon!</div>
-                            <div class="timeline-event">First Meeting</div>
-                            <div class="timeline-description-item">Join us for our first meeting! Get to know each other, we hope you will come to see Helix as a family! We will also set out expectations and discuss the training bootcamp timeline, startup onboarding, etc</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Startup Timeline -->
-                <div class="timeline-column">
-                    <h3 class="timeline-title">Startup Recruitment</h3>
-                    <div class="timeline-items">
-                        <div class="timeline-item">
-                            <div class="timeline-date">August 10 - September 5</div>
-                            <div class="timeline-event">Startup Recruitment</div>
-                            <div class="timeline-description-item">Initial Outreach and Conversations</div>
-                            <div class="timeline-details">
-                                <ul>
-                                    <li>Apply Through the Startup Application Form</li>
-                                    <li>Schedule Conversations with the Directors</li>
-                                    <li>Tell Us Your Needs</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-date">September 15</div>
-                            <div class="timeline-event">Pitches to Directors</div>
-                            <div class="timeline-location">Tsai City</div>
-                            <div class="timeline-details">
-                                <ul>
-                                    <li>Provide Details on Startup and Ideation</li>
-                                    <li>Present on Desired Talent and Expected Roles</li>
-                                    <li>Provide a Timeline for Development</li>
-                                    <li>Create Proposals on MVP and Current Progress</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-date">September 22</div>
-                            <div class="timeline-event">Offers Extended</div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-date">TBD</div>
-                            <div class="timeline-event">Pitches to Helix Fellows</div>
-                            <div class="timeline-location">Tsai City</div>
-                            <div class="timeline-details">
-                                <ul>
-                                    <li>Provide Details on Startup and Ideation</li>
-                                    <li>Present on Desired Talent and Expected Roles</li>
-                                    <li>Provide a Timeline for Development</li>
-                                    <li>Create Proposals on MVP and Current Progress</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <span class="small-text">RECRUITMENT TIMELINE</span>
+          <h2 class="main-header">Application Process</h2>
+          <p class="timeline-description">
+            Ready to dive headfirst into Yale's entrepreneurship community? Here's everything you need to know about our
+            application timeline and process.
+          </p>
         </div>
+
+        <div class="timeline-container">
+          <!-- Student Timeline -->
+          <div class="timeline-column">
+            <h3 class="timeline-title">Undergraduate Recruitment 2025</h3>
+            <div class="timeline-items">
+              <div class="timeline-item">
+                <div class="timeline-date">August 15th</div>
+                <div class="timeline-event">Applications Open</div>
+                <div class="timeline-description-item">
+                  The application will ask for your resume and relevant experiences. It includes a series of short questions.
+                  We appreciate and thank you for your time!
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">September 1</div>
+                <div class="timeline-event">EC Bazaar</div>
+                <div class="timeline-description-item">
+                  Join us at our table in the EC Bazaar! Talk to directors and learn more directly from members about Helix
+                </div>
+                <div class="timeline-location">2-4pm at Commons, Location TBD</div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">September 2</div>
+                <div class="timeline-event">General Information Session</div>
+                <div class="timeline-description-item">
+                  This meeting will include a formal presentation of Helix, expected work from students, past projects, and
+                  the application process. Directors will be available to answer any questions and offer first-hand accounts
+                  of their time in Helix.
+                </div>
+                <div class="timeline-location">Location TBD</div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">September 5th</div>
+                <div class="timeline-event">Drop-In Office Hours 1</div>
+                <div class="timeline-description-item">
+                  Chat in a more casual setting with directors, questions about applications are encouraged!
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">September 7th</div>
+                <div class="timeline-event">Drop-In Office Hours</div>
+                <div class="timeline-description-item">
+                  Chat in a more casual setting with directors, questions about applications are encouraged!
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">September 8</div>
+                <div class="timeline-event">Applications Due</div>
+                <div class="timeline-description-item">Applications are due at 11:59 PM Eastern Time.</div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">TBD - announced soon!</div>
+                <div class="timeline-event">First Meeting</div>
+                <div class="timeline-description-item">
+                  Join us for our first meeting! Get to know each other, we hope you will come to see Helix as a family! We
+                  will also set out expectations and discuss the training bootcamp timeline, startup onboarding, etc
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Startup Timeline -->
+          <div class="timeline-column">
+            <h3 class="timeline-title">Startup Recruitment</h3>
+            <div class="timeline-items">
+              <div class="timeline-item">
+                <div class="timeline-date">August 10 - September 5</div>
+                <div class="timeline-event">Startup Recruitment</div>
+                <div class="timeline-description-item">Initial Outreach and Conversations</div>
+                <div class="timeline-details">
+                  <ul>
+                    <li>Apply Through the Startup Application Form</li>
+                    <li>Schedule Conversations with the Directors</li>
+                    <li>Tell Us Your Needs</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">September 15</div>
+                <div class="timeline-event">Pitches to Directors</div>
+                <div class="timeline-location">Tsai City</div>
+                <div class="timeline-details">
+                  <ul>
+                    <li>Provide Details on Startup and Ideation</li>
+                    <li>Present on Desired Talent and Expected Roles</li>
+                    <li>Provide a Timeline for Development</li>
+                    <li>Create Proposals on MVP and Current Progress</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">September 22</div>
+                <div class="timeline-event">Offers Extended</div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-date">TBD</div>
+                <div class="timeline-event">Pitches to Helix Fellows</div>
+                <div class="timeline-location">Tsai City</div>
+                <div class="timeline-details">
+                  <ul>
+                    <li>Provide Details on Startup and Ideation</li>
+                    <li>Present on Desired Talent and Expected Roles</li>
+                    <li>Provide a Timeline for Development</li>
+                    <li>Create Proposals on MVP and Current Progress</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Stats Section -->
     <section class="stats-section" id="stats">
-        <div class="stats-content">
-            <div class="stats-image">
-                <img src="assets/img/stats-img.jpg" alt="">
-            </div>
-            
-            <div class="stats-text">
-                <h3 class="stats-title">Helix by the Numbers.</h3>
-                <p class="stats-description">
-                    Empowering the greater Yale biotech innovation space for over half a decade, supporting founders and students in challenging real-world problems.
-                </p>
-                
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <i class="bi bi-emoji-smile"></i>
-                        <span class="stat-number" data-target="9">0</span>
-                        <p class="stat-label">Years Operating</p>
-                        <span class="stat-sublabel">since 2016</span>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <i class="bi bi-journal-richtext"></i>
-                        <span class="stat-number" data-target="56">0</span>
-                        <p class="stat-label">Selected Startups</p>
-                        <span class="stat-sublabel">since Helix's founding</span>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <i class="bi bi-headset"></i>
-                        <span class="stat-number" data-target="32000">0</span>
-                        <p class="stat-label">Hours Of Support</p>
-                        <span class="stat-sublabel">provided in the last year</span>
-                    </div>
-                    
-                    <div class="stat-item">
-                        <i class="bi bi-people"></i>
-                        <span class="stat-number" data-target="224">0</span>
-                        <p class="stat-label">Yale Students</p>
-                        <span class="stat-sublabel">paired with startups through Helix</span>
-                    </div>
-                </div>
-            </div>
+      <div class="stats-content">
+        <div class="stats-image">
+          <img src="assets/img/stats-img.jpg" alt="" />
         </div>
+
+        <div class="stats-text">
+          <h3 class="stats-title">Helix by the Numbers.</h3>
+          <p class="stats-description">
+            Empowering the greater Yale biotech innovation space for over half a decade, supporting founders and students in
+            challenging real-world problems.
+          </p>
+
+          <div class="stats-grid">
+            <div class="stat-item">
+              <i class="bi bi-emoji-smile"></i>
+              <span class="stat-number" data-target="9">0</span>
+              <p class="stat-label">Years Operating</p>
+              <span class="stat-sublabel">since 2016</span>
+            </div>
+
+            <div class="stat-item">
+              <i class="bi bi-journal-richtext"></i>
+              <span class="stat-number" data-target="56">0</span>
+              <p class="stat-label">Selected Startups</p>
+              <span class="stat-sublabel">since Helix's founding</span>
+            </div>
+
+            <div class="stat-item">
+              <i class="bi bi-headset"></i>
+              <span class="stat-number" data-target="32000">0</span>
+              <p class="stat-label">Hours Of Support</p>
+              <span class="stat-sublabel">provided in the last year</span>
+            </div>
+
+            <div class="stat-item">
+              <i class="bi bi-people"></i>
+              <span class="stat-number" data-target="224">0</span>
+              <p class="stat-label">Yale Students</p>
+              <span class="stat-sublabel">paired with startups through Helix</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Team Section -->
     <section class="team-section" id="team">
-        <div class="team-content">
-            <div class="team-header">
-                <h2 class="team-title">Our Team</h2>
-            </div>
-            
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/jiya.jpeg" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Jiya Mody</h4>
-                        <span class="member-role">Helix Co-President</span>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/william.jpg" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">William Liu</h4>
-                        <span class="member-role">Helix Co-President</span>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/kavya.jpg" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Kavya Gupta</h4>
-                        <span class="member-role">Executive Board Member</span>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/rohan.JPG" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Rohan Suri</h4>
-                        <span class="member-role">Executive Board Member</span>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/gautham.jpg" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Gautham Ramshankar</h4>
-                        <span class="member-role">Executive Board Member</span>
-                    </div>
-                </div>
-
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/justin.jpg" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Justin Xie</h4>
-                        <span class="member-role">Executive Board Member</span>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/maya.jpeg" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Maya Kulesza</h4>
-                        <span class="member-role">Executive Board Member</span>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">MA</div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Mark Alkadious</h4>
-                        <span class="member-role">Executive Board Member</span>
-                    </div>
-                </div>
-            </div>
+      <div class="team-content">
+        <div class="team-header">
+          <h2 class="team-title">Our Team</h2>
         </div>
+
+        <div class="team-grid">
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/jiya.jpeg" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Jiya Mody</h4>
+              <span class="member-role">Helix Co-President</span>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/william.jpg" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">William Liu</h4>
+              <span class="member-role">Helix Co-President</span>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/kavya.jpg" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Kavya Gupta</h4>
+              <span class="member-role">Executive Board Member</span>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/rohan.JPG" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Rohan Suri</h4>
+              <span class="member-role">Executive Board Member</span>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/gautham.jpg" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Gautham Ramshankar</h4>
+              <span class="member-role">Executive Board Member</span>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/justin.jpg" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Justin Xie</h4>
+              <span class="member-role">Executive Board Member</span>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/maya.jpeg" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Maya Kulesza</h4>
+              <span class="member-role">Executive Board Member</span>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">MA</div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Mark Alkadious</h4>
+              <span class="member-role">Executive Board Member</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Advisory Board Section -->
     <section class="team-section" id="advisory">
-        <div class="team-content">
-            <div class="team-header">
-                <h2 class="team-title">Advisory Board</h2>
-            </div>
-            
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/jorge_torres.jpg" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Advisor</h4>
-                        <span class="member-role">Jorge Torres</span><br>
-                        <span class="member-role">JD, Tsai CITY Entrepreneural Advisor</span><br>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/howard_forman.jpg" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Advisor</h4>
-                        <span class="member-role">Howard P. Forman</span><br>
-                        <span class="member-role">MD, MBA</span>
-                    </div>
-                </div>
-                
-                <div class="team-member">
-                    <div class="member-image">
-                        <div class="member-placeholder">
-                            <img src="assets/img/team/david_rosenthal.jpg" alt="">
-                        </div>
-                        <div class="social-links">
-                            <a href="#"><i class="bi bi-twitter-x"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="member-name">Advisor</h4>
-                        <span class="member-role">David Rosenthal</span> <br>
-                        <span class="member-role">MD, Venture Partner, Alleycorp</span>
-                    </div>
-                </div>
-            </div>
+      <div class="team-content">
+        <div class="team-header">
+          <h2 class="team-title">Advisory Board</h2>
         </div>
+
+        <div class="team-grid">
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/jorge_torres.jpg" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Advisor</h4>
+              <span class="member-role">Jorge Torres</span><br />
+              <span class="member-role">JD, Tsai CITY Entrepreneural Advisor</span><br />
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/howard_forman.jpg" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Advisor</h4>
+              <span class="member-role">Howard P. Forman</span><br />
+              <span class="member-role">MD, MBA</span>
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-image">
+              <div class="member-placeholder">
+                <img src="assets/img/team/david_rosenthal.jpg" alt="" />
+              </div>
+              <div class="social-links">
+                <a href="#"><i class="bi bi-twitter-x"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">Advisor</h4>
+              <span class="member-role">David Rosenthal</span> <br />
+              <span class="member-role">MD, Venture Partner, Alleycorp</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-
-
-
 
     <!-- Portfolio Section -->
     <section class="portfolio-section" id="startups">
-        <!-- Portfolio Title Section -->
-        <div class="portfolio-title-section">
-            <div class="portfolio-title-content">
-                <h2 class="portfolio-main-title">Selected Portfolio</h2>
-                <p class="portfolio-subtitle">Discover some past startups we've partnered with across health software and therapeutics sectors.</p>
-            </div>
+      <!-- Portfolio Title Section -->
+      <div class="portfolio-title-section">
+        <div class="portfolio-title-content">
+          <h2 class="portfolio-main-title">Selected Portfolio</h2>
+          <p class="portfolio-subtitle">
+            Discover some past startups we've partnered with across health software and therapeutics sectors.
+          </p>
+        </div>
+      </div>
+
+      <div class="portfolio-container" id="portfolioContainer">
+        <!-- Sticky Titles -->
+        <div class="sticky-titles">
+          <h2 class="sticky-title health-software-title" id="healthSoftwareTitle">Health<br />Software</h2>
+          <h2 class="sticky-title therapeutics-title" id="therapeuticsTitle">Biotech &<br />Therapeutics</h2>
         </div>
 
-        <div class="portfolio-container" id="portfolioContainer">
-            <!-- Sticky Titles -->
-            <div class="sticky-titles">
-                <h2 class="sticky-title health-software-title" id="healthSoftwareTitle">
-                    Health<br>Software
-                </h2>
-                <h2 class="sticky-title therapeutics-title" id="therapeuticsTitle">
-                    Biotech &<br>Therapeutics 
-                </h2>
+        <!-- Health Software Section -->
+        <div class="portfolio-wrapper" id="health-software">
+          <div class="startup-grid">
+            <div class="startup-image" data-startup="lucid-care">
+              <img src="assets/img/masonry-portfolio/lucidcare.png" alt="" />
+              <div class="startup-overlay">
+                <h3 class="startup-name">Lucid.Care</h3>
+                <p class="startup-description">Digital labwork and longitudinal tracking for behavioral health.</p>
+                <p class="startup-description">Venture-backed startup by Forum Ventures</p>
+                <a href="https://lucid.care/" target="_blank" class="visit-link">→</a>
+              </div>
             </div>
 
-            <!-- Health Software Section -->
-            <div class="portfolio-wrapper" id="health-software">
-                <div class="startup-grid">
-                    <div class="startup-image" data-startup="lucid-care">
-                        <img src="assets/img/masonry-portfolio/lucidcare.png" alt="">
-                        <div class="startup-overlay">
-                            <h3 class="startup-name">Lucid.Care</h3>
-                            <p class="startup-description">Digital labwork and longitudinal tracking for behavioral health.</p>
-                            <p class="startup-description">Venture-backed startup by Forum Ventures</p>
-                            <a href="https://lucid.care/" target="_blank" class="visit-link">→</a>
-                        </div>
-                    </div>
-                    
-                    <div class="startup-image" data-startup="CTRLTrial">
-                        <img src="assets/img/masonry-portfolio/ctrltrial.png" alt="">
-                        <div class="startup-overlay">
-                            <h3 class="startup-name">CTRLTrial</h3>
-                            <p class="startup-description">Accelerating Clinical Trial Recruitment with AI</p>
-                            <p class="startup-description">$1.3 million raised to-date, pilot study partnerships with Yale New Haven Health, Pfizer, & Eli Lilly</p>
-                            <a href="https://www.ctrltrial.com/" target="_blank" class="visit-link">→</a>
-                        </div>
-                    </div>
-                    
-                    <div class="startup-image" data-startup="FulcrumCare">
-                        <img src="assets/img/masonry-portfolio/fulcrum-care2.png" alt="">
-                        <div class="startup-overlay">
-                            <h3 class="startup-name">Fulcrum Care</h3>
-                            <p class="startup-description">Tech-enabled dental care organization improving access for individuals with complex needs</p>
-                            <p class="startup-description">2025 Startup Yale Thorne Prize winner</p>
-                            <a href="https://www.getfulcrumcare.com/" target="_blank" class="visit-link">→</a>
-                        </div>
-                    </div>
-
-                    <div class="startup-image" data-startup="upkeep-care">
-                        <img src="assets/img/masonry-portfolio/upkeepcare.png" alt="">
-                        <div class="startup-overlay">
-                            <h3 class="startup-name">UpKeep Care</h3>
-                            <p class="startup-description">AI-powered care & social services platform for elderly adults.</p>
-                            <p class="startup-description">Rita Wilson Seed Grant recipient. Winner of the 2024 Startup Yale Thorne Healthcare Innovation Prize. Partnered with 211 United Way</p>
-                            <a href="https://www.upkeepcare.org/" target="_blank" class="visit-link">→</a>
-                        </div>
-                    </div>
-
-                </div>
+            <div class="startup-image" data-startup="CTRLTrial">
+              <img src="assets/img/masonry-portfolio/ctrltrial.png" alt="" />
+              <div class="startup-overlay">
+                <h3 class="startup-name">CTRLTrial</h3>
+                <p class="startup-description">Accelerating Clinical Trial Recruitment with AI</p>
+                <p class="startup-description">
+                  $1.3 million raised to-date, pilot study partnerships with Yale New Haven Health, Pfizer, & Eli Lilly
+                </p>
+                <a href="https://www.ctrltrial.com/" target="_blank" class="visit-link">→</a>
+              </div>
             </div>
 
-            <!-- Therapeutics & Health Section -->
-            <div class="portfolio-wrapper therapeutics" id="therapeutics">
-                <div class="startup-grid">
-                    
-                    <div class="startup-image" data-startup="precision-health">
-                        <img src="assets/img/masonry-portfolio/enlighten.png" alt="">
-                        <div class="startup-overlay">
-                            <h3 class="startup-name">EnlighteN</h3>
-                            <p class="startup-description">Naloxone sensory injector for opioid overdose detection and reversal.</p>
-                            <p class="startup-description">Winner of Rothberg Catalyzer Fund, Winner of 10k from the NIH</p>
-                            <a href="https://medium.com/tsai-city/kickstarting-healthcare-innovation-with-the-rothberg-catalyzer-prototype-fund-6f5a1f37c5c2" target="_blank" class="visit-link">→</a>
-                        </div>
-                    </div>
-                    
-                    <div class="startup-image" data-startup="Ceidon Therapeutics">
-                        <img src="assets/img/masonry-portfolio/ceidon.png" alt="">
-                        <div class="startup-overlay">
-                            <h3 class="startup-name">Ceidon Therapeutics</h3>
-                            <p class="startup-description">Calcium-targetting oncology therapeutic</p>
-                            <a href="https://drive.google.com/file/d/12IUlcfpuW_ZvuLNukURd-9_ejSuzUh4Y/view" target="_blank" class="visit-link">→</a>
-                        </div>
-                    </div>
-
-                    <div class="startup-image" data-startup="precision-health">
-                        <img src="assets/img/masonry-portfolio/luminous.png" alt="">
-                        <div class="startup-overlay">
-                            <h3 class="startup-name">Luminous</h3>
-                            <p class="startup-description">Smart hospital supply rooms.</p>
-                            <p class="startup-description">Winner of 30k Bioscience Pipeline</p>
-                        </div>
-                    </div>
-                    
-                    <div class="startup-image" data-startup="EpiTET Therapeutics">
-                        <img src="assets/img/masonry-portfolio/epitet.png" alt="">
-                        <div class="startup-overlay">
-                            <h3 class="startup-name">EpiTET Therapeutics</h3>
-                            <p class="startup-description">First in-class therapeutic for endometriosis</p>
-                            <p class="startup-description">Nucleate Venture Prize Recipient, Winner of the BioLabs Golden Ticket</p>
-                            <a href="https://www.epitettx.com/" target="_blank" class="visit-link">→</a>
-                        </div>
-                    </div>
-
-                </div>
+            <div class="startup-image" data-startup="FulcrumCare">
+              <img src="assets/img/masonry-portfolio/fulcrum-care2.png" alt="" />
+              <div class="startup-overlay">
+                <h3 class="startup-name">Fulcrum Care</h3>
+                <p class="startup-description">
+                  Tech-enabled dental care organization improving access for individuals with complex needs
+                </p>
+                <p class="startup-description">2025 Startup Yale Thorne Prize winner</p>
+                <a href="https://www.getfulcrumcare.com/" target="_blank" class="visit-link">→</a>
+              </div>
             </div>
 
-            <!-- Application Forms Section -->
-            <div class="portfolio-spacer" id="apply">
-                <div class="spacer-content">
-                    <h3>Ready to Join Yale Helix?</h3>
-                    <div class="application-buttons">
-                        <a href="/apply" target="_blank" class="app-button startup">Startup Application</a>
-                        <a href="https://forms.gle/thcitgxzF5yxFU18A" target="_blank" class="app-button student">Student Application</a>
-                    </div>
-                </div>
+            <div class="startup-image" data-startup="upkeep-care">
+              <img src="assets/img/masonry-portfolio/upkeepcare.png" alt="" />
+              <div class="startup-overlay">
+                <h3 class="startup-name">UpKeep Care</h3>
+                <p class="startup-description">AI-powered care & social services platform for elderly adults.</p>
+                <p class="startup-description">
+                  Rita Wilson Seed Grant recipient. Winner of the 2024 Startup Yale Thorne Healthcare Innovation Prize.
+                  Partnered with 211 United Way
+                </p>
+                <a href="https://www.upkeepcare.org/" target="_blank" class="visit-link">→</a>
+              </div>
             </div>
+          </div>
         </div>
+
+        <!-- Therapeutics & Health Section -->
+        <div class="portfolio-wrapper therapeutics" id="therapeutics">
+          <div class="startup-grid">
+            <div class="startup-image" data-startup="precision-health">
+              <img src="assets/img/masonry-portfolio/enlighten.png" alt="" />
+              <div class="startup-overlay">
+                <h3 class="startup-name">EnlighteN</h3>
+                <p class="startup-description">Naloxone sensory injector for opioid overdose detection and reversal.</p>
+                <p class="startup-description">Winner of Rothberg Catalyzer Fund, Winner of 10k from the NIH</p>
+                <a
+                  href="https://medium.com/tsai-city/kickstarting-healthcare-innovation-with-the-rothberg-catalyzer-prototype-fund-6f5a1f37c5c2"
+                  target="_blank"
+                  class="visit-link"
+                  >→</a
+                >
+              </div>
+            </div>
+
+            <div class="startup-image" data-startup="Ceidon Therapeutics">
+              <img src="assets/img/masonry-portfolio/ceidon.png" alt="" />
+              <div class="startup-overlay">
+                <h3 class="startup-name">Ceidon Therapeutics</h3>
+                <p class="startup-description">Calcium-targetting oncology therapeutic</p>
+                <a
+                  href="https://drive.google.com/file/d/12IUlcfpuW_ZvuLNukURd-9_ejSuzUh4Y/view"
+                  target="_blank"
+                  class="visit-link"
+                  >→</a
+                >
+              </div>
+            </div>
+
+            <div class="startup-image" data-startup="precision-health">
+              <img src="assets/img/masonry-portfolio/luminous.png" alt="" />
+              <div class="startup-overlay">
+                <h3 class="startup-name">Luminous</h3>
+                <p class="startup-description">Smart hospital supply rooms.</p>
+                <p class="startup-description">Winner of 30k Bioscience Pipeline</p>
+              </div>
+            </div>
+
+            <div class="startup-image" data-startup="EpiTET Therapeutics">
+              <img src="assets/img/masonry-portfolio/epitet.png" alt="" />
+              <div class="startup-overlay">
+                <h3 class="startup-name">EpiTET Therapeutics</h3>
+                <p class="startup-description">First in-class therapeutic for endometriosis</p>
+                <p class="startup-description">Nucleate Venture Prize Recipient, Winner of the BioLabs Golden Ticket</p>
+                <a href="https://www.epitettx.com/" target="_blank" class="visit-link">→</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Application Forms Section -->
+        <div class="portfolio-spacer" id="apply">
+          <div class="spacer-content">
+            <h3>Ready to Join Yale Helix?</h3>
+            <div class="application-buttons">
+              <a href="/apply" target="_self" class="app-button startup">Startup Application</a>
+              <a href="/apply-students" target="_self" class="app-button student">Student Application</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Loading Indicator -->
     <div class="loading-indicator">
-        <span>Scroll to explore</span>
-        <div class="scroll-indicator">
-            <div class="scroll-progress"></div>
-        </div>
+      <span>Scroll to explore</span>
+      <div class="scroll-indicator">
+        <div class="scroll-progress"></div>
+      </div>
     </div>
 
-
     <footer class="main-footer" id="contact">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3 class="footer-title">Helix</h3>
-                <div class="footer-info">
-                    <p>17 Prospect St</p>
-                    <p>New Haven, CT 06511</p>
-                    <p><strong>Phone:</strong> +1 5589 55488 55</p>
-                    <p><strong>Email:</strong> admin@yalehelix.org</p>
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h3 class="footer-title">Useful Links</h3>
-                <div class="footer-links">
-                    <a href="#hero">Home</a>
-                    <a href="#about">About us</a>
-                    <a href="#timeline">Timeline</a>
-                    <a href="#startups">Startups</a>
-                    <a href="#team">Team</a>
-                    <a href="#contact">Contact</a>
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h3 class="footer-title">Our Newsletter</h3>
-                <p class="newsletter-text">Subscribe to our newsletter and receive the latest news about Helix</p>
-                <div class="newsletter-form">
-                    <input type="email" placeholder="Enter your email" class="newsletter-input">
-                    <button type="submit" class="newsletter-button">Subscribe</button>
-                </div>
-            </div>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3 class="footer-title">Helix</h3>
+          <div class="footer-info">
+            <p>17 Prospect St</p>
+            <p>New Haven, CT 06511</p>
+            <p><strong>Phone:</strong> +1 5589 55488 55</p>
+            <p><strong>Email:</strong> admin@yalehelix.org</p>
+          </div>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; Copyright <strong>YaleHelix</strong> All Rights Reserved</p>
+        <div class="footer-section">
+          <h3 class="footer-title">Useful Links</h3>
+          <div class="footer-links">
+            <a href="#hero">Home</a>
+            <a href="#about">About us</a>
+            <a href="#timeline">Timeline</a>
+            <a href="#startups">Startups</a>
+            <a href="#team">Team</a>
+            <a href="#contact">Contact</a>
+          </div>
         </div>
+
+        <div class="footer-section">
+          <h3 class="footer-title">Our Newsletter</h3>
+          <p class="newsletter-text">Subscribe to our newsletter and receive the latest news about Helix</p>
+          <div class="newsletter-form">
+            <input type="email" placeholder="Enter your email" class="newsletter-input" />
+            <button type="submit" class="newsletter-button">Subscribe</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; Copyright <strong>YaleHelix</strong> All Rights Reserved</p>
+      </div>
     </footer>
-    
-</body>
+  </body>
 </html>
