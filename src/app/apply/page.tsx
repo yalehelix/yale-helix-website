@@ -63,7 +63,7 @@ export default function StartupApplicationPage() {
 
         {/* Application Form - Using native form submission */}
         <form 
-          action="https://docs.google.com/forms/d/e/1FAIpQLSevkr4TYTGQqEGnNJP6nuQ4j9OvIt22NwKSTi9tvoTvelOyvA/formResponse"
+          action="https://docs.google.com/forms/d/e/1FAIpQLSfDEZcLD3Q_ZdOfOyIGtPXtyMNTNUxqBAf6qeG0lRjnt3HZdQ/formResponse"
           method="POST"
           target="_blank"
           className={styles.applicationForm}
