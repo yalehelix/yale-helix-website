@@ -30,8 +30,6 @@ export default function StartupApplicationSuccessPage() {
           Thank you for your interest in the Yale Helix Incubator. We've received your startup application and will review it carefully.
         </p>
 
-        
-
         <div className={styles.contactInfo}>
           <h2 className={styles.contactTitle}>Questions?</h2>
           <p className={styles.contactText}>
@@ -42,7 +40,6 @@ export default function StartupApplicationSuccessPage() {
             </a>
           </p>
         </div>
-
       </div>
     </div>
   );
