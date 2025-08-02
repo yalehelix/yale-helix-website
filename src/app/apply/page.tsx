@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
+import FileUpload from "../components/startup-upload/FileUpload";
 
 export default function StartupApplicationPage() {
   const router = useRouter();
@@ -25,7 +26,11 @@ export default function StartupApplicationPage() {
     studentRoles: "",
     otherAccelerators: "",
     additionalInfo: "",
+    pitchDeck: "",
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [currentFileUploaded, setCurrentFileUploaded] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -37,6 +42,124 @@ export default function StartupApplicationPage() {
 
   const handleReturnToMain = () => {
     router.push("/");
+  };
+
+  const handleFileSelect = (file: File | null) => {
+    if (file) {
+      setSelectedFile(file);
+      setCurrentFileUploaded(false);
+      setFormData(prev => ({ ...prev, pitchDeck: "" }));
+    } else {
+      // File was removed
+      setSelectedFile(null);
+      setCurrentFileUploaded(false);
+      setFormData(prev => ({ ...prev, pitchDeck: "" }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      // Check if file needs to be uploaded
+      if (selectedFile && !currentFileUploaded) {
+        // Convert file to base64
+        const base64 = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const result = reader.result as string;
+            const base64Data = result.split(",")[1];
+            resolve(base64Data);
+          };
+          reader.readAsDataURL(selectedFile);
+        });
+
+        // Upload to Google Drive
+        const response = await fetch("/api/startup-upload-drive", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fileName: selectedFile.name,
+            fileType: selectedFile.type,
+            fileData: base64,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Upload failed");
+        }
+
+        const result = await response.json();
+        setFormData(prev => ({ ...prev, pitchDeck: result.driveLink }));
+        setCurrentFileUploaded(true);
+        
+        // Now submit the form
+        submitFormToGoogle(result.driveLink);
+      } else {
+        // No file to upload, submit directly
+        submitFormToGoogle(formData.pitchDeck);
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Failed to upload file. Please try again.");
+      setIsSubmitting(false);
+    }
+  };
+
+  const submitFormToGoogle = (pitchDeckLink: string) => {
+    // Create a temporary form to submit to Google Forms
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSfDEZcLD3Q_ZdOfOyIGtPXtyMNTNUxqBAf6qeG0lRjnt3HZdQ/formResponse';
+    form.target = '_blank';
+
+    // Add all form fields
+    const fields = [
+      { name: 'entry.161973672', value: formData.startupName },
+      { name: 'entry.1292942263', value: formData.contactName },
+      { name: 'entry.2092094953', value: formData.email },
+      { name: 'entry.263108220', value: formData.website },
+      { name: 'entry.1907843651', value: formData.linkedin },
+      { name: 'entry.184834358', value: formData.startupDescription },
+      { name: 'entry.2089020112', value: formData.primaryProblem },
+      { name: 'entry.1063815956', value: formData.solution },
+      { name: 'entry.1750629714', value: formData.currentStage },
+      { name: 'entry.1032800288', value: formData.targetCustomers },
+      { name: 'entry.277254229', value: formData.businessModel },
+      { name: 'entry.2001232321', value: formData.competitors },
+      { name: 'entry.1189492363', value: formData.team },
+      { name: 'entry.45775880', value: formData.milestoneAchievements },
+      { name: 'entry.1881769432', value: formData.twelveMonthGoals },
+      { name: 'entry.2011166899', value: formData.studentRoles },
+      { name: 'entry.1001509675', value: formData.otherAccelerators },
+      { name: 'entry.367328821', value: formData.additionalInfo },
+      { name: 'entry.1006943153', value: pitchDeckLink }, 
+    ];
+
+    fields.forEach(field => {
+      if (field.value) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = field.name;
+        input.value = field.value;
+        form.appendChild(input);
+      }
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+    
+    // Reset submission state
+    setIsSubmitting(false);
+    
+    // Redirect to success page after a short delay
+    setTimeout(() => {
+      router.push('/apply/success');
+    }, 1000);
   };
 
   return (
@@ -63,13 +186,8 @@ export default function StartupApplicationPage() {
           </p>
         </div>
 
-        {/* Application Form - Using native form submission */}
-        <form 
-          action="https://docs.google.com/forms/d/e/1FAIpQLSfDEZcLD3Q_ZdOfOyIGtPXtyMNTNUxqBAf6qeG0lRjnt3HZdQ/formResponse"
-          method="POST"
-          target="_blank"
-          className={styles.applicationForm}
-        >
+        {/* Application Form - Using controlled submission */}
+        <form onSubmit={handleSubmit} className={styles.applicationForm}>
           {/* Basic Information Section */}
           <div className={styles.formSection}>
             <div className={styles.sectionHeader}>
@@ -393,10 +511,48 @@ export default function StartupApplicationPage() {
             </div>
           </div>
 
+          <div className={styles.formSection}>
+            <div className={styles.sectionHeader}>
+              <h3 className={styles.sectionTitle}>Pitch Deck</h3>
+              <div className={styles.sectionLine}></div>
+            </div>
+            <FileUpload
+              onUploadComplete={(driveLink) => {
+                setFormData((prev) => ({ ...prev, pitchDeck: driveLink }));
+                setCurrentFileUploaded(true);
+              }}
+              onFileSelect={handleFileSelect}
+              acceptedFileTypes={[".pdf"]}
+              maxFileSize={20}
+              label="Upload Pitch Deck"
+              required={true}
+              placeholder="Drag and drop your pitch deck here, or click to browse"
+            />
+            {/* Hidden input for Google Forms submission */}
+            {formData.pitchDeck && (
+              <input
+                type="hidden"
+                name="entry.1006943153"
+                value={formData.pitchDeck}
+              />
+            )}
+          </div>
+
           {/* Submit Button */}
           <div className={styles.submitSection}>
-            <button type="submit" className={styles.submitButton}>
-              Submit Application
+            <button 
+              type="submit" 
+              className={styles.submitButton}
+              disabled={(!selectedFile && !formData.pitchDeck) || isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className={styles.spinner}></span>
+                  {selectedFile && !currentFileUploaded ? 'Uploading File...' : 'Submitting Application...'}
+                </>
+              ) : (
+                'Submit Application'
+              )}
             </button>
             <p className={styles.submitNote}>
               After submitting, you will be redirected to a Google confirmation page.
