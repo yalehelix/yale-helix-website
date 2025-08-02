@@ -33,8 +33,7 @@ export default function StartupApplicationSuccessPage() {
         <div className={styles.contactInfo}>
           <h2 className={styles.contactTitle}>Questions?</h2>
           <p className={styles.contactText}>
-            If you have any additional questions about your application or the incubator program, 
-            please don't hesitate to reach out to us at{" "}
+            {'If you have any additional questions about your application or the incubator program, please don\'t hesitate to reach out to us at '}
             <a href="mailto:admin@yalehelix.org" className={styles.emailLink}>
               admin@yalehelix.org
             </a>
