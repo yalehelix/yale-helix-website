@@ -76,7 +76,7 @@ export default function StartupApplicationPage() {
         });
 
         // Upload to Google Drive
-        const response = await fetch("/api/startup-upload-drive", {
+        const uploadResponse = await fetch("/api/startup-upload-drive", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -88,29 +88,79 @@ export default function StartupApplicationPage() {
           }),
         });
 
-        if (!response.ok) {
-          throw new Error("Upload failed");
+        if (!uploadResponse.ok) {
+          throw new Error("File upload failed");
         }
 
-        const result = await response.json();
-        setFormData(prev => ({ ...prev, pitchDeck: result.driveLink }));
+        const uploadResult = await uploadResponse.json();
+        setFormData(prev => ({ ...prev, pitchDeck: uploadResult.driveLink }));
         setCurrentFileUploaded(true);
         
-        // Now submit the form
-        submitFormToGoogle(result.driveLink);
+        // Now submit the application with the uploaded file link
+        await submitApplicationToServer(uploadResult.driveLink);
       } else {
         // No file to upload, submit directly
-        submitFormToGoogle(formData.pitchDeck);
+        await submitApplicationToServer(formData.pitchDeck);
       }
     } catch (error) {
-      console.error("Upload error:", error);
-      alert("Failed to upload file. Please try again.");
       setIsSubmitting(false);
     }
   };
 
+  const submitApplicationToServer = async (pitchDeckLink: string) => {
+    try {
+      // Prepare the application data
+      const applicationData = {
+        startupName: formData.startupName,
+        contactName: formData.contactName,
+        email: formData.email,
+        website: formData.website,
+        linkedin: formData.linkedin,
+        startupDescription: formData.startupDescription,
+        primaryProblem: formData.primaryProblem,
+        solution: formData.solution,
+        currentStage: formData.currentStage,
+        targetCustomers: formData.targetCustomers,
+        businessModel: formData.businessModel,
+        competitors: formData.competitors,
+        team: formData.team,
+        milestoneAchievements: formData.milestoneAchievements,
+        twelveMonthGoals: formData.twelveMonthGoals,
+        studentRoles: formData.studentRoles,
+        otherAccelerators: formData.otherAccelerators,
+        additionalInfo: formData.additionalInfo,
+        pitchDeck: pitchDeckLink,
+      };
+
+      // Submit to our server-side API
+      const response = await fetch("/api/submit-application", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(applicationData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        // Success! Reset submission state
+        setIsSubmitting(false);
+        
+        // Redirect to success page
+        router.push('/apply/success');
+      } else {
+        // Handle server-side error
+        throw new Error(result.error || 'Submission failed');
+      }
+    } catch (error) {
+      // Fallback: Try client-side submission if server fails
+      submitFormToGoogle(pitchDeckLink);
+    }
+  };
+
   const submitFormToGoogle = (pitchDeckLink: string) => {
-    // Create a temporary form to submit to Google Forms
+    // Fallback method: Create a temporary form to submit to Google Forms
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSfDEZcLD3Q_ZdOfOyIGtPXtyMNTNUxqBAf6qeG0lRjnt3HZdQ/formResponse';
