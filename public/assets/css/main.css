@@ -78,6 +78,13 @@ body {
   color: var(--text-light);
 }
 
+.btn-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  padding-left: 0;
+}
+
 .apply-btn {
   background: var(--primary-blue);
   color: var(--text-light);
