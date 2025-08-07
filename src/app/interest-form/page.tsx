@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
-export default function interestForm() {
+export default function InterestForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showInterestDropdown, setShowInterestDropdown] = useState(false);
@@ -177,7 +177,7 @@ export default function interestForm() {
           <h1 className={styles.mainHeader}>Yale Helix Incubator</h1>
           <h2 className={styles.subHeader}>Interest Form</h2>
           <p className={styles.headerDescription}>
-            Are you interested in joining Yale Helix? Fill out this form to let us know about your interests and we'll be in touch!
+            Are you interested in joining Yale Helix? Fill out this form to let us know about your interests and we&apos;ll be in touch!
           </p>
         </div>
 
