@@ -573,7 +573,7 @@ export default function StartupApplicationPage() {
               }}
               onFileSelect={handleFileSelect}
               acceptedFileTypes={[".pdf"]}
-              maxFileSize={20}
+              maxFileSize={50}
               label="Upload Pitch Deck"
               required={true}
               placeholder="Drag and drop your pitch deck here, or click to browse"
