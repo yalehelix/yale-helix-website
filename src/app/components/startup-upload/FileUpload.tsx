@@ -77,7 +77,7 @@ export default function FileUpload({
     });
 
     // Upload to Google Apps Script
-    const response = await fetch("/api/startup-upload-drive", {
+      const response = await fetch("/api/apply-startup/upload-startup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -266,7 +266,7 @@ body {
   font-weight: 300;
   color: var(--text-light);
   letter-spacing: -0.02em;
-  text-align: left;
+  text-align: center;
 }
 
 .features-text-line.line-2 span {
@@ -285,7 +285,7 @@ body {
   font-weight: 300;
   color: var(--text-light);
   letter-spacing: -0.01em;
-  text-align: right;
+  text-align: center;
 }
 
 .features-text-line.line-4 span {

@@ -5,22 +5,26 @@ import styles from "./FileUpload.module.css";
 
 interface FileUploadProps {
   onUploadComplete: (driveLink: string) => void;
-  onFileSelect?: (file: File | null) => void; // Allow null for file removal
+  onFileSelect?: (file: File | null) => void;
   acceptedFileTypes?: string[];
   maxFileSize?: number; // in MB
   label?: string;
   required?: boolean;
   placeholder?: string;
+  uploadEndpoint: string; // Make the endpoint configurable
+  autoUpload?: boolean; // Whether to upload immediately or wait for form submission
 }
 
 export default function FileUpload({
   onUploadComplete,
-  onFileSelect, // Add this prop
+  onFileSelect,
   acceptedFileTypes = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg"],
   maxFileSize = 10, // 10MB default
   label = "Upload File",
   required = false,
-  placeholder = "Drag and drop a file here, or click to browse"
+  placeholder = "Drag and drop a file here, or click to browse",
+  uploadEndpoint,
+  autoUpload = false,
 }: FileUploadProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -30,33 +34,44 @@ export default function FileUpload({
   const [driveLink, setDriveLink] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const validateFile = useCallback((file: File): string | null => {
-    // Check file size
-    if (file.size > maxFileSize * 1024 * 1024) {
-      return `File size must be less than ${maxFileSize}MB`;
-    }
+  const validateFile = useCallback(
+    (file: File): string | null => {
+      // Check file size
+      if (file.size > maxFileSize * 1024 * 1024) {
+        return `File size must be less than ${maxFileSize}MB`;
+      }
 
-    // Check file type
-    const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
-    if (!acceptedFileTypes.includes(fileExtension)) {
-      return `File type not supported. Accepted types: ${acceptedFileTypes.join(", ")}`;
-    }
+      // Check file type
+      const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
+      if (!acceptedFileTypes.includes(fileExtension)) {
+        return `File type not supported. Accepted types: ${acceptedFileTypes.join(", ")}`;
+      }
 
-    return null;
-  }, [maxFileSize, acceptedFileTypes]);
+      return null;
+    },
+    [maxFileSize, acceptedFileTypes],
+  );
 
-  const handleFileSelect = useCallback((file: File) => {
-    setError("");
-    const validationError = validateFile(file);
-    
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
+  const handleFileSelect = useCallback(
+    (file: File) => {
+      setError("");
+      const validationError = validateFile(file);
 
-    setSelectedFile(file);
-    onFileSelect?.(file); // Call the callback if provided
-  }, [validateFile, onFileSelect]);
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
+
+      setSelectedFile(file);
+      onFileSelect?.(file);
+
+      // Auto-upload if enabled
+      if (autoUpload) {
+        handleUpload(file);
+      }
+    },
+    [validateFile, onFileSelect, autoUpload],
+  );
 
   const uploadToGoogleDrive = async (file: File): Promise<string> => {
     // Convert file to base64
@@ -70,8 +85,8 @@ export default function FileUpload({
       reader.readAsDataURL(file);
     });
 
-    // Upload to Google Apps Script
-    const response = await fetch("/api/upload-to-drive", {
+    // Upload to the specified endpoint
+    const response = await fetch(uploadEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -91,8 +106,9 @@ export default function FileUpload({
     return result.driveLink;
   };
 
-  const handleUpload = async () => {
-    if (!selectedFile) return;
+  const handleUpload = async (file?: File) => {
+    const fileToUpload = file || selectedFile;
+    if (!fileToUpload) return;
 
     setIsUploading(true);
     setUploadProgress(0);
@@ -101,7 +117,7 @@ export default function FileUpload({
     try {
       // Simulate progress (in real implementation, you'd track actual progress)
       const progressInterval = setInterval(() => {
-        setUploadProgress(prev => {
+        setUploadProgress((prev) => {
           if (prev >= 90) {
             clearInterval(progressInterval);
             return 90;
@@ -110,21 +126,20 @@ export default function FileUpload({
         });
       }, 200);
 
-      const link = await uploadToGoogleDrive(selectedFile);
-      
+      const link = await uploadToGoogleDrive(fileToUpload);
+
       clearInterval(progressInterval);
       setUploadProgress(100);
-      
+
       setDriveLink(link);
       onUploadComplete(link);
-      
+
       // Reset after successful upload
       setTimeout(() => {
         setSelectedFile(null);
         setUploadProgress(0);
         setIsUploading(false);
       }, 1000);
-
     } catch (err) {
       setError("Upload failed. Please try again.");
       setIsUploading(false);
@@ -142,15 +157,18 @@ export default function FileUpload({
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    
-    const files = Array.from(e.dataTransfer.files);
-    if (files.length > 0) {
-      handleFileSelect(files[0]);
-    }
-  }, [handleFileSelect]);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(false);
+
+      const files = Array.from(e.dataTransfer.files);
+      if (files.length > 0) {
+        handleFileSelect(files[0]);
+      }
+    },
+    [handleFileSelect],
+  );
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -158,8 +176,6 @@ export default function FileUpload({
       handleFileSelect(files[0]);
     }
   };
-
-
 
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return "0 Bytes";
@@ -169,12 +185,22 @@ export default function FileUpload({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
+  const clearFile = () => {
+    setSelectedFile(null);
+    setError("");
+    setDriveLink("");
+    onFileSelect?.(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   return (
     <div className={styles.uploadContainer}>
       <label className={styles.label}>
         {label} {required && <span className={styles.required}>*</span>}
       </label>
-      
+
       <div
         className={`${styles.uploadArea} ${isDragOver ? styles.dragOver : ""} ${selectedFile ? styles.hasFile : ""}`}
         onDragOver={handleDragOver}
@@ -191,7 +217,7 @@ export default function FileUpload({
             disabled={isUploading}
           />
         )}
-        
+
         {!selectedFile && !isUploading && (
           <div className={styles.uploadContent}>
             <div className={styles.uploadIcon}>📁</div>
@@ -214,14 +240,7 @@ export default function FileUpload({
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                setSelectedFile(null);
-                setError("");
-                setDriveLink(""); // Also clear the drive link
-                onFileSelect?.(null); // Notify parent component
-                // Clear the file input value
-                if (fileInputRef.current) {
-                  fileInputRef.current.value = '';
-                }
+                clearFile();
               }}
               className={styles.removeButton}
             >
@@ -233,10 +252,7 @@ export default function FileUpload({
         {isUploading && (
           <div className={styles.uploadProgress}>
             <div className={styles.progressBar}>
-              <div 
-                className={styles.progressFill} 
-                style={{ width: `${uploadProgress}%` }}
-              ></div>
+              <div className={styles.progressFill} style={{ width: `${uploadProgress}%` }}></div>
             </div>
             <p className={styles.progressText}>Uploading... {uploadProgress}%</p>
           </div>
@@ -244,7 +260,7 @@ export default function FileUpload({
       </div>
 
       {error && <p className={styles.error}>{error}</p>}
-      
+
       {driveLink && (
         <div className={styles.success}>
           <p className={styles.successText}>✅ File uploaded successfully!</p>
@@ -253,8 +269,6 @@ export default function FileUpload({
           </a>
         </div>
       )}
-
-      {/* Removed the "Upload to Google Drive" button since upload happens on form submission */}
     </div>
   );
 } 

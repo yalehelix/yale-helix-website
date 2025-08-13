@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import FileUpload from "../components/startup-upload/FileUpload";
+import FileUpload from "../components/FileUpload";
 
 export default function StartupApplicationPage() {
   const router = useRouter();
@@ -76,7 +76,7 @@ export default function StartupApplicationPage() {
         });
 
         // Upload to Google Drive
-        const uploadResponse = await fetch("/api/startup-upload-drive", {
+        const uploadResponse = await fetch("/api/apply-startup/upload-startup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -133,7 +133,7 @@ export default function StartupApplicationPage() {
       };
 
       // Submit to our server-side API
-      const response = await fetch("/api/submit-application", {
+      const response = await fetch("/api/apply-startup/submit-startup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -577,6 +577,8 @@ export default function StartupApplicationPage() {
               label="Upload Pitch Deck"
               required={true}
               placeholder="Drag and drop your pitch deck here, or click to browse"
+              uploadEndpoint="/api/apply-startup/upload-startup"
+              autoUpload={false}
             />
             {/* Hidden input for Google Forms submission */}
             {formData.pitchDeck && <input type="hidden" name="entry.639898116" value={formData.pitchDeck} />}
@@ -592,7 +594,7 @@ export default function StartupApplicationPage() {
               {isSubmitting ? (
                 <>
                   <span className={styles.spinner}></span>
-                  {selectedFile && !currentFileUploaded ? "Uploading File..." : "Submitting Application..."}
+                  {selectedFile && !currentFileUploaded ? "Uploading File & Submitting..." : "Submitting Application..."}
                 </>
               ) : (
                 "Submit Application"
