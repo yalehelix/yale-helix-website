@@ -1,6 +1,4 @@
 {
-  "trailingComma": "es5",
-  "printWidth": 200,
-  "tabWidth": 2,
-  "semi": true
+  "printWidth": 125,
+  "tabWidth": 2
 }
