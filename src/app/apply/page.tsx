@@ -64,28 +64,17 @@ export default function StartupApplicationPage() {
     try {
       // Check if file needs to be uploaded
       if (selectedFile && !currentFileUploaded) {
-        // Convert file to base64
-        const base64 = await new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const result = reader.result as string;
-            const base64Data = result.split(",")[1];
-            resolve(base64Data);
-          };
-          reader.readAsDataURL(selectedFile);
-        });
+        // Use FormData instead of base64 for better performance
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', selectedFile);
+        uploadFormData.append('fileName', selectedFile.name);
+        uploadFormData.append('fileType', selectedFile.type);
+        uploadFormData.append('folderName', `${formData.startupName} - ${formData.contactName}`); // Add folder name for organization
 
         // Upload to Google Drive
         const uploadResponse = await fetch("/api/apply-startup/upload-startup", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            fileName: selectedFile.name,
-            fileType: selectedFile.type,
-            fileData: base64,
-          }),
+          body: uploadFormData, // Use FormData instead of JSON
         });
 
         if (!uploadResponse.ok) {

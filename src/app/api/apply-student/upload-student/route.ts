@@ -5,6 +5,61 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-I9cNUbsX_1P2
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if this is a FormData upload (single file)
+    if (request.headers.get('content-type')?.includes('multipart/form-data')) {
+      const formData = await request.formData();
+      const file = formData.get('file') as File;
+      const fileName = formData.get('fileName') as string;
+      const fileType = formData.get('fileType') as string;
+      const folderName = formData.get('folderName') as string || 'Default';
+      
+      if (!file || !fileName || !fileType) {
+        return NextResponse.json(
+          { error: 'Missing required fields' },
+          { status: 400 }
+        );
+      }
+
+      // Convert file to base64 for Google Apps Script compatibility
+      const arrayBuffer = await file.arrayBuffer();
+      const base64 = Buffer.from(arrayBuffer).toString('base64');
+
+      // Forward the request to Google Apps Script
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileName,
+          fileType,
+          fileData: base64,
+          folderName: folderName,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Apps Script responded with status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.error) {
+        return NextResponse.json(
+          { error: result.error },
+          { status: 500 }
+        );
+      }
+
+      return NextResponse.json({
+        success: true,
+        driveLink: result.driveLink,
+        fileId: result.fileId,
+      });
+    }
+
+    // Handle JSON uploads (batch uploads and backward compatibility)
     const body = await request.json();
     const { files, folderName } = body;
 

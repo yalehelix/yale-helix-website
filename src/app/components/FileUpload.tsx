@@ -74,28 +74,16 @@ export default function FileUpload({
   );
 
   const uploadToGoogleDrive = async (file: File): Promise<string> => {
-    // Convert file to base64
-    const base64 = await new Promise<string>((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        const base64Data = result.split(",")[1];
-        resolve(base64Data);
-      };
-      reader.readAsDataURL(file);
-    });
+    // Use FormData instead of base64 for better performance
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', file.name);
+    formData.append('fileType', file.type);
 
     // Upload to the specified endpoint
     const response = await fetch(uploadEndpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fileName: file.name,
-        fileType: file.type,
-        fileData: base64,
-      }),
+      body: formData, // Use FormData instead of JSON
     });
 
     if (!response.ok) {

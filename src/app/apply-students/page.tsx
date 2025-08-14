@@ -166,27 +166,17 @@ export default function StudentApplicationPage() {
       // Show loading state
       setIsUploading(true);
       
-      // Prepare all files and text content for upload
+      // Prepare all files for upload using FormData
       const filesToUpload = [];
       const folderName = `${formData.firstName} ${formData.lastName}`;
       const fileNamePrefix = `${formData.firstName}-${formData.lastName}`;
       
       // Add resume if there's a file
       if (selectedFile && !currentFileUploaded) {
-        const resumeBase64 = await new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const result = reader.result as string;
-            const base64Data = result.split(",")[1];
-            resolve(base64Data);
-          };
-          reader.readAsDataURL(selectedFile);
-        });
-        
         filesToUpload.push({
+          file: selectedFile,
           fileName: `${fileNamePrefix}-resume.${selectedFile.name.split('.').pop()}`,
           fileType: selectedFile.type,
-          fileData: resumeBase64,
         });
       }
       
@@ -195,164 +185,108 @@ export default function StudentApplicationPage() {
         // Option 1: Portfolio link/file + description
         if (formData.submissionMethod === "file" && longFormFile) {
           // Add the actual PDF file
-          const fileBase64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              const result = reader.result as string;
-              const base64Data = result.split(",")[1];
-              resolve(base64Data);
-            };
-            reader.readAsDataURL(longFormFile);
-          });
-          
           filesToUpload.push({
+            file: longFormFile,
             fileName: `${fileNamePrefix}-option1-portfolio.pdf`,
             fileType: longFormFile.type,
-            fileData: fileBase64,
           });
           
           // Add description as text file
           const descriptionBlob = new Blob([formData.longFormDescription || ""], { type: "text/plain" });
-          const descriptionBase64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              const result = reader.result as string;
-              const base64Data = result.split(",")[1];
-              resolve(base64Data);
-            };
-            reader.readAsDataURL(descriptionBlob);
-          });
-          
+          const descriptionFile = new File([descriptionBlob], `${fileNamePrefix}-option1-description.txt`, { type: "text/plain" });
           filesToUpload.push({
+            file: descriptionFile,
             fileName: `${fileNamePrefix}-option1-description.txt`,
             fileType: "text/plain",
-            fileData: descriptionBase64,
           });
         } else if (formData.submissionMethod === "link") {
           // Add portfolio link as separate file
           const linkContent = `Portfolio Link: ${formData.longForm}`;
           const linkBlob = new Blob([linkContent], { type: "text/plain" });
-          const linkBase64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              const result = reader.result as string;
-              const base64Data = result.split(",")[1];
-              resolve(base64Data);
-            };
-            reader.readAsDataURL(linkBlob);
-          });
-          
+          const linkFile = new File([linkBlob], `${fileNamePrefix}-option1-portfoliolink.txt`, { type: "text/plain" });
           filesToUpload.push({
+            file: linkFile,
             fileName: `${fileNamePrefix}-option1-portfoliolink.txt`,
             fileType: "text/plain",
-            fileData: linkBase64,
           });
           
           // Add description as separate file
           const descriptionBlob = new Blob([formData.longFormDescription || ""], { type: "text/plain" });
-          const descriptionBase64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              const result = reader.result as string;
-              const base64Data = result.split(",")[1];
-              resolve(base64Data);
-            };
-            reader.readAsDataURL(descriptionBlob);
-          });
-          
+          const descriptionFile = new File([descriptionBlob], `${fileNamePrefix}-option1-description.txt`, { type: "text/plain" });
           filesToUpload.push({
+            file: descriptionFile,
             fileName: `${fileNamePrefix}-option1-description.txt`,
             fileType: "text/plain",
-            fileData: descriptionBase64,
           });
         }
       } else if (formData.longFormOption === "option2") {
         // Option 2: Graphical abstract file + caption
         if (longFormFile) {
           // Add the actual graphical abstract file
-          const fileBase64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              const result = reader.result as string;
-              const base64Data = result.split(",")[1];
-              resolve(base64Data);
-            };
-            reader.readAsDataURL(longFormFile);
-          });
-          
-          const fileExtension = longFormFile.name.split('.').pop() || 'pdf';
           filesToUpload.push({
-            fileName: `${fileNamePrefix}-option2-graphicalabstract.${fileExtension}`,
+            file: longFormFile,
+            fileName: `${fileNamePrefix}-option2-graphicalabstract.${longFormFile.name.split('.').pop() || 'pdf'}`,
             fileType: longFormFile.type,
-            fileData: fileBase64,
           });
           
           // Add caption as text file
           const captionBlob = new Blob([formData.longFormDescription || ""], { type: "text/plain" });
-          const captionBase64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              const result = reader.result as string;
-              const base64Data = result.split(",")[1];
-              resolve(base64Data);
-            };
-            reader.readAsDataURL(captionBlob);
-          });
-          
+          const captionFile = new File([captionBlob], `${fileNamePrefix}-option2-caption.txt`, { type: "text/plain" });
           filesToUpload.push({
+            file: captionFile,
             fileName: `${fileNamePrefix}-option2-caption.txt`,
             fileType: "text/plain",
-            fileData: captionBase64,
           });
         }
       } else if (formData.longFormOption === "option3") {
         // Option 3: Slide deck file + video link
         if (longFormFile) {
           // Add the actual slide deck file
-          const fileBase64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              const result = reader.result as string;
-              const base64Data = result.split(",")[1];
-              resolve(base64Data);
-            };
-            reader.readAsDataURL(longFormFile);
-          });
-          
           filesToUpload.push({
+            file: longFormFile,
             fileName: `${fileNamePrefix}-option3-slidedeck.pdf`,
             fileType: longFormFile.type,
-            fileData: fileBase64,
           });
           
           // Add video link as text file
           const videoContent = `Video Presentation Link: ${formData.longFormFile || ""}`;
           const videoBlob = new Blob([videoContent], { type: "text/plain" });
-          const videoBase64 = await new Promise<string>((resolve) => {
+          const videoFile = new File([videoBlob], `${fileNamePrefix}-option3-videolink.txt`, { type: "text/plain" });
+          filesToUpload.push({
+            file: videoFile,
+            fileName: `${fileNamePrefix}-option3-videolink.txt`,
+            fileType: "text/plain",
+          });
+        }
+      }
+      
+      // Upload all files using batch upload for better organization
+      if (filesToUpload.length > 0) {
+        // Convert files to base64 for batch upload (required by Google Apps Script)
+        const filesForBatch = await Promise.all(filesToUpload.map(async (fileData) => {
+          const base64 = await new Promise<string>((resolve) => {
             const reader = new FileReader();
             reader.onload = () => {
               const result = reader.result as string;
               const base64Data = result.split(",")[1];
               resolve(base64Data);
             };
-            reader.readAsDataURL(videoBlob);
+            reader.readAsDataURL(fileData.file);
           });
           
-          filesToUpload.push({
-            fileName: `${fileNamePrefix}-option3-videolink.txt`,
-            fileType: "text/plain",
-            fileData: videoBase64,
-          });
-        }
-      }
-      
-      // Upload all files in a single batch request
-      if (filesToUpload.length > 0) {
+          return {
+            fileName: fileData.fileName,
+            fileType: fileData.fileType,
+            fileData: base64,
+          };
+        }));
+        
+        // Use batch upload API to ensure all files go to the same folder
         const response = await fetch("/api/apply-student/upload-student", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            files: filesToUpload,
+            files: filesForBatch,
             folderName: folderName,
           }),
         });
@@ -363,6 +297,16 @@ export default function StudentApplicationPage() {
 
         const result = await response.json();
         console.log("Batch upload successful:", result);
+        
+        // Find the resume upload result to get the drive link
+        const resumeResult = result.uploadedFiles?.find((file: any) => 
+          file.fileName && file.fileName.includes('-resume.')
+        );
+        
+        if (resumeResult && resumeResult.driveLink) {
+          // Update the form data with the resume link
+          setFormData(prev => ({ ...prev, resume: resumeResult.driveLink }));
+        }
       }
       
       // Mark current file as uploaded if resume was uploaded
@@ -370,8 +314,9 @@ export default function StudentApplicationPage() {
         setCurrentFileUploaded(true);
       }
       
-      // Submit the application
-      await submitApplicationToServer(formData.resume);
+      // Submit the application with the resume link
+      const resumeLink = formData.resume || (selectedFile ? 'Resume uploaded successfully' : '');
+      await submitApplicationToServer(resumeLink);
       
     } catch (error) {
       console.error("Upload error:", error);
@@ -398,7 +343,21 @@ export default function StudentApplicationPage() {
         whyHelix: formData.whyHelix,
         building: formData.building,
         goals: formData.goals,
-        longForm: formData.longForm,
+        longForm: (() => {
+          // Format long form data based on selected option
+          if (formData.longFormOption === 'option1') {
+            if (formData.submissionMethod === 'link') {
+              return `Portfolio Link: ${formData.longForm}\nDescription: ${formData.longFormDescription || ''}`;
+            } else {
+              return `Portfolio File: ${formData.longFormFile || ''}\nDescription: ${formData.longFormDescription || ''}`;
+            }
+          } else if (formData.longFormOption === 'option2') {
+            return `Graphical Abstract: ${formData.longFormFile || ''}\nCaption: ${formData.longFormDescription || ''}`;
+          } else if (formData.longFormOption === 'option3') {
+            return `Slide Deck: ${formData.longForm}\nVideo Link: ${formData.longFormFile || ''}`;
+          }
+          return '';
+        })(),
         resume: resumeLink,
       };
 
@@ -426,8 +385,9 @@ export default function StudentApplicationPage() {
         throw new Error(result.error || "Submission failed");
       }
     } catch (error) {
+      console.error("Server submission failed, falling back to Google Forms:", error);
       // Fallback: Try client-side submission if server fails
-      submitFormToGoogle(formData.resume);
+      submitFormToGoogle(resumeLink);
     }
   };
 
@@ -437,6 +397,20 @@ export default function StudentApplicationPage() {
     form.method = 'POST';
     form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSfJL1qgGgfl31AFpVn_M8NZBuRePz6XrmWoQjlUqHA024It8g/formResponse';
     // Removed target="_blank" to avoid pop-up blockers - form will submit in same window
+    
+    // Prepare long form data based on selected option
+    let longFormData = '';
+    if (formData.longFormOption === 'option1') {
+      if (formData.submissionMethod === 'link') {
+        longFormData = `Portfolio Link: ${formData.longForm}\nDescription: ${formData.longFormDescription || ''}`;
+      } else {
+        longFormData = `Portfolio File: ${formData.longFormFile || ''}\nDescription: ${formData.longFormDescription || ''}`;
+      }
+    } else if (formData.longFormOption === 'option2') {
+      longFormData = `Graphical Abstract: ${formData.longFormFile || ''}\nCaption: ${formData.longFormDescription || ''}`;
+    } else if (formData.longFormOption === 'option3') {
+      longFormData = `Slide Deck: ${formData.longForm}\nVideo Link: ${formData.longFormFile || ''}`;
+    }
     
     // Add all form fields
     const fields = [
@@ -450,7 +424,7 @@ export default function StudentApplicationPage() {
         { name: 'entry.2107500991', value: formData.whyHelix },
         { name: 'entry.1678797299', value: formData.building },
         { name: 'entry.766347532', value: formData.goals },
-        { name: 'entry.497833455', value: formData.longForm },
+        { name: 'entry.497833455', value: longFormData },
     ];
 
     // Add areas of interest (multiple values)
