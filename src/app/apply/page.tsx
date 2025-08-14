@@ -41,7 +41,8 @@ export default function StartupApplicationPage() {
   };
 
   const handleReturnToMain = () => {
-    router.push("/");
+    // Use window.location to ensure full page reload for animations
+    window.location.href = "/";
   };
 
   const handleFileSelect = (file: File | null) => {

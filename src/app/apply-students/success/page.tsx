@@ -7,7 +7,8 @@ export default function StudentApplicationSuccessPage() {
   const router = useRouter();
 
   const handleReturnToMain = () => {
-    router.push("/");
+    // Use window.location to ensure full page reload for animations
+    window.location.href = "/";
   };
 
   const handleViewPortfolio = () => {

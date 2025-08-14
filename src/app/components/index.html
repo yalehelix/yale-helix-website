@@ -29,12 +29,13 @@
     <!-- Header -->
     <header class="header">
       <div class="header-content">
-        <a href="#top" class="logo">HELIX<span class="dot">.</span></a>
+        <a href="#" class="logo">HELIX<span class="dot">.</span></a>
         <nav>
           <ul class="nav-menu">
-            <li><a href="#hero" class="active">Home</a></li>
+            <li><a href="#" class="active">Home</a></li>
             <li><a href="#timeline">Timeline</a></li>
             <li><a href="#team">Team</a></li>
+            <li><a href="#sponsors">Sponsors</a></li>
             <li><a href="#startups">Portfolio</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -183,12 +184,7 @@
                 <div class="timeline-date">August 15th</div>
                 <div class="timeline-event">Applications Open</div>
                 <div class="timeline-description-item">
-<<<<<<< HEAD
                   The application will ask for your resume and relevant experiences. It includes a series of short questions. We appreciate and thank you for your time!
-=======
-                  The application will ask for your resume and relevant experiences. It includes a series of short questions.
-                  We appreciate and thank you for your time!
->>>>>>> main
                 </div>
               </div>
 
@@ -486,11 +482,7 @@
             </div>
             <div class="member-info">
               <h4 class="member-name">Mark Alkadious</h4>
-<<<<<<< HEAD
-              <span class="member-role">Exective Board Member</span>
-=======
               <span class="member-role">Executive Board Member</span>
->>>>>>> main
             </div>
           </div>
         </div>
@@ -556,6 +548,55 @@
               <h4 class="member-name">Advisor</h4>
               <span class="member-role">David Rosenthal</span> <br />
               <span class="member-role">MD, Venture Partner, Alleycorp</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sponsors Section -->
+    <section class="sponsors-section" id="sponsors">
+      <div class="sponsors-content">
+        <div class="sponsors-header">
+          <h2 class="sponsors-title">Our Sponsors</h2>
+          <p class="sponsors-subtitle">Supporting the next generation of healthcare and biotech innovation</p>
+        </div>
+
+        <div class="sponsors-grid">
+          <div class="sponsor-card">
+            <div class="sponsor-logo">
+              <img src="assets/img/red-bull-logo.png" alt="Red Bull Logo" class="sponsor-logo-img" />
+            </div>
+            <div class="sponsor-info">
+              <h4 class="sponsor-name">Red Bull</h4>
+              <span class="sponsor-category corporate-partner">Corporate Partner</span>
+              <p class="sponsor-description">Providing resources for student innovation</p>
+            </div>
+          </div>
+
+          <div class="sponsor-card coming-soon">
+            <div class="sponsor-logo">
+              <div class="sponsor-placeholder">
+                <i class="bi bi-heart-pulse"></i>
+              </div>
+            </div>
+            <div class="sponsor-info">
+              <h4 class="sponsor-name">Coming Soon</h4>
+              <span class="sponsor-category">Future Partner</span>
+              <p class="sponsor-description">We're working on exciting new partnerships</p>
+            </div>
+          </div>
+
+          <div class="sponsor-card coming-soon">
+            <div class="sponsor-logo">
+              <div class="sponsor-placeholder">
+                <i class="bi bi-lightbulb"></i>
+              </div>
+            </div>
+            <div class="sponsor-info">
+              <h4 class="sponsor-name">Coming Soon</h4>
+              <span class="sponsor-category">Future Partner</span>
+              <p class="sponsor-description">We're working on exciting new partnerships</p>
             </div>
           </div>
         </div>
@@ -740,7 +781,7 @@
         <div class="footer-section">
           <h3 class="footer-title">Useful Links</h3>
           <div class="footer-links">
-            <a href="#hero">Home</a>
+            <a href="#">Home</a>
             <a href="#about">About us</a>
             <a href="#timeline">Timeline</a>
             <a href="#startups">Startups</a>
@@ -763,5 +804,21 @@
         <p>&copy; Copyright <strong>YaleHelix</strong> All Rights Reserved</p>
       </div>
     </footer>
+
+    <script>
+      window.addEventListener('pageshow', (e) => {
+        // If page was loaded from the back/forward cache
+        if (e.persisted || performance.getEntriesByType('navigation')[0]?.type === 'back_forward') {
+          // If you have a teardown/init function in main.js, call it here
+          if (window.reInitAnimations) {
+            window.reInitAnimations();
+          } else {
+            // Fallback: force ScrollTrigger to recalc
+            ScrollTrigger.refresh(true);
+          }
+        }
+      });
+    </script>
+    
   </body>
 </html>

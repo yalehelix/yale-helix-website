@@ -81,7 +81,8 @@ export default function StudentApplicationPage() {
   };
 
   const handleReturnToMain = () => {
-    router.push("/");
+    // Use window.location to ensure full page reload for animations
+    window.location.href = "/";
   };
 
   // File size formatting function (matching resume upload)
