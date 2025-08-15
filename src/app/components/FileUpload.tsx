@@ -24,7 +24,7 @@ export default function FileUpload({
   onFileSelect,
   onProgressUpdate,
   acceptedFileTypes = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg"],
-  maxFileSize = 10, // 10MB default
+  maxFileSize = 4, // 4MB default
   label = "Upload File",
   required = false,
   placeholder = "Drag and drop a file here, or click to browse",

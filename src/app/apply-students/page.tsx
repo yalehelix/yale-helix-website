@@ -493,8 +493,8 @@ export default function StudentApplicationPage() {
   // Handler for when a new file is selected
   const handleFileSelect = (file: File | null) => {
     if (file) {
-      // Validate file size (10MB for resume)
-      const maxSizeMB = 25;
+                                        // Validate file size (4MB for resume)
+                                        const maxSizeMB = 4;
       if (file.size > maxSizeMB * 1024 * 1024) {
         setResumeError(`File size must be less than ${maxSizeMB}MB`);
         return;
@@ -828,7 +828,7 @@ export default function StudentApplicationPage() {
                   onFileSelect={handleFileSelect} // Use the new handler
 
                   acceptedFileTypes={[".pdf", ".doc", ".docx"]}
-                  maxFileSize={25}
+                  maxFileSize={4}
                   label="Upload Resume"
                   placeholder="Click here to upload your resume"
                   uploadEndpoint="/api/apply-student/upload-student"
@@ -1118,8 +1118,8 @@ export default function StudentApplicationPage() {
                               onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
-                                  // Validate file size (10MB for portfolio)
-                                  const maxSizeMB = 25;
+                                  // Validate file size (4MB for portfolio)
+                                  const maxSizeMB = 4;
                                   if (file.size > maxSizeMB * 1024 * 1024) {
                                     setLongFormError(`File size must be less than ${maxSizeMB}MB`);
                                     return;
@@ -1152,7 +1152,7 @@ export default function StudentApplicationPage() {
                                 Click to upload PDF or drag and drop
                               </div>
                               <div className={styles.fileUploadSubtext}>
-                                Maximum file size:  25MB
+                                Maximum file size: 4MB
                               </div>
                             </div>
                           ) : (
@@ -1218,8 +1218,8 @@ export default function StudentApplicationPage() {
                             onChange={(e) => {
                               const file = e.target.files?.[0];
                               if (file) {
-                                // Validate file size (10MB for graphical abstract)
-                                const maxSizeMB = 25;
+                                                                  // Validate file size (4MB for graphical abstract)
+                                const maxSizeMB = 4;
                                 if (file.size > maxSizeMB * 1024 * 1024) {
                                   setLongFormError(`File size must be less than ${maxSizeMB}MB`);
                                   return;
@@ -1253,7 +1253,7 @@ export default function StudentApplicationPage() {
                               Click to upload PDF, PNG, or JPG
                             </div>
                             <div className={styles.fileUploadSubtext}>
-                              Maximum file size: 25MB
+                              Maximum file size: 4MB
                             </div>
                           </div>
                         ) : (
@@ -1315,8 +1315,8 @@ export default function StudentApplicationPage() {
                               onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
-                                  // Validate file size (10MB for slide deck)
-                                  const maxSizeMB = 25;
+                                  // Validate file size (4MB for slide deck)
+                                  const maxSizeMB = 4;
                                   if (file.size > maxSizeMB * 1024 * 1024) {
                                     setLongFormError(`File size must be less than ${maxSizeMB}MB`);
                                     return;
@@ -1347,7 +1347,7 @@ export default function StudentApplicationPage() {
                               Click to upload PDF slide deck
                             </div>
                             <div className={styles.fileUploadSubtext}>
-                              Maximum file size: 25MB
+                              Maximum file size: 4MB
                             </div>
                           </div>
                         ) : (
