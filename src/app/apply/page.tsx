@@ -70,8 +70,8 @@ export default function StartupApplicationPage() {
 
   const handleFileSelect = (file: File | null) => {
     if (file) {
-      // Validate file size (25MB for pitch deck)
-      const maxSizeMB = 25;
+      // Validate file size (4MB for pitch deck)
+              const maxSizeMB = 4;
       if (file.size > maxSizeMB * 1024 * 1024) {
         alert(`File size must be less than ${maxSizeMB}MB`);
         return;
@@ -634,7 +634,7 @@ export default function StartupApplicationPage() {
               onFileSelect={handleFileSelect}
 
               acceptedFileTypes={[".pdf"]}
-              maxFileSize={25}
+              maxFileSize={4}
               label="Upload Pitch Deck"
               required={true}
               placeholder="Drag and drop your pitch deck here, or click to browse"
