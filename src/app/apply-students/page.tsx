@@ -1052,7 +1052,7 @@ export default function StudentApplicationPage() {
             {formData.longFormOption && (
               <div className={styles.submissionArea}>
                 <div className={styles.submissionHeader}>
-                  <h3 className={styles.submissionTitle}>Submission Form</h3>
+                  <h3 className={styles.submissionTitle}>Long-Form Submission</h3>
                   <div className={styles.submissionSubtitle}>
                     Complete the requirements for your selected option
                   </div>
