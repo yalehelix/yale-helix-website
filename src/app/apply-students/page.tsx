@@ -169,6 +169,8 @@ export default function StudentApplicationPage() {
       // Show loading state
       setIsUploading(true);
       
+
+      
       // Prepare all files for upload using FormData
       const filesToUpload = [];
       const folderName = `${formData.firstName} ${formData.lastName}`;
@@ -274,51 +276,51 @@ export default function StudentApplicationPage() {
       
       // Now handle file uploads if needed
       if (filesToUpload.length > 0) {
-        // Convert files to base64 for batch upload (required by Google Apps Script)
-        const filesForBatch = await Promise.all(filesToUpload.map(async (fileData) => {
-          const base64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              const result = reader.result as string;
-              const base64Data = result.split(",")[1];
-              resolve(base64Data);
-            };
-            reader.readAsDataURL(fileData.file);
-          });
-          
-          return {
-            fileName: fileData.fileName,
-            fileType: fileData.fileType,
-            fileData: base64,
-          };
-        }));
-        
-        // Use batch upload API to ensure all files go to the same folder
-        const response = await fetch("/api/apply-student/upload-student", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            files: filesForBatch,
-            folderName: folderName,
-          }),
-        });
 
-        if (!response.ok) {
-          throw new Error("Batch upload failed");
-        }
+        
+        // Calculate total progress steps (each file = 1 step)
+        const totalFiles = filesToUpload.length;
+        let completedFiles = 0;
+        
+        for (const fileData of filesToUpload) {
+          try {
+            // Create a temporary FileUpload instance to handle this file
+            const tempFormData = new FormData();
+            tempFormData.append('file', fileData.file);
+            tempFormData.append('fileName', fileData.fileName);
+            tempFormData.append('fileType', fileData.fileType);
+            tempFormData.append('folderName', folderName);
+            
+            // Upload single file
+            const response = await fetch("/api/apply-student/upload-student", {
+              method: "POST",
+              body: tempFormData,
+            });
+            
+            if (!response.ok) {
+              throw new Error(`Failed to upload ${fileData.fileName}`);
+            }
+            
+            const result = await response.json();
+            completedFiles++;
+            
 
-        const result = await response.json();
-        console.log("Batch upload successful:", result);
-        
-        // Find the resume upload result to get the drive link
-        const resumeResult = result.uploadedFiles?.find((file: any) => 
-          file.fileName && file.fileName.includes('-resume.')
-        );
-        
-        if (resumeResult && resumeResult.driveLink) {
-          // Update the form data with the resume link
-          setFormData(prev => ({ ...prev, resume: resumeResult.driveLink }));
+            
+            // If this is the resume, update the form data
+            if (fileData.fileName.includes('-resume.')) {
+              setFormData(prev => ({ ...prev, resume: result.driveLink }));
+            }
+            
+            console.log(`Uploaded ${fileData.fileName}:`, result);
+            
+          } catch (error) {
+            console.error(`Error uploading ${fileData.fileName}:`, error);
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            throw new Error(`Failed to upload ${fileData.fileName}: ${errorMessage}`);
+          }
         }
+        
+
       }
       
       // Mark current file as uploaded if resume was uploaded
@@ -824,6 +826,7 @@ export default function StudentApplicationPage() {
                       setCurrentFileUploaded(true); // Mark as uploaded
                   }}
                   onFileSelect={handleFileSelect} // Use the new handler
+
                   acceptedFileTypes={[".pdf", ".doc", ".docx"]}
                   maxFileSize={25}
                   label="Upload Resume"
@@ -1394,6 +1397,8 @@ export default function StudentApplicationPage() {
               </div>
             )}
           </div>
+
+
 
           {/* Submit Button */}
           <div className={styles.submitSection}>
