@@ -31,6 +31,8 @@ export default function StartupApplicationPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [currentFileUploaded, setCurrentFileUploaded] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -111,26 +113,37 @@ export default function StartupApplicationPage() {
 
       // Now handle file upload if needed
       if (selectedFile && !currentFileUploaded) {
-        // Use FormData instead of base64 for better performance
-        const uploadFormData = new FormData();
-        uploadFormData.append('file', selectedFile);
-        uploadFormData.append('fileName', selectedFile.name);
-        uploadFormData.append('fileType', selectedFile.type);
-        uploadFormData.append('folderName', `${formData.startupName} - ${formData.contactName}`); // Add folder name for organization
 
-        // Upload to Google Drive
-        const uploadResponse = await fetch("/api/apply-startup/upload-startup", {
-          method: "POST",
-          body: uploadFormData, // Use FormData instead of JSON
-        });
+        
+        try {
+          // Create FormData for upload
+          const uploadFormData = new FormData();
+          uploadFormData.append('file', selectedFile);
+          uploadFormData.append('fileName', selectedFile.name);
+          uploadFormData.append('fileType', selectedFile.type);
+          uploadFormData.append('folderName', `${formData.startupName} - ${formData.contactName}`);
+          
+          // Upload to Google Drive
+          const uploadResponse = await fetch("/api/apply-startup/upload-startup", {
+            method: "POST",
+            body: uploadFormData,
+          });
 
-        if (!uploadResponse.ok) {
-          throw new Error("File upload failed");
+          if (!uploadResponse.ok) {
+            throw new Error("File upload failed");
+          }
+
+          const uploadResult = await uploadResponse.json();
+          setFormData((prev) => ({ ...prev, pitchDeck: uploadResult.driveLink }));
+          setCurrentFileUploaded(true);
+          
+
+          
+        } catch (error) {
+          console.error('Upload error:', error);
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          throw new Error(`File upload failed: ${errorMessage}`);
         }
-
-        const uploadResult = await uploadResponse.json();
-        setFormData((prev) => ({ ...prev, pitchDeck: uploadResult.driveLink }));
-        setCurrentFileUploaded(true);
       }
 
       // Reset submission state
@@ -619,6 +632,7 @@ export default function StartupApplicationPage() {
                 setCurrentFileUploaded(true);
               }}
               onFileSelect={handleFileSelect}
+
               acceptedFileTypes={[".pdf"]}
               maxFileSize={25}
               label="Upload Pitch Deck"
@@ -630,6 +644,8 @@ export default function StartupApplicationPage() {
             {/* Hidden input for Google Forms submission */}
             {formData.pitchDeck && <input type="hidden" name="entry.639898116" value={formData.pitchDeck} />}
           </div>
+
+
 
           {/* Submit Button */}
           <div className={styles.submitSection}>
