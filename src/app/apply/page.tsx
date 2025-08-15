@@ -45,8 +45,45 @@ export default function StartupApplicationPage() {
     window.location.href = "/";
   };
 
+  // Function to check if all required fields are filled
+  const isFormValid = () => {
+    return (
+      formData.startupName.trim() !== "" &&
+      formData.contactName.trim() !== "" &&
+      formData.email.trim() !== "" &&
+      formData.startupDescription.trim() !== "" &&
+      formData.primaryProblem.trim() !== "" &&
+      formData.solution.trim() !== "" &&
+      formData.currentStage.trim() !== "" &&
+      formData.targetCustomers.trim() !== "" &&
+      formData.businessModel.trim() !== "" &&
+      formData.competitors.trim() !== "" &&
+      formData.team.trim() !== "" &&
+      formData.milestoneAchievements.trim() !== "" &&
+      formData.twelveMonthGoals.trim() !== "" &&
+      formData.studentRoles.trim() !== "" &&
+      (selectedFile || formData.pitchDeck) // Either a file is selected or already uploaded
+    );
+  };
+
   const handleFileSelect = (file: File | null) => {
     if (file) {
+      // Validate file size (25MB for pitch deck)
+      const maxSizeMB = 25;
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        alert(`File size must be less than ${maxSizeMB}MB`);
+        return;
+      }
+      
+      // Validate file type (PDF only for pitch deck)
+      const acceptedTypes = ['.pdf'];
+      const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+      if (!acceptedTypes.includes(fileExtension)) {
+        alert(`File type not supported. Accepted types: ${acceptedTypes.join(', ')}`);
+        return;
+      }
+      
+      // Clear any previous errors and set file
       setSelectedFile(file);
       setCurrentFileUploaded(false);
       setFormData((prev) => ({ ...prev, pitchDeck: "" }));
@@ -583,7 +620,7 @@ export default function StartupApplicationPage() {
               }}
               onFileSelect={handleFileSelect}
               acceptedFileTypes={[".pdf"]}
-              maxFileSize={50}
+              maxFileSize={25}
               label="Upload Pitch Deck"
               required={true}
               placeholder="Drag and drop your pitch deck here, or click to browse"
@@ -599,7 +636,7 @@ export default function StartupApplicationPage() {
             <button
               type="submit"
               className={styles.submitButton}
-              disabled={(!selectedFile && !formData.pitchDeck) || isSubmitting}
+              disabled={!isFormValid() || isSubmitting}
             >
               {isSubmitting ? (
                 <>
@@ -611,7 +648,17 @@ export default function StartupApplicationPage() {
               )}
             </button>
             <p className={styles.submitNote}>
-              Your form will be submitted first, then files will be uploaded to Google Drive.
+              {isSubmitting 
+                ? "Please wait while we submit your form and upload your file..."
+                : !isFormValid() 
+                  ? (
+                    <>
+                      Please fill in all required fields and upload your pitch deck to submit your application.<br />
+                      If you encounter any issues, please feel free to contact us.
+                    </>
+                  )
+                  : "Your form will be submitted first, then files will be uploaded to Google Drive."
+              }
               <br />
               Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>
             </p>
