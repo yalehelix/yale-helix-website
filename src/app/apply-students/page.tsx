@@ -48,13 +48,15 @@ export default function StudentApplicationPage() {
 
   const areaOptions = [
     { value: "softwareDev", label: "Software Development" },
-    { value: "ml", label: "Machine Learning / AI" },
+    { value: "ml", label: "ML / AI" },
     { value: "dataSci", label: "Data Science" },
+    { value: "ui-ux", label: "UI / UX" },
     { value: "finance", label: "Finance" },
-    { value: "biologicalSci", label: "Biological Sciences / Therapeutics" },
+    { value: "biologicalSci", label: "Biological Sciences" },
+    { value: "therapeutics", label: "Therapeutics" },
     { value: "clinicalResearch", label: "Clinical Research" },
     { value: "digitalHealth", label: "Digital Health" },
-    { value: "engineering", label: "Engineering / Product Design" },
+    { value: "productDesign", label: "Product Design" },
     { value: "marketing", label: "Marketing" },
     { value: "policy", label: "Policy" },
   ];
