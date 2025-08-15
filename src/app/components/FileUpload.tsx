@@ -5,22 +5,26 @@ import styles from "./FileUpload.module.css";
 
 interface FileUploadProps {
   onUploadComplete: (driveLink: string) => void;
-  onFileSelect?: (file: File | null) => void; // Allow null for file removal
+  onFileSelect?: (file: File | null) => void;
   acceptedFileTypes?: string[];
   maxFileSize?: number; // in MB
   label?: string;
   required?: boolean;
   placeholder?: string;
+  uploadEndpoint: string; // Make the endpoint configurable
+  autoUpload?: boolean; // Whether to upload immediately or wait for form submission
 }
 
 export default function FileUpload({
   onUploadComplete,
-  onFileSelect, // Add this prop
+  onFileSelect,
   acceptedFileTypes = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg"],
   maxFileSize = 10, // 10MB default
   label = "Upload File",
   required = false,
   placeholder = "Drag and drop a file here, or click to browse",
+  uploadEndpoint,
+  autoUpload = false,
 }: FileUploadProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -59,34 +63,27 @@ export default function FileUpload({
       }
 
       setSelectedFile(file);
-      onFileSelect?.(file); // Call the callback if provided
+      onFileSelect?.(file);
+
+      // Auto-upload if enabled
+      if (autoUpload) {
+        handleUpload(file);
+      }
     },
-    [validateFile, onFileSelect],
+    [validateFile, onFileSelect, autoUpload],
   );
 
   const uploadToGoogleDrive = async (file: File): Promise<string> => {
-    // Convert file to base64
-    const base64 = await new Promise<string>((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        const base64Data = result.split(",")[1];
-        resolve(base64Data);
-      };
-      reader.readAsDataURL(file);
-    });
+    // Use FormData instead of base64 for better performance
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', file.name);
+    formData.append('fileType', file.type);
 
-    // Upload to Google Apps Script
-    const response = await fetch("/api/startup-upload-drive", {
+    // Upload to the specified endpoint
+    const response = await fetch(uploadEndpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fileName: file.name,
-        fileType: file.type,
-        fileData: base64,
-      }),
+      body: formData, // Use FormData instead of JSON
     });
 
     if (!response.ok) {
@@ -97,8 +94,9 @@ export default function FileUpload({
     return result.driveLink;
   };
 
-  const handleUpload = async () => {
-    if (!selectedFile) return;
+  const handleUpload = async (file?: File) => {
+    const fileToUpload = file || selectedFile;
+    if (!fileToUpload) return;
 
     setIsUploading(true);
     setUploadProgress(0);
@@ -116,7 +114,7 @@ export default function FileUpload({
         });
       }, 200);
 
-      const link = await uploadToGoogleDrive(selectedFile);
+      const link = await uploadToGoogleDrive(fileToUpload);
 
       clearInterval(progressInterval);
       setUploadProgress(100);
@@ -175,6 +173,16 @@ export default function FileUpload({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
+  const clearFile = () => {
+    setSelectedFile(null);
+    setError("");
+    setDriveLink("");
+    onFileSelect?.(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   return (
     <div className={styles.uploadContainer}>
       <label className={styles.label}>
@@ -220,14 +228,7 @@ export default function FileUpload({
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                setSelectedFile(null);
-                setError("");
-                setDriveLink(""); // Also clear the drive link
-                onFileSelect?.(null); // Notify parent component
-                // Clear the file input value
-                if (fileInputRef.current) {
-                  fileInputRef.current.value = "";
-                }
+                clearFile();
               }}
               className={styles.removeButton}
             >
@@ -256,8 +257,6 @@ export default function FileUpload({
           </a>
         </div>
       )}
-
-      {/* Removed the "Upload to Google Drive" button since upload happens on form submission */}
     </div>
   );
-}
+} 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import FileUpload from "../components/startup-upload/FileUpload";
+import FileUpload from "../components/FileUpload";
 
 export default function StartupApplicationPage() {
   const router = useRouter();
@@ -41,11 +41,49 @@ export default function StartupApplicationPage() {
   };
 
   const handleReturnToMain = () => {
-    router.push("/");
+    // Use window.location to ensure full page reload for animations
+    window.location.href = "/";
+  };
+
+  // Function to check if all required fields are filled
+  const isFormValid = () => {
+    return (
+      formData.startupName.trim() !== "" &&
+      formData.contactName.trim() !== "" &&
+      formData.email.trim() !== "" &&
+      formData.startupDescription.trim() !== "" &&
+      formData.primaryProblem.trim() !== "" &&
+      formData.solution.trim() !== "" &&
+      formData.currentStage.trim() !== "" &&
+      formData.targetCustomers.trim() !== "" &&
+      formData.businessModel.trim() !== "" &&
+      formData.competitors.trim() !== "" &&
+      formData.team.trim() !== "" &&
+      formData.milestoneAchievements.trim() !== "" &&
+      formData.twelveMonthGoals.trim() !== "" &&
+      formData.studentRoles.trim() !== "" &&
+      (selectedFile || formData.pitchDeck) // Either a file is selected or already uploaded
+    );
   };
 
   const handleFileSelect = (file: File | null) => {
     if (file) {
+      // Validate file size (25MB for pitch deck)
+      const maxSizeMB = 25;
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        alert(`File size must be less than ${maxSizeMB}MB`);
+        return;
+      }
+      
+      // Validate file type (PDF only for pitch deck)
+      const acceptedTypes = ['.pdf'];
+      const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+      if (!acceptedTypes.includes(fileExtension)) {
+        alert(`File type not supported. Accepted types: ${acceptedTypes.join(', ')}`);
+        return;
+      }
+      
+      // Clear any previous errors and set file
       setSelectedFile(file);
       setCurrentFileUploaded(false);
       setFormData((prev) => ({ ...prev, pitchDeck: "" }));
@@ -62,30 +100,28 @@ export default function StartupApplicationPage() {
     setIsSubmitting(true);
 
     try {
-      // Check if file needs to be uploaded
+      // First, submit the Google form with the current form data
+      // If there's a file that needs to be uploaded, we'll use a placeholder for now
+      const pitchDeckForForm = selectedFile && !currentFileUploaded ? 
+        `File selected: ${selectedFile.name} (will be uploaded after form submission)` : 
+        formData.pitchDeck;
+
+      // Submit the Google form first
+      await submitFormToGoogle(pitchDeckForForm);
+
+      // Now handle file upload if needed
       if (selectedFile && !currentFileUploaded) {
-        // Convert file to base64
-        const base64 = await new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const result = reader.result as string;
-            const base64Data = result.split(",")[1];
-            resolve(base64Data);
-          };
-          reader.readAsDataURL(selectedFile);
-        });
+        // Use FormData instead of base64 for better performance
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', selectedFile);
+        uploadFormData.append('fileName', selectedFile.name);
+        uploadFormData.append('fileType', selectedFile.type);
+        uploadFormData.append('folderName', `${formData.startupName} - ${formData.contactName}`); // Add folder name for organization
 
         // Upload to Google Drive
-        const uploadResponse = await fetch("/api/startup-upload-drive", {
+        const uploadResponse = await fetch("/api/apply-startup/upload-startup", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            fileName: selectedFile.name,
-            fileType: selectedFile.type,
-            fileData: base64,
-          }),
+          body: uploadFormData, // Use FormData instead of JSON
         });
 
         if (!uploadResponse.ok) {
@@ -95,15 +131,17 @@ export default function StartupApplicationPage() {
         const uploadResult = await uploadResponse.json();
         setFormData((prev) => ({ ...prev, pitchDeck: uploadResult.driveLink }));
         setCurrentFileUploaded(true);
-
-        // Now submit the application with the uploaded file link
-        await submitApplicationToServer(uploadResult.driveLink);
-      } else {
-        // No file to upload, submit directly
-        await submitApplicationToServer(formData.pitchDeck);
       }
-    } catch (error) {
+
+      // Reset submission state
       setIsSubmitting(false);
+
+      // Redirect to success page
+      router.push("/apply/success");
+    } catch (error) {
+      console.error("Submission error:", error);
+      setIsSubmitting(false);
+      alert("There was an error submitting your application. Please try again.");
     }
   };
 
@@ -133,7 +171,7 @@ export default function StartupApplicationPage() {
       };
 
       // Submit to our server-side API
-      const response = await fetch("/api/submit-application", {
+      const response = await fetch("/api/apply-startup/submit-startup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -160,12 +198,16 @@ export default function StartupApplicationPage() {
   };
 
   const submitFormToGoogle = (pitchDeckLink: string) => {
-    // Fallback method: Create a temporary form to submit to Google Forms
+    // Submit Google form in the background using an iframe to prevent page redirect
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'google-form-submit';
+    
     const form = document.createElement("form");
     form.method = "POST";
     form.action = "https://docs.google.com/forms/d/e/1FAIpQLSeTs-mkFf0y6AVKzVyg2Qx8eG4azWX_oC3GGRsNNtMYsagExQ/formResponse";
-    form.target = "_blank";
-
+    form.target = 'google-form-submit'; // Target the hidden iframe
+    
     // Add all form fields
     const fields = [
       { name: "entry.171789341", value: formData.startupName },
@@ -199,17 +241,22 @@ export default function StartupApplicationPage() {
       }
     });
 
+    // Add iframe and form to DOM, submit, then clean up
+    document.body.appendChild(iframe);
     document.body.appendChild(form);
     form.submit();
-    document.body.removeChild(form);
-
-    // Reset submission state
-    setIsSubmitting(false);
-
-    // Redirect to success page after a short delay
+    
+    // Clean up after submission
     setTimeout(() => {
-      router.push("/apply/success");
+      if (document.body.contains(iframe)) {
+        document.body.removeChild(iframe);
+      }
+      if (document.body.contains(form)) {
+        document.body.removeChild(form);
+      }
     }, 1000);
+
+    // Note: Redirect is handled in the main function after file upload
   };
 
   return (
@@ -573,10 +620,12 @@ export default function StartupApplicationPage() {
               }}
               onFileSelect={handleFileSelect}
               acceptedFileTypes={[".pdf"]}
-              maxFileSize={50}
+              maxFileSize={25}
               label="Upload Pitch Deck"
               required={true}
               placeholder="Drag and drop your pitch deck here, or click to browse"
+              uploadEndpoint="/api/apply-startup/upload-startup"
+              autoUpload={false}
             />
             {/* Hidden input for Google Forms submission */}
             {formData.pitchDeck && <input type="hidden" name="entry.639898116" value={formData.pitchDeck} />}
@@ -587,18 +636,30 @@ export default function StartupApplicationPage() {
             <button
               type="submit"
               className={styles.submitButton}
-              disabled={(!selectedFile && !formData.pitchDeck) || isSubmitting}
+              disabled={!isFormValid() || isSubmitting}
             >
               {isSubmitting ? (
                 <>
                   <span className={styles.spinner}></span>
-                  {selectedFile && !currentFileUploaded ? "Uploading File..." : "Submitting Application..."}
+                  {selectedFile && !currentFileUploaded ? "Submitting Form & Uploading File..." : "Submitting Application..."}
                 </>
               ) : (
                 "Submit Application"
               )}
             </button>
             <p className={styles.submitNote}>
+              {isSubmitting 
+                ? "Please wait while we submit your form and upload your file..."
+                : !isFormValid() 
+                  ? (
+                    <>
+                      Please fill in all required fields and upload your pitch deck to submit your application.<br />
+                      If you encounter any issues, please feel free to contact us.
+                    </>
+                  )
+                  : "Your form will be submitted first, then files will be uploaded to Google Drive."
+              }
+              <br />
               Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>
             </p>
           </div>

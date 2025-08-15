@@ -11,7 +11,8 @@ export default function InterestForm() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleReturnToMain = () => {
-    router.push("/");
+    // Use window.location to ensure full page reload for animations
+    window.location.href = "/";
   };
 
   const [formData, setFormData] = useState({

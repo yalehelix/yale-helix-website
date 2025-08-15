@@ -463,6 +463,49 @@ document.addEventListener('DOMContentLoaded', () => {
       refreshPriority: -1
   });
 
+  // Sponsor cards animation
+  ScrollTrigger.batch(".sponsor-card", {
+      onEnter: (elements) => {
+          gsap.fromTo(elements, 
+              {
+                  opacity: 0,
+                  y: 30,
+                  scale: 0.95
+              },
+              {
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                  duration: 0.6,
+                  stagger: 0.1,
+                  ease: "power2.out",
+                  overwrite: true
+              }
+          );
+      },
+      start: "top 90%",
+      refreshPriority: -1
+  });
+
+  // Sponsors header animation
+  gsap.fromTo(".sponsors-header", 
+      {
+          opacity: 0,
+          y: 30
+      },
+      {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+              trigger: ".sponsors-section",
+              start: "top 80%",
+              once: true
+          }
+      }
+  );
+
   // Hexagon animations
   gsap.fromTo(".hexagon", 
       {
@@ -511,7 +554,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
           e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
+          const href = this.getAttribute('href');
+          
+          // Handle home link (scroll to top)
+          if (href === '#') {
+              window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+              });
+              return;
+          }
+          
+          const target = document.querySelector(href);
           if (target) {
               target.scrollIntoView({
                   behavior: 'smooth',

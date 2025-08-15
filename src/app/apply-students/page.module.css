@@ -1,149 +1,28 @@
-/* Container (yours, with a couple additions) */
-.placeholderPage {
+/* Application Page Styles */
+.applicationPage {
   background: #000000;
+  min-height: 100vh;
+  padding: 0;
   position: relative;
   overflow: hidden;
-
-  /* Full-viewport height with modern unit */
-  min-height: 100vh; /* fallback */
-  min-height: 100dvh; /* correct on mobile with dynamic UI */
-
-  /* A little breathing room for safe areas */
-  padding: max(env(safe-area-inset-top), 24px) 16px max(env(safe-area-inset-bottom), 24px);
-
-  /* Ensure the ::before stays behind content */
-  isolation: isolate;
 }
 
-.placeholderPage::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(66, 104, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(66, 104, 255, 0.1) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0; /* behind content */
-}
-
-/* Content wrapper */
-.content {
-  z-index: 1; /* above the ::before */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  gap: 4rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Center block */
-.hero {
-  text-align: center;
-  max-width: 70ch; /* comfortable line length */
-  margin: 0 auto;
-  animation: fadeInUp 0.6s ease-out;
-}
-
-/* Big header */
-.title {
-  color: #fff;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  margin: 0 0 0.5rem 0;
-
-  /* Responsive size: min 36px, max 72px, scales with viewport */
-  font-size: clamp(3.25rem, 7vw, 4.5rem);
-
-  /* Optional: nicer wrapping on multi-line headings (safe to omit) */
-  text-wrap: balance;
-}
-
-/* Smaller supporting text */
-.subtitle {
-  color: rgba(255, 255, 255, 0.78);
-  line-height: 1.6;
-  margin: 0 auto;
-
-  /* min 16px, max ~22px */
-  font-size: clamp(1rem, 1.2vw + 0.6rem, 1.375rem);
-
-  /* keep it from stretching too wide relative to the heading */
-  max-width: 60ch;
-}
-
-/* Interest Section */
-.interestSection {
-  width: 100%;
-  max-width: 600px;
-  animation: fadeInUp 0.6s ease-out 0.3s both;
-}
-
-.interestCard {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  padding: 3rem;
-  text-align: center;
-  position: relative;
-}
-
-.interestCard::before {
+.applicationPage::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #4268ff, #667eea);
-  border-radius: 24px 24px 0 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(66, 104, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(66, 104, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
-.interestTitle {
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 1rem;
-  letter-spacing: -0.01em;
-}
-
-.interestText {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin-bottom: 2rem;
-  font-size: clamp(1rem, 1.1vw + 0.5rem, 1.125rem);
-}
-
-.interestButton {
-  background: linear-gradient(135deg, #4268ff, #667eea);
-  border: none;
-  border-radius: 12px;
-  padding: 1rem 2rem;
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #ffffff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  box-shadow: 0 8px 32px rgba(66, 104, 255, 0.3);
-}
-
-.interestButton:hover {
-  background: linear-gradient(135deg, #3557e6, #5a6fd8);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(66, 104, 255, 0.4);
-}
-
-.interestButton:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 20px rgba(66, 104, 255, 0.3);
+.applicationContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* Header Navigation */
@@ -158,7 +37,6 @@
   gap: 0.75rem; /* spacing if you add more nav items */
 }
 
-/* Your button styles (unchanged, with a focus style added for accessibility) */
 .returnButton {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -187,9 +65,961 @@
   transform: translateX(-2px);
 }
 
-.returnButton:focus-visible {
-  outline: 2px solid rgba(66, 104, 255, 0.9);
-  outline-offset: 3px;
+/* Header Styles */
+.applicationHeader {
+  text-align: center;
+  margin-bottom: 6rem;
+}
+
+.smallText {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.mainHeader {
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.subHeader {
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4268ff;
+  margin-bottom: 2rem;
+  letter-spacing: -0.01em;
+}
+
+.headerDescription {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Work Document Notice Styles */
+.workDocumentNotice {
+  background: linear-gradient(135deg, rgba(66, 104, 255, 0.1), rgba(102, 126, 234, 0.1));
+  border: 1px solid rgba(66, 104, 255, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+
+.workDocumentNotice::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4268ff, #667eea);
+  border-radius: 20px 20px 0 0;
+}
+
+.workDocumentIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.workDocumentContent {
+  flex: 1;
+}
+
+.workDocumentTitle {
+  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.workDocumentText {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.workDocumentLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #4268ff, #667eea);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(66, 104, 255, 0.3);
+}
+
+.workDocumentLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(66, 104, 255, 0.4);
+  background: linear-gradient(135deg, #5a7cff, #7a8ff0);
+}
+
+/* Warning Text Style */
+.warningText {
+  color: #ffc107;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Form Styles */
+.applicationForm {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.formSection {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 3rem;
+  position: relative;
+}
+
+.formSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4268ff, #667eea);
+  border-radius: 24px 24px 0 0;
+}
+
+.sectionHeader {
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.sectionLine {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #4268ff, #667eea);
+  border-radius: 2px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.required {
+  color: #4268ff;
+}
+
+.optional {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+/* Input Styles */
+.input,
+.textarea,
+.select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: #4268ff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(66, 104, 255, 0.1);
+}
+
+.input:hover,
+.textarea:hover,
+.select:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.5;
+}
+
+.select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 3rem;
+}
+
+.select option {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+/* File Upload Styles */
+.fileUploadContainer {
+  position: relative;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.fileUploadContainer:hover {
+  border-color: rgba(66, 104, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.fileInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.fileUploadInfo {
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fileUploadText {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.fileUploadSubtext {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+.uploadIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+/* Error Message Styles */
+.error {
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* File Info Display Styles (matching resume upload) */
+.fileInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fileIcon {
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.fileDetails {
+  flex: 1;
+}
+
+.fileName {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 0.25rem 0;
+  word-break: break-word;
+}
+
+.fileSize {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+/* Remove File Button Styles */
+.removeFileButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.removeFileButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* Radio Button Styles */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.radioOption:hover {
+  border-color: rgba(66, 104, 255, 0.3);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.radioInput {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: #4268ff;
+  cursor: pointer;
+}
+
+.radioLabel {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Normal Text Section */
+.normalText {
+  text-align: left;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  margin-bottom: 1rem;
+}
+
+.normalText {
+  text-align: left;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+  letter-spacing: 0.025em;
+  margin-bottom: 0.75rem;
+}
+
+.normalTextItalic {
+  text-align: left;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+.normalTextBold {
+  text-align: left;
+  color: rgba(255, 255, 255);
+  font-size: 1rem;
+  letter-spacing: 0.025em;
+  font-weight: bold;
+}
+
+.normalTextHeader {
+  text-align: left;
+  color: rgba(255, 255, 255);
+  font-size: 1.25rem;
+  letter-spacing: 0.025em;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.normalText p {
+  margin-bottom: 0; /* no space after the paragraph */
+}
+
+.normalText p + ul {
+  margin-top: 0.25rem; /* tiny space before the list (set to 0 if you want none) */
+  padding-left: 1.25rem; /* typical bullet indent */
+}
+
+.normalText ul {
+  list-style-type: disc; /* Show bullet points */
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.normalText li {
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+.normalText li + li {
+  margin-top: 0.25rem; /* spacing between bullets */
+}
+
+/* Specific styling for the list class used in Option 3 */
+.list {
+  list-style-type: disc;
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.list li {
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+.spacer {
+  height: 1.5rem;
+}
+.spacerSmall {
+  display: inline-block;
+  height: 0.5rem;
+}
+.spacerLarge {
+  height: 3rem;
+}
+
+.link {
+  color: #3b82f6;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+/* Submit Section */
+.submitSection {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #4268ff, #667eea);
+  border: none;
+  border-radius: 12px;
+  padding: 1.25rem 3rem;
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(66, 104, 255, 0.3);
+}
+
+.submitButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3557e6, #5a6fd8);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(66, 104, 255, 0.4);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 20px rgba(66, 104, 255, 0.3);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submitNote {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.submitNote a {
+  color: #4268ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.submitNote a:hover {
+  color: #667eea;
+  text-decoration: underline;
+}
+
+/* Spinner Animation for Submit Button */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Confirmation Page Styles */
+.confirmationContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.confirmationHeader {
+  margin-bottom: 4rem;
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4268ff, #667eea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: #ffffff;
+  margin: 0 auto 2rem;
+  font-weight: bold;
+}
+
+.confirmationTitle {
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.confirmationSubtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0;
+}
+
+.confirmationContent {
+  margin-bottom: 4rem;
+}
+
+.confirmationSection {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+  position: relative;
+}
+
+.confirmationSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4268ff, #667eea);
+  border-radius: 20px 20px 0 0;
+}
+
+.confirmationSectionTitle {
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.confirmationText {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.emailLink {
+  color: #4268ff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.emailLink:hover {
+  color: #667eea;
+  text-decoration: underline;
+}
+
+/* Next Steps */
+.nextSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.stepNumber {
+  background: linear-gradient(135deg, #4268ff, #667eea);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.stepContent h4 {
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.stepContent p {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Social Links */
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+
+.socialLink {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.socialLink:hover {
+  background: rgba(66, 104, 255, 0.1);
+  border-color: #4268ff;
+  color: #ffffff;
+}
+
+/* Confirmation Actions */
+.confirmationActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #4268ff, #667eea);
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(66, 104, 255, 0.3);
+}
+
+.primaryButton:hover {
+  background: linear-gradient(135deg, #3557e6, #5a6fd8);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(66, 104, 255, 0.4);
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-family:
+    "Space Grotesk",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(66, 104, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .formGroup:nth-child(odd):last-child {
+    grid-column: 1 / -1;
+  }
+
+  .socialLinks {
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .applicationPage {
+    padding: 6rem 2rem;
+  }
+
+  .mainHeader {
+    font-size: 4rem;
+  }
+
+  .formSection {
+    padding: 4rem;
+  }
+
+  .confirmationSection {
+    padding: 3rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .applicationPage {
+    padding: 2rem 1rem;
+  }
+
+  .mainHeader {
+    font-size: 2.5rem;
+  }
+
+  .subHeader {
+    font-size: 1.25rem;
+  }
+
+  .headerDescription {
+    font-size: 1rem;
+  }
+
+  .formSection {
+    padding: 2rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+
+  .submitButton {
+    padding: 1rem 2rem;
+    width: 100%;
+  }
+
+  .confirmationTitle {
+    font-size: 2rem;
+  }
+
+  .confirmationSection {
+    padding: 2rem;
+  }
+
+  .confirmationActions {
+    flex-direction: column;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+
+  .socialLinks {
+    justify-content: center;
+  }
+
+  .nextSteps {
+    gap: 1rem;
+  }
+
+  .step {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .stepNumber {
+    align-self: center;
+  }
+}
+
+/* Loading and Animation States */
+.formSection,
+.confirmationSection {
+  animation: fadeInUp 0.6s ease-out;
 }
 
 @keyframes fadeInUp {
@@ -203,37 +1033,463 @@
   }
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .content {
-    gap: 3rem;
-    padding: 2rem 1rem;
+/* Focus management for accessibility */
+.input:focus-visible,
+.textarea:focus-visible,
+.select:focus-visible,
+.submitButton:focus-visible,
+.returnButton:focus-visible,
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible {
+  outline: 2px solid #4268ff;
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar for textareas */
+.textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.textarea::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+  background: rgba(66, 104, 255, 0.6);
+  border-radius: 3px;
+}
+
+.textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(66, 104, 255, 0.8);
+}
+
+
+
+/* Custom Dropdown Styles */
+.dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdownOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .interestCard {
-    padding: 2rem;
-  }
-  
-  .interestButton {
-    width: 100%;
-    max-width: 300px;
+  to {
+    opacity: 1;
   }
 }
 
-@media (max-width: 480px) {
-  .content {
-    gap: 2rem;
+.dropdownButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: all 0.3s ease;
+  outline: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdownButton:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.dropdownButton:focus {
+  border-color: #4268ff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(66, 104, 255, 0.1);
+}
+
+.dropdownArrow {
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dropdownContent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1a1a1a;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  max-height: 70vh;
+  width: 90vw;
+  max-width: 600px;
+  overflow-y: auto;
+  z-index: 9999;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+}
+
+.dropdownOption {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dropdownOption:last-child {
+  border-bottom: none;
+}
+
+.dropdownOption:hover {
+  background: rgba(66, 104, 255, 0.1);
+}
+
+.dropdownOption.selected {
+  background: rgba(66, 104, 255, 0.15);
+}
+
+.optionLabel {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.checkmark {
+  color: #4268ff;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.dropdownHeader {
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdownTitle {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Selected Areas Display */
+.selectedAreas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.areaCard {
+  background: linear-gradient(135deg, #4268ff, #667eea);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.areaLabel {
+  color: #ffffff;
+}
+
+.removeArea {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+  .removeArea:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
   }
-  
-  .interestCard {
+
+  /* Long Form Options Overview */
+  .optionsOverview {
+    margin-bottom: 2rem;
+  }
+
+  .optionDescription {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Choice Cards for Long Form Options */
+  .choiceCards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .choiceCard {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
     padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
   }
-  
-  .interestTitle {
-    font-size: 1.5rem;
+
+  .choiceCard:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(66, 104, 255, 0.3);
+    transform: translateY(-2px);
   }
-  
-  .interestText {
+
+  .choiceCardSelected {
+    background: rgba(66, 104, 255, 0.1);
+    border-color: rgba(66, 104, 255, 0.6);
+    box-shadow: 0 0 20px rgba(66, 104, 255, 0.2);
+  }
+
+  .choiceCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .choiceCardTitle {
+    color: #ffffff;
     font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    flex: 1;
   }
+
+  .choiceCardCheckmark {
+    color: #4268ff;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Clickable Option Descriptions */
+  .clickableOption {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .clickableOption:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(66, 104, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .optionSelected {
+    background: rgba(66, 104, 255, 0.1);
+    border-color: rgba(66, 104, 255, 0.6);
+    box-shadow: 0 0 20px rgba(66, 104, 255, 0.2);
+  }
+
+  .optionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .optionCheckmark {
+    color: #4268ff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    animation: fadeIn 0.3s ease-out;
+    flex-shrink: 0;
+  }
+
+  /* Long Form Option Content */
+  .optionContent {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 1.5rem;
+    animation: fadeInUp 0.4s ease-out;
+  }
+
+  /* Submission Area - Different from Option Cards */
+  .submissionArea {
+    background: linear-gradient(135deg, rgba(66, 104, 255, 0.05), rgba(102, 126, 234, 0.05));
+    border: 2px solid rgba(66, 104, 255, 0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    margin-top: 3rem;
+    animation: fadeInUp 0.4s ease-out;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submissionArea::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4268ff, #667eea);
+  }
+
+  .submissionHeader {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(66, 104, 255, 0.2);
+  }
+
+  .submissionTitle {
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    background: linear-gradient(135deg, #4268ff, #667eea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .submissionSubtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Enhanced spacing for form groups in submission area */
+  .submissionArea .formGroup {
+    margin-bottom: 2.5rem;
+  }
+
+  .submissionArea .formGroup:last-child {
+    margin-bottom: 0;
+  }
+
+  .submissionArea .label {
+    margin-bottom: 1rem;
+  }
+
+  .submissionArea .input,
+  .submissionArea .textarea {
+    margin-bottom: 0.5rem;
+  }
+
+  .charCount {
+    text-align: right;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.5rem;
+  }
+
+  .wordCount {
+    text-align: right;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.5rem;
+  }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dropdown Scrollbar */
+.dropdownContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdownContent::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.dropdownContent::-webkit-scrollbar-thumb {
+  background: rgba(66, 104, 255, 0.6);
+  border-radius: 3px;
+}
+
+.dropdownContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(66, 104, 255, 0.8);
 }

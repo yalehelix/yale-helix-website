@@ -266,7 +266,7 @@ body {
   font-weight: 300;
   color: var(--text-light);
   letter-spacing: -0.02em;
-  text-align: left;
+  text-align: center;
 }
 
 .features-text-line.line-2 span {
@@ -285,7 +285,7 @@ body {
   font-weight: 300;
   color: var(--text-light);
   letter-spacing: -0.01em;
-  text-align: right;
+  text-align: center;
 }
 
 .features-text-line.line-4 span {
@@ -764,23 +764,65 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Main team section - 4-wide grid */
+#team .team-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 1400px;
+}
+
+/* Responsive breakpoints for main team section */
+@media (max-width: 1200px) {
+  #team .team-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  #team .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  #team .team-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Advisory board - keep original responsive grid */
+#advisory .team-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
 }
 
 .team-member {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
   transform: translateY(40px);
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
 .team-member:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  border-color: rgba(66, 104, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  border-color: rgba(66, 104, 255, 0.2);
+  will-change: transform;
 }
 
 .member-image {
@@ -795,10 +837,13 @@ body {
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
 .team-member:hover .member-image img {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .social-links {
@@ -813,10 +858,14 @@ body {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
 .team-member:hover .social-links {
   transform: translateY(0);
+  opacity: 1;
 }
 
 .social-links a {
@@ -868,6 +917,161 @@ body {
   font-size: 3rem;
   color: rgba(255, 255, 255, 0.7);
   font-weight: 600;
+}
+
+/* Sponsors Section */
+.sponsors-section {
+  background: var(--background-dark);
+  padding: 8rem 2rem;
+  position: relative;
+  z-index: 5;
+}
+
+.sponsors-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sponsors-header {
+  text-align: center;
+  margin-bottom: 6rem;
+}
+
+.sponsors-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 1rem 0;
+}
+
+.sponsors-subtitle {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.sponsors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sponsor-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.sponsor-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border-color: rgba(66, 104, 255, 0.3);
+  will-change: transform;
+}
+
+.sponsor-logo {
+  position: relative;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #001fa8 0%, #91a5ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.sponsor-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1.5rem;
+}
+
+.sponsor-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+.sponsor-info {
+  padding: 2rem;
+  text-align: center;
+}
+
+.sponsor-name {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.01em;
+}
+
+.sponsor-category {
+  color: var(--primary-blue);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.sponsor-category.corporate-partner {
+  color: #dc3545;
+}
+
+.sponsor-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Coming Soon Cards */
+.sponsor-card.coming-soon {
+  opacity: 0.7;
+  filter: grayscale(0.3);
+}
+
+.sponsor-card.coming-soon:hover {
+  opacity: 0.8;
+  filter: grayscale(0.1);
+  transform: translateY(-4px);
+}
+
+.sponsor-card.coming-soon .sponsor-logo {
+  background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);
+}
+
+.sponsor-card.coming-soon .sponsor-placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.sponsor-card.coming-soon .sponsor-category {
+  color: #ffc107;
+}
+
+.sponsor-card.coming-soon .sponsor-name {
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
 }
 
 /* Loading indicator */
@@ -954,6 +1158,16 @@ body {
 
   .team-section {
     padding: 4rem 1rem;
+  }
+
+  .sponsors-section {
+    padding: 4rem 1rem;
+  }
+
+  .sponsors-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: none;
   }
 
   .content-section {
