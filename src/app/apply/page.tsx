@@ -63,7 +63,16 @@ export default function StartupApplicationPage() {
     setIsSubmitting(true);
 
     try {
-      // Check if file needs to be uploaded
+      // First, submit the Google form with the current form data
+      // If there's a file that needs to be uploaded, we'll use a placeholder for now
+      const pitchDeckForForm = selectedFile && !currentFileUploaded ? 
+        `File selected: ${selectedFile.name} (will be uploaded after form submission)` : 
+        formData.pitchDeck;
+
+      // Submit the Google form first
+      await submitFormToGoogle(pitchDeckForForm);
+
+      // Now handle file upload if needed
       if (selectedFile && !currentFileUploaded) {
         // Use FormData instead of base64 for better performance
         const uploadFormData = new FormData();
@@ -85,15 +94,17 @@ export default function StartupApplicationPage() {
         const uploadResult = await uploadResponse.json();
         setFormData((prev) => ({ ...prev, pitchDeck: uploadResult.driveLink }));
         setCurrentFileUploaded(true);
-
-        // Now submit the application with the uploaded file link
-        await submitApplicationToServer(uploadResult.driveLink);
-      } else {
-        // No file to upload, submit directly
-        await submitApplicationToServer(formData.pitchDeck);
       }
-    } catch (error) {
+
+      // Reset submission state
       setIsSubmitting(false);
+
+      // Redirect to success page
+      router.push("/apply/success");
+    } catch (error) {
+      console.error("Submission error:", error);
+      setIsSubmitting(false);
+      alert("There was an error submitting your application. Please try again.");
     }
   };
 
@@ -150,12 +161,16 @@ export default function StartupApplicationPage() {
   };
 
   const submitFormToGoogle = (pitchDeckLink: string) => {
-    // Fallback method: Create a temporary form to submit to Google Forms
+    // Submit Google form in the background using an iframe to prevent page redirect
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'google-form-submit';
+    
     const form = document.createElement("form");
     form.method = "POST";
     form.action = "https://docs.google.com/forms/d/e/1FAIpQLSeTs-mkFf0y6AVKzVyg2Qx8eG4azWX_oC3GGRsNNtMYsagExQ/formResponse";
-    form.target = "_blank";
-
+    form.target = 'google-form-submit'; // Target the hidden iframe
+    
     // Add all form fields
     const fields = [
       { name: "entry.171789341", value: formData.startupName },
@@ -189,17 +204,22 @@ export default function StartupApplicationPage() {
       }
     });
 
+    // Add iframe and form to DOM, submit, then clean up
+    document.body.appendChild(iframe);
     document.body.appendChild(form);
     form.submit();
-    document.body.removeChild(form);
-
-    // Reset submission state
-    setIsSubmitting(false);
-
-    // Redirect to success page after a short delay
+    
+    // Clean up after submission
     setTimeout(() => {
-      router.push("/apply/success");
+      if (document.body.contains(iframe)) {
+        document.body.removeChild(iframe);
+      }
+      if (document.body.contains(form)) {
+        document.body.removeChild(form);
+      }
     }, 1000);
+
+    // Note: Redirect is handled in the main function after file upload
   };
 
   return (
@@ -584,13 +604,15 @@ export default function StartupApplicationPage() {
               {isSubmitting ? (
                 <>
                   <span className={styles.spinner}></span>
-                  {selectedFile && !currentFileUploaded ? "Uploading File & Submitting..." : "Submitting Application..."}
+                  {selectedFile && !currentFileUploaded ? "Submitting Form & Uploading File..." : "Submitting Application..."}
                 </>
               ) : (
                 "Submit Application"
               )}
             </button>
             <p className={styles.submitNote}>
+              Your form will be submitted first, then files will be uploaded to Google Drive.
+              <br />
               Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>
             </p>
           </div>

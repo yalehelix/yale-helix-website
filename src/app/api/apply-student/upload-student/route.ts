@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Google Apps Script Web App URL - you'll need to replace this with your actual Apps Script URL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-I9cNUbsX_1P2uJhOzGseeOfRJo5mXV1TWukN4HyNZMf42e3-FjbEnDjpkNxrUXIv/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzm4zL7OuSGyfq06jJVCv9m1Bp9SDaZ_DgdPKLg20U63ZR7zoV171cXxuF56ITFzWk/exec';
 
 export async function POST(request: NextRequest) {
   try {

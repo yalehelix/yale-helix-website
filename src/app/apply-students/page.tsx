@@ -261,7 +261,16 @@ export default function StudentApplicationPage() {
         }
       }
       
-      // Upload all files using batch upload for better organization
+      // First, submit the Google form with the current form data
+      // If there are files that need to be uploaded, we'll use placeholders for now
+      const resumeForForm = selectedFile && !currentFileUploaded ? 
+        `File selected: ${selectedFile.name} (will be uploaded after form submission)` : 
+        formData.resume;
+
+      // Submit the Google form first
+      await submitFormToGoogle(resumeForForm);
+      
+      // Now handle file uploads if needed
       if (filesToUpload.length > 0) {
         // Convert files to base64 for batch upload (required by Google Apps Script)
         const filesForBatch = await Promise.all(filesToUpload.map(async (fileData) => {
@@ -315,9 +324,13 @@ export default function StudentApplicationPage() {
         setCurrentFileUploaded(true);
       }
       
-      // Submit the application with the resume link
-      const resumeLink = formData.resume || (selectedFile ? 'Resume uploaded successfully' : '');
-      await submitApplicationToServer(resumeLink);
+      // Reset upload state
+      setIsUploading(false);
+      setSelectedFile(null);
+      setCurrentFileUploaded(false);
+
+      // Redirect to success page
+      router.push("/apply-students/success");
       
     } catch (error) {
       console.error("Upload error:", error);
@@ -393,11 +406,15 @@ export default function StudentApplicationPage() {
   };
 
   const submitFormToGoogle = (resumeLink: string) => {
-    // Create a temporary form to submit to Google Forms
+    // Submit Google form in the background using an iframe to prevent page redirect
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'google-form-submit';
+    
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSfJL1qgGgfl31AFpVn_M8NZBuRePz6XrmWoQjlUqHA024It8g/formResponse';
-    // Removed target="_blank" to avoid pop-up blockers - form will submit in same window
+    form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSfdTJtXgf4mvOT7HwGJsfEKkoiOFXDrIbHvdJ915VNr5xPElg/formResponse';
+    form.target = 'google-form-submit'; // Target the hidden iframe
     
     // Prepare long form data based on selected option
     let longFormData = '';
@@ -420,7 +437,7 @@ export default function StudentApplicationPage() {
         { name: 'entry.673409248', value: formData.email },
         { name: 'entry.1720462299', value: formData.classYear },
         { name: 'entry.1837266616', value: formData.intendedMajor },
-        { name: 'entry.1907843651', value: formData.linkedin },
+        { name: 'entry.291308032', value: formData.linkedin },
         { name: 'entry.535815391', value: resumeLink },
         { name: 'entry.2107500991', value: formData.whyHelix },
         { name: 'entry.1678797299', value: formData.building },
@@ -451,22 +468,29 @@ export default function StudentApplicationPage() {
         }
     });
 
-    // Submit the form in the same window (no pop-up blockers)
+    // Add iframe and form to DOM, submit, then clean up
+    document.body.appendChild(iframe);
     document.body.appendChild(form);
     form.submit();
-    document.body.removeChild(form);
     
-    // Reset upload state
-    setIsUploading(false);
-    setSelectedFile(null);
-    setCurrentFileUploaded(false);
+    // Clean up after submission
+    setTimeout(() => {
+      if (document.body.contains(iframe)) {
+        document.body.removeChild(iframe);
+      }
+      if (document.body.contains(form)) {
+        document.body.removeChild(form);
+      }
+    }, 1000);
+    
+    // Note: Redirect and state reset are handled in the main function after file upload
   };
 
   // Handler for when a new file is selected
   const handleFileSelect = (file: File | null) => {
     if (file) {
       // Validate file size (10MB for resume)
-      const maxSizeMB = 10;
+      const maxSizeMB = 25;
       if (file.size > maxSizeMB * 1024 * 1024) {
         setResumeError(`File size must be less than ${maxSizeMB}MB`);
         return;
@@ -509,6 +533,27 @@ export default function StudentApplicationPage() {
             Each Fall, we carefully select the most promising startups in various health-focused fields, each at a unique stage of development, to join our incubator. Our passionate and driven
             students play a pivotal role in helping these startups reach critical milestones and accelerate their growth. If that is you, apply today!
           </p>
+        </div>
+
+        {/* Pre-submission Work Document Notice */}
+        <div className={styles.workDocumentNotice}>
+          <div className={styles.workDocumentIcon}></div>
+          <div className={styles.workDocumentContent}>
+            <h3 className={styles.workDocumentTitle}>Prepare Your Responses</h3>
+            <p className={styles.workDocumentText}>
+              This Google Doc contains the essay and long-form questions for our application. 
+              While official applications will be submitted through the form below, we highly recommend making a copy of this Google Doc to work on your application responses in order to keep track of your responses.
+            </p>
+            <p className={styles.warningText}>⚠️ This form WILL NOT save your responses if you exit the page.</p>
+            <a 
+              href="https://docs.google.com/document/d/18Tr6BCcLwCHfrUNKvFeskd4Ut2mJKjgmn54dA6-Swks/edit?usp=sharing" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={styles.workDocumentLink}
+            >
+              Open Application Google Doc →
+            </a>
+          </div>
         </div>
 
         {/* Application Form - Using controlled submission */}
@@ -751,13 +796,13 @@ export default function StudentApplicationPage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="entry.1907843651" className={styles.label}>
+                <label htmlFor="entry.291308032" className={styles.label}>
                   LinkedIn Profile
                 </label>
                 <input
                   type="url"
-                  id="entry.1907843651"
-                  name="entry.1907843651"
+                  id="entry.291308032"
+                  name="entry.291308032"
                   value={formData.linkedin}
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -778,7 +823,7 @@ export default function StudentApplicationPage() {
                   }}
                   onFileSelect={handleFileSelect} // Use the new handler
                   acceptedFileTypes={[".pdf", ".doc", ".docx"]}
-                  maxFileSize={10}
+                  maxFileSize={25}
                   label="Upload Resume"
                   placeholder="Click here to upload your resume"
                   uploadEndpoint="/api/apply-student/upload-student"
@@ -880,7 +925,7 @@ export default function StudentApplicationPage() {
 
             {/* Explanation */}
             <div className={styles.normalTextItalic}>
-              Applicants are invited to select one of the following prompts to showcase their skills and creativity. Please submit your response in the requested format by the application deadline.
+              Applicants are invited to select one of the following prompts to showcase their skills and creativity. Please submit your response in the requested format.
             </div>
 
             <div className={styles.spacer}></div>
@@ -1069,7 +1114,7 @@ export default function StudentApplicationPage() {
                                 const file = e.target.files?.[0];
                                 if (file) {
                                   // Validate file size (10MB for portfolio)
-                                  const maxSizeMB = 10;
+                                  const maxSizeMB = 25;
                                   if (file.size > maxSizeMB * 1024 * 1024) {
                                     setLongFormError(`File size must be less than ${maxSizeMB}MB`);
                                     return;
@@ -1102,7 +1147,7 @@ export default function StudentApplicationPage() {
                                 Click to upload PDF or drag and drop
                               </div>
                               <div className={styles.fileUploadSubtext}>
-                                Maximum file size: 10MB
+                                Maximum file size:  25MB
                               </div>
                             </div>
                           ) : (
@@ -1169,7 +1214,7 @@ export default function StudentApplicationPage() {
                               const file = e.target.files?.[0];
                               if (file) {
                                 // Validate file size (10MB for graphical abstract)
-                                const maxSizeMB = 10;
+                                const maxSizeMB = 25;
                                 if (file.size > maxSizeMB * 1024 * 1024) {
                                   setLongFormError(`File size must be less than ${maxSizeMB}MB`);
                                   return;
@@ -1203,7 +1248,7 @@ export default function StudentApplicationPage() {
                               Click to upload PDF, PNG, or JPG
                             </div>
                             <div className={styles.fileUploadSubtext}>
-                              Maximum file size: 10MB
+                              Maximum file size: 25MB
                             </div>
                           </div>
                         ) : (
@@ -1266,7 +1311,7 @@ export default function StudentApplicationPage() {
                                 const file = e.target.files?.[0];
                                 if (file) {
                                   // Validate file size (10MB for slide deck)
-                                  const maxSizeMB = 10;
+                                  const maxSizeMB = 25;
                                   if (file.size > maxSizeMB * 1024 * 1024) {
                                     setLongFormError(`File size must be less than ${maxSizeMB}MB`);
                                     return;
@@ -1297,7 +1342,7 @@ export default function StudentApplicationPage() {
                               Click to upload PDF slide deck
                             </div>
                             <div className={styles.fileUploadSubtext}>
-                              Maximum file size: 10MB
+                              Maximum file size: 25MB
                             </div>
                           </div>
                         ) : (
@@ -1358,7 +1403,7 @@ export default function StudentApplicationPage() {
               {isUploading ? (
                 <>
                   <span className={styles.spinner}></span>
-                  Uploading Files & Submitting...
+                  Submitting Form & Uploading Files...
                 </>
               ) : (
                 <>
@@ -1368,10 +1413,15 @@ export default function StudentApplicationPage() {
             </button>
             <p className={styles.submitNote}>
               {isUploading 
-                ? "Please wait while we upload your files and submit your application..."
+                ? "Please wait while we submit your form and upload your files..."
                 : !isFormValid() 
-                  ? "Please fill in all required fields and complete your long-form submission to submit your application."
-                  : "Your files will be uploaded to Google Drive when you submit your application."
+                  ? (
+                    <>
+                      Please fill in all required fields and complete your long-form submission to submit your application.<br />
+                      If you encounter any issues, please feel free to contact us at.
+                    </>
+                  )
+                  : "Your form will be submitted first, then files will be uploaded to Google Drive."
               }
               <br />
               Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>

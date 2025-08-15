@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       { name: "entry.673409248", value: data.email || "" },
       { name: "entry.1720462299", value: data.classYear || "" },
       { name: "entry.1837266616", value: data.intendedMajor || "" },
-      { name: "entry.1907843651", value: data.linkedin || "" },
+      { name: "entry.291308032", value: data.linkedin || "" },
       { name: "entry.535815391", value: data.resume || "" },
       { name: "entry.2107500991", value: data.whyHelix || "" },
       { name: "entry.1678797299", value: data.building || "" },
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
     // Submit to Google Forms
     const googleFormsUrl =
-      "https://docs.google.com/forms/d/e/1FAIpQLSfJL1qgGgfl31AFpVn_M8NZBuRePz6XrmWoQjlUqHA024It8g/formResponse";
+      "https://docs.google.com/forms/d/e/1FAIpQLSfdTJtXgf4mvOT7HwGJsfEKkoiOFXDrIbHvdJ915VNr5xPElg/formResponse";
 
     const response = await fetch(googleFormsUrl, {
       method: "POST",
