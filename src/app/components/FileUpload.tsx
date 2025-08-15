@@ -52,27 +52,6 @@ export default function FileUpload({
     [maxFileSize, acceptedFileTypes],
   );
 
-  const handleFileSelect = useCallback(
-    (file: File) => {
-      setError("");
-      const validationError = validateFile(file);
-
-      if (validationError) {
-        setError(validationError);
-        return;
-      }
-
-      setSelectedFile(file);
-      onFileSelect?.(file);
-
-      // Auto-upload if enabled
-      if (autoUpload) {
-        handleUpload(file);
-      }
-    },
-    [validateFile, onFileSelect, autoUpload],
-  );
-
   const uploadToGoogleDrive = async (file: File): Promise<string> => {
     // Use FormData instead of base64 for better performance
     const formData = new FormData();
@@ -94,7 +73,7 @@ export default function FileUpload({
     return result.driveLink;
   };
 
-  const handleUpload = async (file?: File) => {
+  const handleUpload = useCallback(async (file?: File) => {
     const fileToUpload = file || selectedFile;
     if (!fileToUpload) return;
 
@@ -133,7 +112,28 @@ export default function FileUpload({
       setIsUploading(false);
       setUploadProgress(0);
     }
-  };
+  }, [selectedFile, onUploadComplete]);
+
+  const handleFileSelect = useCallback(
+    (file: File) => {
+      setError("");
+      const validationError = validateFile(file);
+
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
+
+      setSelectedFile(file);
+      onFileSelect?.(file);
+
+      // Auto-upload if enabled
+      if (autoUpload) {
+        handleUpload(file);
+      }
+    },
+    [validateFile, onFileSelect, autoUpload, handleUpload],
+  );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
