@@ -1494,4 +1494,48 @@
   background: rgba(66, 104, 255, 0.8);
 }
 
+/* File Limit Notice Styles */
+.fileLimitNotice {
+  margin-bottom: 2rem;
+}
 
+.fileLimitIcon {
+  display: none;
+}
+
+.fileLimitTitle {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffc107;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.fileLimitText {
+  font-family: inherit;
+  font-size: inherit;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: inherit;
+  margin-bottom: 0.75rem;
+}
+
+.fileLimitSubtext {
+  font-family: inherit;
+  font-size: inherit;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: inherit;
+  margin-bottom: 0;
+}
+
+.fileLimitLink {
+  color: rgba(66, 104, 255, 0.8);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.fileLimitLink:hover {
+  color: rgba(66, 104, 255, 1);
+  text-decoration: underline;
+}
