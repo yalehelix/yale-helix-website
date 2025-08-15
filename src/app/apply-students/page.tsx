@@ -877,7 +877,7 @@ export default function StudentApplicationPage() {
             <div className={styles.normalTextHeader}>What Have You Built?</div>
 
             <div className={styles.normalText}>
-              Tell us about something you've built or contributed to that had a significant impact on you or others. (50-100 words max.) <span className={styles.required}>*</span>
+              Tell us about something you&apos;ve built or contributed to that had a significant impact on you or others. (50-100 words max.) <span className={styles.required}>*</span>
             </div>
 
             <div className={styles.formGroup}>
