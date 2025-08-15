@@ -4,10 +4,6 @@ const nextConfig = {
     // Increase the maximum body size for API routes
     maxBodySize: '5mb',
   },
-  experimental: {
-    // Enable server actions for better file handling
-    serverActions: true,
-  },
   // Configure API routes for larger uploads
   async headers() {
     return [

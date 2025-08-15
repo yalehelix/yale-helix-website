@@ -207,8 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollTrigger: {
               trigger: ".what-we-do-section",
               start: "top 80%",
-              end: "top 50%",
-              scrub: 0.5
+              once: true
           }
       }
   );
@@ -226,8 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollTrigger: {
               trigger: ".description-section",
               start: "top 85%",
-              end: "top 55%",
-              scrub: 0.5
+              once: true
           }
       }
   );
@@ -253,7 +251,8 @@ document.addEventListener('DOMContentLoaded', () => {
           );
       },
       start: "top 90%",
-      refreshPriority: -1
+      refreshPriority: -1,
+      once: true
   });
 
   // Timeline section animations
@@ -270,8 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollTrigger: {
               trigger: ".timeline-section",
               start: "top 80%",
-              end: "top 50%",
-              scrub: 0.5
+              once: true
           }
       }
   );
@@ -292,8 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollTrigger: {
               trigger: ".timeline-container",
               start: "top 85%",
-              end: "top 55%",
-              scrub: 0.5
+              once: true
           }
       }
   );
@@ -317,7 +314,8 @@ document.addEventListener('DOMContentLoaded', () => {
           );
       },
       start: "top 95%",
-      refreshPriority: -1
+      refreshPriority: -1,
+      once: true
   });
 
   // Stats section animations
@@ -336,8 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollTrigger: {
               trigger: ".stats-section",
               start: "top 80%",
-              end: "top 50%",
-              scrub: 0.5
+              once: true
           }
       }
   );
@@ -355,8 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollTrigger: {
               trigger: ".stats-section",
               start: "top 75%",
-              end: "top 45%",
-              scrub: 0.5
+              once: true
           }
       }
   );
@@ -403,18 +399,19 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.fromTo(".team-header", 
       {
           opacity: 0,
-          y: 30
+          x: -60
       },
       {
           opacity: 1,
-          y: 0,
+          x: 0,
           duration: 1,
           ease: "power3.out",
           scrollTrigger: {
               trigger: ".team-section",
               start: "top 80%",
               end: "top 50%",
-              scrub: 0.5
+              scrub: 0.5,
+              once: true
           }
       }
   );
@@ -423,18 +420,18 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.fromTo("#advisory .team-header", 
       {
           opacity: 0,
-          y: 30
+          x: -60
       },
       {
           opacity: 1,
-          y: 0,
+          x: 0,
           duration: 1,
           ease: "power3.out",
           scrollTrigger: {
               trigger: "#advisory",
               start: "top 80%",
               end: "top 50%",
-              scrub: 0.5
+              once: true
           }
       }
   );
@@ -445,57 +442,60 @@ document.addEventListener('DOMContentLoaded', () => {
           gsap.fromTo(elements, 
               {
                   opacity: 0,
-                  y: 50,
+                  x: -30,
                   scale: 0.9
               },
               {
                   opacity: 1,
-                  y: 0,
+                  x: 0,
                   scale: 1,
-                  duration: 0.8,
-                  stagger: 0.1,
+                  duration: 0.6,
+                  stagger: 0.08,
                   ease: "power3.out",
                   overwrite: true
               }
           );
       },
       start: "top 90%",
-      refreshPriority: -1
+      refreshPriority: -1,
+      once: true
   });
 
   // Sponsor cards animation
-  ScrollTrigger.batch(".sponsor-card", {
-      onEnter: (elements) => {
-          gsap.fromTo(elements, 
+  ScrollTrigger.create({
+      trigger: ".sponsors-grid",
+      start: "top 90%",
+      onEnter: () => {
+          const sponsorCards = document.querySelectorAll('.sponsor-card');
+          gsap.fromTo(sponsorCards, 
               {
                   opacity: 0,
-                  y: 30,
-                  scale: 0.95
+                  x: -30,
+                  scale: 0.9
               },
               {
                   opacity: 1,
-                  y: 0,
+                  x: 0,
                   scale: 1,
                   duration: 0.6,
-                  stagger: 0.1,
-                  ease: "power2.out",
+                  stagger: 0.08,
+                  ease: "power3.out",
                   overwrite: true
               }
           );
       },
-      start: "top 90%",
-      refreshPriority: -1
+      once: true
   });
 
   // Sponsors header animation
   gsap.fromTo(".sponsors-header", 
       {
           opacity: 0,
-          y: 30
+          x: -60
       },
       {
           opacity: 1,
-          y: 0,
+          x: 0,
           duration: 0.8,
           ease: "power2.out",
           scrollTrigger: {
@@ -523,8 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollTrigger: {
               trigger: ".what-we-do-section",
               start: "top 70%",
-              end: "top 40%",
-              scrub: 0.5
+              once: true
           }
       }
   );
