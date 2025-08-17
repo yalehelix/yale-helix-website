@@ -4,9 +4,9 @@ import { useState, useRef, useCallback } from "react";
 import styles from "./FileUpload.module.css";
 
 interface FileUploadProps {
-  onUploadComplete: (driveLink: string) => void;
+  onUploadComplete: (status: string) => void;
   onFileSelect?: (file: File | null) => void;
-  onProgressUpdate?: (progress: { overall: number; chunk?: { current: number; total: number } }) => void;
+  onProgressUpdate?: (progress: { overall: number }) => void;
   acceptedFileTypes?: string[];
   maxFileSize?: number; // in MB
   label?: string;
@@ -16,8 +16,7 @@ interface FileUploadProps {
   autoUpload?: boolean; // Whether to upload immediately or wait for form submission
 }
 
-// Chunk size: 4MB to stay well under Vercel's limits
-const CHUNK_SIZE = 4 * 1024 * 1024;
+
 
 export default function FileUpload({
   onUploadComplete,
@@ -35,7 +34,7 @@ export default function FileUpload({
   const [isUploading, setIsUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string>("");
-  const [driveLink, setDriveLink] = useState<string>("");
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const validateFile = useCallback(
@@ -56,135 +55,13 @@ export default function FileUpload({
     [maxFileSize, acceptedFileTypes],
   );
 
-  const generateUploadId = useCallback(() => {
-    return `upload_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }, []);
-
-  const uploadChunk = useCallback(async (
-    chunk: Blob,
-    chunkIndex: number,
-    totalChunks: number,
-    uploadId: string,
-    fileName: string,
-    fileType: string,
-    folderName: string = 'Default'
-  ): Promise<void> => {
-    const formData = new FormData();
-    formData.append('chunk', chunk);
-    formData.append('chunkIndex', chunkIndex.toString());
-    formData.append('totalChunks', totalChunks.toString());
-    formData.append('uploadId', uploadId);
-    formData.append('fileName', fileName);
-    formData.append('fileType', fileType);
-    formData.append('folderName', folderName);
-
-    const response = await fetch(uploadEndpoint, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to upload chunk ${chunkIndex + 1}/${totalChunks}`);
-    }
-
-    const result = await response.json();
-    if (result.error) {
-      throw new Error(result.error);
-    }
-  }, [uploadEndpoint]);
-
-  const completeChunkedUpload = useCallback(async (
-    uploadId: string,
-    fileName: string,
-    fileType: string,
-    folderName: string = 'Default'
-  ): Promise<string> => {
-    const response = await fetch(uploadEndpoint, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        action: 'complete',
-        uploadId,
-        fileName,
-        fileType,
-        folderName,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to complete upload');
-    }
-
-    const result = await response.json();
-    if (result.error) {
-      throw new Error(result.error);
-    }
-
-    return result.driveLink;
-  }, [uploadEndpoint]);
-
-  const uploadToGoogleDrive = async (file: File): Promise<string> => {
-    // For files larger than chunk size, use chunked upload
-    if (file.size > CHUNK_SIZE) {
-      return await uploadLargeFile(file);
-    }
-
-    // For smaller files, use the original method
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('fileName', file.name);
-    formData.append('fileType', file.type);
-
-    const response = await fetch(uploadEndpoint, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error("Upload failed");
-    }
-
-    const result = await response.json();
-    return result.driveLink;
+  const validateAndProcessFile = async (file: File): Promise<void> => {
+    // Just validate the file and mark it as ready
+    // No actual upload happens here - that will be done later to Supabase
+    return Promise.resolve();
   };
 
-  const uploadLargeFile = async (file: File): Promise<string> => {
-    const chunks = Math.ceil(file.size / CHUNK_SIZE);
-    const uploadId = generateUploadId();
-    
-    // Notify parent of chunk progress start
-    onProgressUpdate?.({ overall: 0, chunk: { current: 0, total: chunks } });
-    
-    try {
-      // Upload chunks sequentially
-      for (let i = 0; i < chunks; i++) {
-        const start = i * CHUNK_SIZE;
-        const end = Math.min(start + CHUNK_SIZE, file.size);
-        const chunk = file.slice(start, end);
-        
-        await uploadChunk(chunk, i, chunks, uploadId, file.name, file.type);
-        
-        // Update progress for parent
-        const overallProgress = ((i + 1) / chunks) * 90; // Reserve last 10% for completion
-        onProgressUpdate?.({ 
-          overall: overallProgress, 
-          chunk: { current: i + 1, total: chunks } 
-        });
-      }
-      
-      // Complete the upload
-      const driveLink = await completeChunkedUpload(uploadId, file.name, file.type);
-      
-      // Notify parent of completion
-      onProgressUpdate?.({ overall: 100, chunk: { current: chunks, total: chunks } });
-      
-      return driveLink;
-    } catch (error) {
-      throw new Error(`Chunked upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
-  };
+
 
   const handleUpload = useCallback(async (file?: File) => {
     const fileToUpload = file || selectedFile;
@@ -197,9 +74,10 @@ export default function FileUpload({
       // Notify parent of upload start
       onProgressUpdate?.({ overall: 0 });
       
-      const link = await uploadToGoogleDrive(fileToUpload);
-      setDriveLink(link);
-      onUploadComplete(link);
+      await validateAndProcessFile(fileToUpload);
+      // No actual upload happens here - just validation
+      // Call onUploadComplete with a status to indicate success
+      onUploadComplete("file_ready");
 
       // Reset after successful upload
       setTimeout(() => {
@@ -212,7 +90,7 @@ export default function FileUpload({
       // Notify parent of error
       onProgressUpdate?.({ overall: 0 });
     }
-  }, [selectedFile, onUploadComplete, uploadToGoogleDrive, onProgressUpdate]);
+  }, [selectedFile, onUploadComplete, validateAndProcessFile, onProgressUpdate]);
 
   const handleFileSelect = useCallback(
     (file: File) => {
@@ -276,7 +154,6 @@ export default function FileUpload({
   const clearFile = () => {
     setSelectedFile(null);
     setError("");
-    setDriveLink("");
     onFileSelect?.(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -345,15 +222,6 @@ export default function FileUpload({
       </div>
 
       {error && <p className={styles.error}>{error}</p>}
-
-      {driveLink && (
-        <div className={styles.success}>
-          <p className={styles.successText}>✅ File uploaded successfully!</p>
-          <a href={driveLink} target="_blank" rel="noopener noreferrer" className={styles.driveLink}>
-            View in Google Drive
-          </a>
-        </div>
-      )}
     </div>
   );
 } 
