@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import FileUpload from "../components/FileUpload";
 
+
 // Add a type for the form data
 interface StudentFormData {
   firstName: string;
@@ -194,15 +195,10 @@ export default function StudentApplicationPage() {
         throw new Error('Both submission methods failed. Please try again.');
       }
       
-      // If Supabase succeeded, upload files there
-      if (supabaseSuccess && supabaseResult.status === 'fulfilled' && supabaseResult.value?.applicationId) {
-        await uploadFilesToSupabase(supabaseResult.value.applicationId);
-      }
-      
-      // If Google Forms succeeded, upload files there (existing logic)
-      if (googleFormsSuccess) {
-        await uploadFilesToGoogleDrive();
-      }
+              // If Supabase succeeded, upload files there
+        if (supabaseSuccess && supabaseResult.status === 'fulfilled' && supabaseResult.value?.applicationId) {
+          await uploadFilesToSupabase(supabaseResult.value.applicationId);
+        }
       
       // Mark current file as uploaded if resume was uploaded
       if (selectedFile && !currentFileUploaded) {
@@ -225,70 +221,7 @@ export default function StudentApplicationPage() {
     }
   };
 
-  const submitApplicationToServer = async (resumeLink: string) => {
-    try {
-      // Prepare the application data
-      const applicationData = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        linkedin: formData.linkedin,
-        classYear: formData.classYear,
-        intendedMajor: formData.intendedMajor,
-        areasOfInterest: formData.areasOfInterest.map(area => {
-          const areaOption = areaOptions.find(option => option.value === area);
-          return areaOption ? areaOption.label : area;
-        }),
-        whyHelix: formData.whyHelix,
-        building: formData.building,
-        goals: formData.goals,
-        longForm: (() => {
-          // Format long form data based on selected option
-          if (formData.longFormOption === 'option1') {
-            if (formData.submissionMethod === 'link') {
-              return `Portfolio Link: ${formData.longForm}\nDescription: ${formData.longFormDescription || ''}`;
-            } else {
-              return `Portfolio File: ${formData.longFormFile || ''}\nDescription: ${formData.longFormDescription || ''}`;
-            }
-          } else if (formData.longFormOption === 'option2') {
-            return `Graphical Abstract: ${formData.longFormFile || ''}\nCaption: ${formData.longFormDescription || ''}`;
-          } else if (formData.longFormOption === 'option3') {
-            return `Slide Deck: ${formData.longForm}\nVideo Link: ${formData.longFormFile || ''}`;
-          }
-          return '';
-        })(),
-        resume: resumeLink,
-      };
 
-      // Submit to our server-side API
-      const response = await fetch("/api/apply-student/submit-student", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(applicationData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        // Success! Reset submission state
-        setIsUploading(false);
-        setSelectedFile(null);
-        setCurrentFileUploaded(false);
-
-        // Redirect to success page
-        router.push("/apply-students/success");
-      } else {
-        // Handle server-side error
-        throw new Error(result.error || "Submission failed");
-      }
-    } catch (error) {
-      console.error("Server submission failed, falling back to Google Forms:", error);
-      // Fallback: Try client-side submission if server fails
-      submitFormToGoogle(resumeLink);
-    }
-  };
 
   // New function to submit application to Supabase
   const submitApplicationToSupabase = async () => {
@@ -399,147 +332,7 @@ export default function StudentApplicationPage() {
     }
   };
 
-  // New function to upload files to Google Drive (existing logic)
-  const uploadFilesToGoogleDrive = async () => {
-    try {
-      // Prepare all files for upload using FormData
-      const filesToUpload = [];
-      const folderName = `${formData.firstName} ${formData.lastName}`;
-      const fileNamePrefix = `${formData.firstName}-${formData.lastName}`;
-      
-      // Add resume if there's a file
-      if (selectedFile && !currentFileUploaded) {
-        filesToUpload.push({
-          file: selectedFile,
-          fileName: `${fileNamePrefix}-resume.${selectedFile.name.split('.').pop()}`,
-          fileType: selectedFile.type,
-        });
-      }
-      
-      // Handle long form option submissions
-      if (formData.longFormOption === "option1") {
-        // Option 1: Portfolio link/file + description
-        if (formData.submissionMethod === "file" && longFormFile) {
-          // Add the actual PDF file
-          filesToUpload.push({
-            file: longFormFile,
-            fileName: `${fileNamePrefix}-option1-portfolio.pdf`,
-            fileType: longFormFile.type,
-          });
-          
-          // Add description as text file
-          const descriptionBlob = new Blob([formData.longFormDescription || ""], { type: "text/plain" });
-          const descriptionFile = new File([descriptionBlob], `${fileNamePrefix}-option1-description.txt`, { type: "text/plain" });
-          filesToUpload.push({
-            file: descriptionFile,
-            fileName: `${fileNamePrefix}-option1-description.txt`,
-            fileType: "text/plain",
-          });
-        } else if (formData.submissionMethod === "link") {
-          // Add portfolio link as separate file
-          const linkContent = `Portfolio Link: ${formData.longForm}`;
-          const linkBlob = new Blob([linkContent], { type: "text/plain" });
-          const linkFile = new File([linkBlob], `${fileNamePrefix}-option1-portfoliolink.txt`, { type: "text/plain" });
-          filesToUpload.push({
-            file: linkFile,
-            fileName: `${fileNamePrefix}-option1-portfoliolink.txt`,
-            fileType: "text/plain",
-          });
-          
-          // Add description as separate file
-          const descriptionBlob = new Blob([formData.longFormDescription || ""], { type: "text/plain" });
-          const descriptionFile = new File([descriptionBlob], `${fileNamePrefix}-option1-description.txt`, { type: "text/plain" });
-          filesToUpload.push({
-            file: descriptionFile,
-            fileName: `${fileNamePrefix}-option1-description.txt`,
-            fileType: "text/plain",
-          });
-        }
-      } else if (formData.longFormOption === "option2") {
-        // Option 2: Graphical abstract file + caption
-        if (longFormFile) {
-          // Add the actual graphical abstract file
-          filesToUpload.push({
-            file: longFormFile,
-            fileName: `${fileNamePrefix}-option2-graphicalabstract.${longFormFile.name.split('.').pop() || 'pdf'}`,
-            fileType: longFormFile.type,
-          });
-          
-          // Add caption as text file
-          const captionBlob = new Blob([formData.longFormDescription || ""], { type: "text/plain" });
-          const captionFile = new File([captionBlob], `${fileNamePrefix}-option2-caption.txt`, { type: "text/plain" });
-          filesToUpload.push({
-            file: captionFile,
-            fileName: `${fileNamePrefix}-option2-caption.txt`,
-            fileType: "text/plain",
-          });
-        }
-      } else if (formData.longFormOption === "option3") {
-        // Option 3: Slide deck file + video link
-        if (longFormFile) {
-          // Add the actual slide deck file
-          filesToUpload.push({
-            file: longFormFile,
-            fileName: `${fileNamePrefix}-option3-slidedeck.pdf`,
-            fileType: longFormFile.type,
-          });
-          
-          // Add video link as text file
-          const videoContent = `Video Presentation Link: ${formData.longFormFile || ""}`;
-          const videoBlob = new Blob([videoContent], { type: "text/plain" });
-          const videoFile = new File([videoBlob], `${fileNamePrefix}-option3-videolink.txt`, { type: "text/plain" });
-          filesToUpload.push({
-            file: videoFile,
-            fileName: `${fileNamePrefix}-option3-videolink.txt`,
-            fileType: "text/plain",
-          });
-        }
-      }
-      
-      // Upload files to Google Drive
-      if (filesToUpload.length > 0) {
-        const totalFiles = filesToUpload.length;
-        let completedFiles = 0;
-        
-        for (const fileData of filesToUpload) {
-          try {
-            const tempFormData = new FormData();
-            tempFormData.append('file', fileData.file);
-            tempFormData.append('fileName', fileData.fileName);
-            tempFormData.append('fileType', fileData.fileType);
-            tempFormData.append('folderName', folderName);
-            
-            const response = await fetch("/api/apply-student/upload-student", {
-              method: "POST",
-              body: tempFormData,
-            });
-            
-            if (!response.ok) {
-              throw new Error(`Failed to upload ${fileData.fileName}`);
-            }
-            
-            const result = await response.json();
-            completedFiles++;
-            
-            // If this is the resume, update the form data
-            if (fileData.fileName.includes('-resume.')) {
-              setFormData(prev => ({ ...prev, resume: result.driveLink }));
-            }
-            
-            console.log(`Uploaded ${fileData.fileName} to Google Drive:`, result);
-            
-          } catch (error) {
-            console.error(`Error uploading ${fileData.fileName}:`, error);
-            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-            throw new Error(`Failed to upload ${fileData.fileName}: ${errorMessage}`);
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Google Drive upload error:", error);
-      throw error;
-    }
-  };
+
 
   const submitFormToGoogle = (resumeLink: string) => {
     // Submit Google form in the background using an iframe to prevent page redirect
@@ -954,16 +747,16 @@ export default function StudentApplicationPage() {
               <div className={styles.formGroup}>
                 <FileUpload
                   onUploadComplete={(driveLink) => {
-                      setFormData((prev) => ({ ...prev, resume: driveLink }));
+                      // For Google Forms, we just need the filename
+                      setFormData((prev) => ({ ...prev, resume: selectedFile?.name || "Resume uploaded" }));
                       setCurrentFileUploaded(true); // Mark as uploaded
                   }}
-                  onFileSelect={handleFileSelect} // Use the new handler
-
+                  onFileSelect={handleFileSelect}
                   acceptedFileTypes={[".pdf", ".doc", ".docx", ".zip"]}
                   maxFileSize={4}
                   label="Upload Resume"
                   placeholder="Click here to upload your resume"
-                  uploadEndpoint="/api/apply-student/upload-student"
+                  uploadEndpoint="/api/apply-student/upload-student-supabase"
                   autoUpload={false}
                 />
                 {/* Hidden input for Google Forms submission */}
@@ -1559,7 +1352,7 @@ export default function StudentApplicationPage() {
               {isUploading ? (
                 <>
                   <span className={styles.spinner}></span>
-                  Submitting to Responses & Uploading Files...
+                  Submitting & Uploading Files...
                 </>
               ) : (
                 <>
@@ -1569,7 +1362,7 @@ export default function StudentApplicationPage() {
             </button>
             <p className={styles.submitNote}>
               {isUploading 
-                ? "Please wait while we submit your application to both Google Forms and Supabase, then upload your files..."
+                ? "Please wait while we submit your application and upload your files..."
                 : !isFormValid() 
                   ? (
                     <>
@@ -1577,7 +1370,7 @@ export default function StudentApplicationPage() {
                       If you encounter any issues, please feel free to contact us at.
                     </>
                   )
-                  : "Your application will be submitted to both Google Forms and Supabase simultaneously for redundancy. Files will be uploaded to both systems."
+                  : "Your application will be submitted to Google Forms and Supabase, with files stored securely in our database."
               }
               <br />
               Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>
