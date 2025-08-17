@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     
     // Calculate SHA256 hash for integrity
     const arrayBuffer = await file.arrayBuffer();
-    const sha256Hash = crypto.createHash('sha256').update(Buffer.from(arrayBuffer)).digest('hex');
+    const sha256Hash = crypto.createHash('sha256').update(new Uint8Array(arrayBuffer)).digest('hex');
 
     // Upload file to Supabase Storage
     const { data: uploadData, error: uploadError } = await supabase.storage
