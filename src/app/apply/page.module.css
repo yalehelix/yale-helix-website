@@ -2,7 +2,7 @@
 .applicationPage {
   background: #000000;
   min-height: 100vh;
-  padding: 4rem 2rem;
+  padding: 0;
   position: relative;
   overflow: hidden;
 }
@@ -14,9 +14,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(66, 104, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(66, 104, 255, 0.1) 0%, transparent 50%);
+  background: radial-gradient(circle at 20% 20%, rgba(66, 104, 255, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(66, 104, 255, 0.1) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -39,7 +37,6 @@
   gap: 0.75rem; /* spacing if you add more nav items */
 }
 
-/* Your button styles (unchanged, with a focus style added for accessibility) */
 .returnButton {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -66,11 +63,6 @@
   border-color: rgba(66, 104, 255, 0.5);
   color: #ffffff;
   transform: translateX(-2px);
-}
-
-.returnButton:focus-visible {
-  outline: 2px solid rgba(66, 104, 255, 0.9);
-  outline-offset: 3px;
 }
 
 /* Header Styles */
@@ -123,6 +115,89 @@
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.6;
+}
+
+/* Work Document Notice Styles */
+.workDocumentNotice {
+  background: linear-gradient(135deg, rgba(66, 104, 255, 0.1), rgba(102, 126, 234, 0.1));
+  border: 1px solid rgba(66, 104, 255, 0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+
+.workDocumentNotice::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4268ff, #667eea);
+  border-radius: 20px 20px 0 0;
+}
+
+.workDocumentIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.workDocumentContent {
+  flex: 1;
+}
+
+.workDocumentTitle {
+  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.workDocumentText {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.workDocumentLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #4268ff, #667eea);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(66, 104, 255, 0.3);
+}
+
+.workDocumentLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(66, 104, 255, 0.4);
+  background: linear-gradient(135deg, #5a7cff, #7a8ff0);
+}
+
+/* Warning Text Style */
+.warningText {
+  color: #ffc107;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
 }
 
 /* Form Styles */
@@ -207,6 +282,12 @@
   color: #4268ff;
 }
 
+.optional {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
 /* Input Styles */
 .input,
 .textarea,
@@ -263,6 +344,267 @@
   color: #ffffff;
 }
 
+/* File Upload Styles */
+.fileUploadContainer {
+  position: relative;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.fileUploadContainer:hover {
+  border-color: rgba(66, 104, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.fileInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.fileUploadInfo {
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fileUploadText {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.fileUploadSubtext {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+.uploadIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+/* Error Message Styles */
+.error {
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* File Info Display Styles (matching resume upload) */
+.fileInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fileIcon {
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+
+.fileDetails {
+  flex: 1;
+}
+
+.fileName {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 0.25rem 0;
+  word-break: break-word;
+}
+
+.fileSize {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+/* Remove File Button Styles */
+.removeFileButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.removeFileButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* Radio Button Styles */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.radioOption:hover {
+  border-color: rgba(66, 104, 255, 0.3);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.radioInput {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: #4268ff;
+  cursor: pointer;
+}
+
+.radioLabel {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Normal Text Section */
+.normalText {
+  text-align: left;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  margin-bottom: 1rem;
+}
+
+.normalText {
+  text-align: left;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+  letter-spacing: 0.025em;
+  margin-bottom: 0.75rem;
+}
+
+.normalTextItalic {
+  text-align: left;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+.normalTextBold {
+  text-align: left;
+  color: rgba(255, 255, 255);
+  font-size: 1rem;
+  letter-spacing: 0.025em;
+  font-weight: bold;
+}
+
+.normalTextHeader {
+  text-align: left;
+  color: rgba(255, 255, 255);
+  font-size: 1.25rem;
+  letter-spacing: 0.025em;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.normalText p {
+  margin-bottom: 0; /* no space after the paragraph */
+}
+
+.normalText p + ul {
+  margin-top: 0.25rem; /* tiny space before the list (set to 0 if you want none) */
+  padding-left: 1.25rem; /* typical bullet indent */
+}
+
+.normalText ul {
+  list-style-type: disc; /* Show bullet points */
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.normalText li {
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+.normalText li + li {
+  margin-top: 0.25rem; /* spacing between bullets */
+}
+
+/* Specific styling for the list class used in Option 3 */
+.list {
+  list-style-type: disc;
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.list li {
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+.spacer {
+  height: 1.5rem;
+}
+.spacerSmall {
+  display: inline-block;
+  height: 0.5rem;
+}
+.spacerLarge {
+  height: 3rem;
+}
+
+.link {
+  color: #3b82f6;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
 /* Submit Section */
 .submitSection {
   text-align: center;
@@ -307,23 +649,6 @@
   transform: none;
 }
 
-.spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #ffffff;
-  animation: spin 1s ease-in-out infinite;
-  margin-right: 8px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .submitNote {
   margin-top: 2rem;
   font-size: 0.875rem;
@@ -339,6 +664,24 @@
 .submitNote a:hover {
   color: #667eea;
   text-decoration: underline;
+}
+
+/* Spinner Animation for Submit Button */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Confirmation Page Styles */
@@ -722,3 +1065,477 @@
 }
 
 
+
+/* Custom Dropdown Styles */
+.dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdownOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 9998;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dropdownButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: all 0.3s ease;
+  outline: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdownButton:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.dropdownButton:focus {
+  border-color: #4268ff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(66, 104, 255, 0.1);
+}
+
+.dropdownArrow {
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dropdownContent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1a1a1a;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  max-height: 70vh;
+  width: 90vw;
+  max-width: 600px;
+  overflow-y: auto;
+  z-index: 9999;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+}
+
+.dropdownOption {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dropdownOption:last-child {
+  border-bottom: none;
+}
+
+.dropdownOption:hover {
+  background: rgba(66, 104, 255, 0.1);
+}
+
+.dropdownOption.selected {
+  background: rgba(66, 104, 255, 0.15);
+}
+
+.optionLabel {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.checkmark {
+  color: #4268ff;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.dropdownHeader {
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdownTitle {
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Selected Areas Display */
+.selectedAreas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.areaCard {
+  background: linear-gradient(135deg, #4268ff, #667eea);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.areaLabel {
+  color: #ffffff;
+}
+
+.removeArea {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+  .removeArea:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+  }
+
+  /* Long Form Options Overview */
+  .optionsOverview {
+    margin-bottom: 2rem;
+  }
+
+  .optionDescription {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Choice Cards for Long Form Options */
+  .choiceCards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .choiceCard {
+    background: rgba(255, 255, 255, 0.02);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .choiceCard:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(66, 104, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .choiceCardSelected {
+    background: rgba(66, 104, 255, 0.1);
+    border-color: rgba(66, 104, 255, 0.6);
+    box-shadow: 0 0 20px rgba(66, 104, 255, 0.2);
+  }
+
+  .choiceCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .choiceCardTitle {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .choiceCardCheckmark {
+    color: #4268ff;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Clickable Option Descriptions */
+  .clickableOption {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .clickableOption:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(66, 104, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .optionSelected {
+    background: rgba(66, 104, 255, 0.1);
+    border-color: rgba(66, 104, 255, 0.6);
+    box-shadow: 0 0 20px rgba(66, 104, 255, 0.2);
+  }
+
+  .optionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .optionCheckmark {
+    color: #4268ff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    animation: fadeIn 0.3s ease-out;
+    flex-shrink: 0;
+  }
+
+  /* Long Form Option Content */
+  .optionContent {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 1.5rem;
+    animation: fadeInUp 0.4s ease-out;
+  }
+
+  /* Submission Area - Different from Option Cards */
+  .submissionArea {
+    background: linear-gradient(135deg, rgba(66, 104, 255, 0.05), rgba(102, 126, 234, 0.05));
+    border: 2px solid rgba(66, 104, 255, 0.2);
+    border-radius: 20px;
+    padding: 3rem;
+    margin-top: 3rem;
+    animation: fadeInUp 0.4s ease-out;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submissionArea::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4268ff, #667eea);
+  }
+
+  .submissionHeader {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(66, 104, 255, 0.2);
+  }
+
+  .submissionTitle {
+    color: #ffffff;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    background: linear-gradient(135deg, #4268ff, #667eea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .submissionSubtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Enhanced spacing for form groups in submission area */
+  .submissionArea .formGroup {
+    margin-bottom: 2.5rem;
+  }
+
+  .submissionArea .formGroup:last-child {
+    margin-bottom: 0;
+  }
+
+  .submissionArea .label {
+    margin-bottom: 1rem;
+  }
+
+  .submissionArea .input,
+  .submissionArea .textarea {
+    margin-bottom: 0.5rem;
+  }
+
+  .charCount {
+    text-align: right;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.5rem;
+  }
+
+  .wordCount {
+    text-align: right;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.5rem;
+  }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dropdown Scrollbar */
+.dropdownContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdownContent::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.dropdownContent::-webkit-scrollbar-thumb {
+  background: rgba(66, 104, 255, 0.6);
+  border-radius: 3px;
+}
+
+.dropdownContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(66, 104, 255, 0.8);
+}
+
+/* File Limit Notice Styles */
+.fileLimitNotice {
+  margin-bottom: 2rem;
+}
+
+.fileLimitIcon {
+  display: none;
+}
+
+.fileLimitTitle {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffc107;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.fileLimitText {
+  font-family: inherit;
+  font-size: inherit;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: inherit;
+  margin-bottom: 0.75rem;
+}
+
+.fileLimitSubtext {
+  font-family: inherit;
+  font-size: inherit;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: inherit;
+  margin-bottom: 0;
+}
+
+.fileLimitLink {
+  color: rgba(66, 104, 255, 0.8);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.fileLimitLink:hover {
+  color: rgba(66, 104, 255, 1);
+  text-decoration: underline;
+}

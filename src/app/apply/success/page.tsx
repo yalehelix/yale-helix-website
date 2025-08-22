@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
-export default function StartupApplicationSuccessPage() {
+export default function StudentApplicationSuccessPage() {
   const router = useRouter();
 
   const handleReturnToMain = () => {
@@ -28,13 +28,13 @@ export default function StartupApplicationSuccessPage() {
         <h1 className={styles.title}>Application Submitted Successfully!</h1>
         
         <p className={styles.subtitle}>
-        {'Thank you for your interest in the Yale Helix Incubator. We\'ve received your startup application and will be in touch soon.'}
+        {'Thank you for your interest in the Yale Helix Incubator. We\'ve received your student fellow application and will be in touch soon.'}
         </p>
 
         <div className={styles.contactInfo}>
           <h2 className={styles.contactTitle}>Questions?</h2>
           <p className={styles.contactText}>
-            {'If you have any additional questions about your application or the incubator program, please don\'t hesitate to reach out to us at '}
+            {'If you have any additional questions about your application or the student fellow program, please don\'t hesitate to reach out to us at '}
             <a href="mailto:admin@yalehelix.org" className={styles.emailLink}>
               admin@yalehelix.org
             </a>
@@ -43,4 +43,4 @@ export default function StartupApplicationSuccessPage() {
       </div>
     </div>
   );
-} 
+}
