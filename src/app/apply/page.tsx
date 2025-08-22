@@ -211,7 +211,7 @@ export default function StudentApplicationPage() {
       setCurrentFileUploaded(false);
 
       // Redirect to success page
-      router.push("/apply-students/success");
+      router.push("/apply/success");
       
     } catch (error) {
       console.error("Submission error:", error);

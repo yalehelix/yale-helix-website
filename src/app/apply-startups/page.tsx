@@ -150,7 +150,7 @@ export default function StartupApplicationPage() {
       setIsSubmitting(false);
 
       // Redirect to success page
-      router.push("/apply/success");
+      router.push("/apply-startups/success");
     } catch (error) {
       console.error("Submission error:", error);
       setIsSubmitting(false);
