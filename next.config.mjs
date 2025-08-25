@@ -1,12 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Global body size for API routes (Pages Router or Route Handlers using body parsing)
-  api: {
-    bodyParser: {
-      sizeLimit: '4mb',
-    },
-  },
-
   async headers() {
     return [
       // CORS for API routes (adjust origin as needed)
