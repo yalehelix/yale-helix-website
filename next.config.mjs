@@ -28,10 +28,18 @@ const nextConfig = {
         ],
       },
 
+      // Portfolio images: very long, immutable (rarely change)
+      {
+        source: '/assets/img/masonry-portfolio/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+
       // Other images for 1 day with SWR
       {
-        // Exclude /team so it doesn't get two Cache-Control headers
-        source: '/assets/img/:path((?!team/).*)',
+        // Exclude /team and /masonry-portfolio so they don't get two Cache-Control headers
+        source: '/assets/img/:path((?!team/|masonry-portfolio/).*)',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
         ],
