@@ -442,17 +442,18 @@ document.addEventListener('DOMContentLoaded', () => {
           gsap.fromTo(elements, 
               {
                   opacity: 0,
-                  x: -30,
                   scale: 0.9
               },
               {
                   opacity: 1,
-                  x: 0,
                   scale: 1,
                   duration: 0.6,
                   stagger: 0.08,
                   ease: "power3.out",
-                  overwrite: true
+                  overwrite: true,
+                  onComplete: () => {
+                      elements.forEach(el => el.classList.add('animated'));
+                  }
               }
           );
       },
@@ -461,29 +462,29 @@ document.addEventListener('DOMContentLoaded', () => {
       once: true
   });
 
-  // Sponsor cards animation
-  ScrollTrigger.create({
-      trigger: ".sponsors-grid",
-      start: "top 90%",
-      onEnter: () => {
-          const sponsorCards = document.querySelectorAll('.sponsor-card');
-          gsap.fromTo(sponsorCards, 
+  // Sponsor cards animation - using same pattern as team members
+  ScrollTrigger.batch(".sponsor-card", {
+      onEnter: (elements) => {
+          gsap.fromTo(elements, 
               {
                   opacity: 0,
-                  x: -30,
                   scale: 0.9
               },
               {
                   opacity: 1,
-                  x: 0,
                   scale: 1,
                   duration: 0.6,
                   stagger: 0.08,
                   ease: "power3.out",
-                  overwrite: true
+                  overwrite: true,
+                  onComplete: () => {
+                      elements.forEach(el => el.classList.add('animated'));
+                  }
               }
           );
       },
+      start: "top 90%",
+      refreshPriority: -1,
       once: true
   });
 

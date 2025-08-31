@@ -811,7 +811,6 @@ body {
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
-  transform: translateY(40px);
   will-change: transform, opacity;
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -822,6 +821,11 @@ body {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
   border-color: rgba(66, 104, 255, 0.2);
   will-change: transform;
+}
+
+/* Ensure team members maintain their animated state */
+.team-member.animated {
+  opacity: 1 !important;
 }
 
 .member-image {
@@ -976,10 +980,15 @@ body {
 }
 
 .sponsor-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  border-color: rgba(66, 104, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  border-color: rgba(66, 104, 255, 0.2);
   will-change: transform;
+}
+
+/* Ensure sponsor cards maintain their animated state */
+.sponsor-card.animated {
+  opacity: 1 !important;
 }
 
 .sponsor-logo {
@@ -1046,7 +1055,7 @@ body {
 
 /* Coming Soon Cards */
 .sponsor-card.coming-soon {
-  opacity: 0.7;
+  opacity: 0;
   filter: grayscale(0.3);
 }
 
