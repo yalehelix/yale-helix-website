@@ -45,11 +45,13 @@ const nextConfig = {
         ],
       },
 
-      // Cache CSS and JS you place under /public/assets/css|js
+      // Prevent CSS and JS caching during development (no-cache)
       {
         source: '/assets/:dir(css|js)/:path*',
         headers: [
-          { key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=2592000' },
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+          { key: 'Pragma', value: 'no-cache' },
+          { key: 'Expires', value: '0' },
         ],
       },
     ];

@@ -11,6 +11,10 @@ export default function StartupApplicationSuccessPage() {
     window.location.href = "/";
   };
 
+  const handleBackToInterestForm = () => {
+    router.push("/interest-form");
+  };
+
   return (
     <div className={styles.successPage}>
       <div className={styles.headerWithNav}>
@@ -35,6 +39,13 @@ export default function StartupApplicationSuccessPage() {
               admin@yalehelix.org
             </a>
           </p>
+        </div>
+
+        {/* Action Buttons */}
+        <div className={styles.actions}>
+          <button onClick={handleBackToInterestForm} className={styles.primaryButton}>
+            Submit Another Interest Form
+          </button>
         </div>
       </div>
     </div>
