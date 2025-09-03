@@ -83,6 +83,13 @@ export default function StudentApplicationPage() {
     }));
   };
 
+  // Enforce hard word caps on essay fields
+  const limitWords = (text: string, maxWords: number): string => {
+    const words = text.trim().split(/\s+/).filter((word) => word.length > 0);
+    if (words.length <= maxWords) return text;
+    return words.slice(0, maxWords).join(" ");
+  };
+
   const handleReturnToMain = () => {
     // Use window.location to ensure full page reload for animations
     window.location.href = "/";
@@ -790,13 +797,13 @@ export default function StudentApplicationPage() {
                 id="entry.2107500991"
                 name="entry.2107500991"
                 value={formData.whyHelix}
-                onChange={(e) => setFormData((prev) => ({ ...prev, whyHelix: e.target.value }))}
+                onChange={(e) => setFormData((prev) => ({ ...prev, whyHelix: limitWords(e.target.value, 125) }))}
                 className={styles.textarea}
                 rows={4}
                 required
               />
               <div className={styles.wordCount}>
-                {formData.whyHelix ? formData.whyHelix.trim().split(/\s+/).filter(word => word.length > 0).length : 0}/100 words
+                {formData.whyHelix ? formData.whyHelix.trim().split(/\s+/).filter(word => word.length > 0).length : 0}/125 words
               </div>
             </div>
 
@@ -813,13 +820,13 @@ export default function StudentApplicationPage() {
                 id="entry.1678797299"
                 name="entry.1678797299"
                 value={formData.building}
-                onChange={(e) => setFormData((prev) => ({ ...prev, building: e.target.value }))}
+                onChange={(e) => setFormData((prev) => ({ ...prev, building: limitWords(e.target.value, 150) }))}
                 className={styles.textarea}
                 rows={4}
                 required
               />
               <div className={styles.wordCount}>
-                {formData.building ? formData.building.trim().split(/\s+/).filter(word => word.length > 0).length : 0}/100 words
+                {formData.building ? formData.building.trim().split(/\s+/).filter(word => word.length > 0).length : 0}/150 words
               </div>
             </div>
 
@@ -836,13 +843,13 @@ export default function StudentApplicationPage() {
                 id="entry.766347532"
                 name="entry.766347532"
                 value={formData.goals}
-                onChange={(e) => setFormData((prev) => ({ ...prev, goals: e.target.value }))}
+                onChange={(e) => setFormData((prev) => ({ ...prev, goals: limitWords(e.target.value, 125) }))}
                 className={styles.textarea}
                 rows={3}
                 required
               />
               <div className={styles.wordCount}>
-                {formData.goals ? formData.goals.trim().split(/\s+/).filter(word => word.length > 0).length : 0}/100 words
+                {formData.goals ? formData.goals.trim().split(/\s+/).filter(word => word.length > 0).length : 0}/125 words
               </div>
             </div>
           </div>
