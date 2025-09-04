@@ -906,11 +906,12 @@ export default function StudentApplicationPage() {
                     )}
                   </div>
                   <div className={styles.normalText}>
-                    If you have advanced technical, engineering, or design skills, we invite you to submit a portfolio demonstrating your work.
+                    If you have advanced technical, research, engineering, or design skills, we invite you to submit a portfolio demonstrating your work.
                   </div>
                   <div className={styles.normalText}>
                     <p>This could include:</p>
                     <ul>
+                      <li>A research portfolio showcasing published research papers and posters</li>
                       <li>A GitHub repository showcasing software engineering or a technical build</li>
                       <li>A graphic design portfolio (PDF or link)</li>
                       <li>CAD models, UI/UX prototypes, data visualizations, or similar media</li>
