@@ -873,8 +873,8 @@ export default function StudentApplicationPage() {
                 <h4 className={styles.fileLimitTitle}>Warning: File Size Limit of 4MB</h4>
                 <p className={styles.fileLimitText}>
                   We know that a lot of you will have a lot to share with us in this long-form application question and may have files larger than the supported 4MB size limit. 
-                  If that's the case, please try to compress your files. 
-                  If that doesn't work, please contact us at <a href="mailto:admin@yalehelix.org" className={styles.fileLimitLink}>admin@yalehelix.org</a>.
+                  If that is the case, please try to compress your files. 
+                  If that does not work, please contact us at <a href="mailto:admin@yalehelix.org" className={styles.fileLimitLink}>admin@yalehelix.org</a>.
                 </p>
             </div>
 
