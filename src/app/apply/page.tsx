@@ -759,7 +759,7 @@ export default function StudentApplicationPage() {
                       setCurrentFileUploaded(true); // Mark as uploaded
                   }}
                   onFileSelect={handleFileSelect}
-                  acceptedFileTypes={[".pdf", ".doc", ".docx", ".zip"]}
+                  acceptedFileTypes={[".pdf"]}
                   maxFileSize={4}
                   label="Upload Resume"
                   placeholder="Click here to upload your resume"
@@ -873,8 +873,8 @@ export default function StudentApplicationPage() {
                 <h4 className={styles.fileLimitTitle}>Warning: File Size Limit of 4MB</h4>
                 <p className={styles.fileLimitText}>
                   We know that a lot of you will have a lot to share with us in this long-form application question and may have files larger than the supported 4MB size limit. 
-                  If that is the case, please try zipping your file locally and using free online services to compress your files. 
-                  If these approaches do not work, please contact us at <a href="mailto:admin@yalehelix.org" className={styles.fileLimitLink}>admin@yalehelix.org</a>.
+                  If that's the case, please try to compress your files. 
+                  If that doesn't work, please contact us at <a href="mailto:admin@yalehelix.org" className={styles.fileLimitLink}>admin@yalehelix.org</a>.
                 </p>
             </div>
 
@@ -919,7 +919,7 @@ export default function StudentApplicationPage() {
                   </div>
                   <div className={styles.normalText}>
                     <span className={styles.normalTextBold}>Submission Format: </span>
-                    Provide a link to your portfolio or upload a PDF or ZIP file. Include a short description (150 words max) explaining the purpose and context of your work.
+                    Provide a link to your portfolio or upload a PDF file. Include a short description (150 words max) explaining the purpose and context of your work.
                   </div>
                 </div>
 
@@ -987,7 +987,7 @@ export default function StudentApplicationPage() {
                     </p>
                     <ul className={styles.list}>
                       <li>A short slide deck (5–7 slides in PDF format)</li>
-                      <li>A brief unlisted YouTube video link(2–3 minutes) walking us through your findings and thought process</li>
+                      <li>A brief unlisted YouTube video link (2–3 minutes) walking us through your findings and thought process</li>
                     </ul>
                   </div>
                 </div>
@@ -1003,8 +1003,6 @@ export default function StudentApplicationPage() {
                     Complete the requirements for your selected option
                   </div>
                 </div>
-                
-                
                 
                 {formData.longFormOption === "option1" && (
                   <>
@@ -1056,13 +1054,13 @@ export default function StudentApplicationPage() {
                     {formData.submissionMethod === "file" && (
                       <div className={styles.formGroup}>
                         <label className={styles.label}>
-                          Portfolio File (PDF or ZIP) <span className={styles.required}>*</span>
+                          Portfolio File (PDF) <span className={styles.required}>*</span>
                         </label>
                         <div className={styles.fileUploadContainer}>
                           {!formData.longFormFile && (
                             <input
                               type="file"
-                              accept=".pdf,.zip"
+                              accept=".pdf"
                               onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
@@ -1074,10 +1072,10 @@ export default function StudentApplicationPage() {
                                   }
                                   
                                   // Validate file type (PDF or ZIP for portfolio)
-                                  const acceptedTypes = ['.pdf', '.zip'];
+                                  const acceptedTypes = ['.pdf'];
                                   const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
                                   if (!acceptedTypes.includes(fileExtension)) {
-                                    setLongFormError('Portfolio file must be a PDF or ZIP');
+                                    setLongFormError('Portfolio file must be a PDF');
                                     return;
                                   }
                                   
@@ -1098,7 +1096,7 @@ export default function StudentApplicationPage() {
                             <div className={styles.fileUploadInfo}>
                               <div className={styles.uploadIcon}>📁</div>
                               <div className={styles.fileUploadText}>
-                                Click to upload PDF or ZIP
+                                Click to upload PDF
                               </div>
                               <div className={styles.fileUploadSubtext}>
                                 Maximum file size: 4MB
@@ -1163,7 +1161,7 @@ export default function StudentApplicationPage() {
                         {!formData.longFormFile && (
                           <input
                             type="file"
-                            accept=".pdf,.png,.jpg,.jpeg,.zip"
+                            accept=".pdf,.png,.jpg,.jpeg"
                             onChange={(e) => {
                               const file = e.target.files?.[0];
                               if (file) {
@@ -1175,7 +1173,7 @@ export default function StudentApplicationPage() {
                                 }
                                 
                                 // Validate file type (PDF, PNG, JPG, JPEG, ZIP for graphical abstract)
-                                const acceptedTypes = ['.pdf', '.png', '.jpg', '.jpeg', '.zip'];
+                                const acceptedTypes = ['.pdf', '.png', '.jpg', '.jpeg'];
                                 const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
                                 if (!acceptedTypes.includes(fileExtension)) {
                                   setLongFormError(`File type not supported. Accepted types: ${acceptedTypes.join(', ')}`);
@@ -1199,7 +1197,7 @@ export default function StudentApplicationPage() {
                           <div className={styles.fileUploadInfo}>
                             <div className={styles.uploadIcon}>📁</div>
                                                           <div className={styles.fileUploadText}>
-                                Click to upload PDF, PNG, JPG, or ZIP
+                                Click to upload PDF, PNG, or JPG
                               </div>
                             <div className={styles.fileUploadSubtext}>
                               Maximum file size: 4MB
@@ -1254,13 +1252,13 @@ export default function StudentApplicationPage() {
                   <>
                     <div className={styles.formGroup}>
                       <label className={styles.label}>
-                        Slide Deck (PDF or ZIP) <span className={styles.required}>*</span>
+                        Slide Deck (PDF) <span className={styles.required}>*</span>
                       </label>
                       <div className={styles.fileUploadContainer}>
                                                   {!formData.longForm && (
                             <input
                               type="file"
-                              accept=".pdf,.zip"
+                              accept=".pdf"
                               onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
@@ -1272,10 +1270,10 @@ export default function StudentApplicationPage() {
                                   }
                                   
                                   // Validate file type (PDF or ZIP for slide deck)
-                                  const acceptedTypes = ['.pdf', '.zip'];
+                                  const acceptedTypes = ['.pdf'];
                                   const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
                                   if (!acceptedTypes.includes(fileExtension)) {
-                                    setLongFormError('Slide deck must be a PDF or ZIP');
+                                    setLongFormError('Slide deck must be a PDF');
                                     return;
                                   }
                                   
@@ -1294,7 +1292,7 @@ export default function StudentApplicationPage() {
                           <div className={styles.fileUploadInfo}>
                             <div className={styles.uploadIcon}>📁</div>
                                                           <div className={styles.fileUploadText}>
-                                Click to upload PDF or ZIP slide deck
+                                Click to upload PDF of slide deck
                               </div>
                             <div className={styles.fileUploadSubtext}>
                               Maximum file size: 4MB
