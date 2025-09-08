@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import FileUpload from "../components/FileUpload";
+import FileUpload from "../src/app/components/FileUpload";
 
 
 // Add a type for the form data
