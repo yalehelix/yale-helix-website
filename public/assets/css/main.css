@@ -846,10 +846,6 @@ body {
   max-width: 1200px;
 }
 
-/* Rotate David's picture 90 degrees */
-#fellows .team-member:nth-child(2) .member-image img {
-  transform: rotate(90deg);
-}
 
 .team-member {
   background: rgba(255, 255, 255, 0.05);
