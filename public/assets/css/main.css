@@ -796,11 +796,59 @@ body {
   }
 }
 
+/* Fellows section - 5-wide grid */
+#fellows .team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+  max-width: 1600px;
+}
+
+#fellows .team-member {
+  flex: 0 0 calc(20% - 1rem);
+  max-width: calc(20% - 1rem);
+}
+
+/* Responsive breakpoints for fellows section */
+@media (max-width: 1400px) {
+  #fellows .team-member {
+    flex: 0 0 calc(25% - 1rem);
+    max-width: calc(25% - 1rem);
+  }
+}
+
+@media (max-width: 1200px) {
+  #fellows .team-member {
+    flex: 0 0 calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
+  }
+}
+
+@media (max-width: 900px) {
+  #fellows .team-member {
+    flex: 0 0 calc(50% - 1rem);
+    max-width: calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 600px) {
+  #fellows .team-member {
+    flex: 0 0 calc(100% - 1rem);
+    max-width: calc(100% - 1rem);
+  }
+}
+
 /* Advisory board - keep original responsive grid */
 #advisory .team-grid {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
   max-width: 1200px;
+}
+
+/* Rotate David's picture 90 degrees */
+#fellows .team-member:nth-child(2) .member-image img {
+  transform: rotate(90deg);
 }
 
 .team-member {
