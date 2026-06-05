@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin, DECK_BUCKET } from "@/lib/supabaseAdmin";
+import { getSupabaseAdmin, DECK_BUCKET } from "@/lib/supabaseAdmin";
 
 // Issues a one-time signed URL the browser uses to upload the pitch deck directly
 // to Supabase Storage (so the file never passes through this function).
@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
     }
 
     const path = `${crypto.randomUUID()}.pdf`;
-    const { data, error } = await supabaseAdmin.storage
-      .from(DECK_BUCKET)
+    const { data, error } = await getSupabaseAdmin()
+      .storage.from(DECK_BUCKET)
       .createSignedUploadUrl(path);
 
     if (error || !data) {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 const REQUIRED = [
   "startupName",
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
       deck_filename: str(b.deckFilename) || null,
     };
 
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await getSupabaseAdmin()
       .from("startup_applications")
       .insert(row)
       .select("id")
