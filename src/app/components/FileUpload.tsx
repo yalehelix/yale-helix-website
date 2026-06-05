@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import styles from "./FileUpload.module.css";
 
 interface FileUploadProps {
   onUploadComplete: (status: string) => void;
@@ -15,8 +14,6 @@ interface FileUploadProps {
   uploadEndpoint: string; // Make the endpoint configurable
   autoUpload?: boolean; // Whether to upload immediately or wait for form submission
 }
-
-
 
 export default function FileUpload({
   onUploadComplete,
@@ -61,36 +58,37 @@ export default function FileUpload({
     return Promise.resolve();
   };
 
+  const handleUpload = useCallback(
+    async (file?: File) => {
+      const fileToUpload = file || selectedFile;
+      if (!fileToUpload) return;
 
+      setIsUploading(true);
+      setError("");
 
-  const handleUpload = useCallback(async (file?: File) => {
-    const fileToUpload = file || selectedFile;
-    if (!fileToUpload) return;
+      try {
+        // Notify parent of upload start
+        onProgressUpdate?.({ overall: 0 });
 
-    setIsUploading(true);
-    setError("");
+        await validateAndProcessFile(fileToUpload);
+        // No actual upload happens here - just validation
+        // Call onUploadComplete with a status to indicate success
+        onUploadComplete("file_ready");
 
-    try {
-      // Notify parent of upload start
-      onProgressUpdate?.({ overall: 0 });
-      
-      await validateAndProcessFile(fileToUpload);
-      // No actual upload happens here - just validation
-      // Call onUploadComplete with a status to indicate success
-      onUploadComplete("file_ready");
-
-      // Reset after successful upload
-      setTimeout(() => {
-        setSelectedFile(null);
+        // Reset after successful upload
+        setTimeout(() => {
+          setSelectedFile(null);
+          setIsUploading(false);
+        }, 1000);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Upload failed. Please try again.");
         setIsUploading(false);
-      }, 1000);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed. Please try again.");
-      setIsUploading(false);
-      // Notify parent of error
-      onProgressUpdate?.({ overall: 0 });
-    }
-  }, [selectedFile, onUploadComplete, validateAndProcessFile, onProgressUpdate]);
+        // Notify parent of error
+        onProgressUpdate?.({ overall: 0 });
+      }
+    },
+    [selectedFile, onUploadComplete, onProgressUpdate],
+  );
 
   const handleFileSelect = useCallback(
     (file: File) => {
@@ -161,13 +159,19 @@ export default function FileUpload({
   };
 
   return (
-    <div className={styles.uploadContainer}>
-      <label className={styles.label}>
-        {label} {required && <span className={styles.required}>*</span>}
+    <div>
+      <label className="mb-2 block text-sm font-medium text-text">
+        {label} {required && <span className="text-accent">*</span>}
       </label>
 
       <div
-        className={`${styles.uploadArea} ${isDragOver ? styles.dragOver : ""} ${selectedFile ? styles.hasFile : ""}`}
+        className={`relative rounded-xl border border-dashed p-8 text-center transition ${
+          isDragOver
+            ? "border-accent bg-accent-soft"
+            : selectedFile
+              ? "border-hairline bg-surface"
+              : "border-hairline bg-surface hover:border-accent/50"
+        }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -178,27 +182,27 @@ export default function FileUpload({
             type="file"
             accept={acceptedFileTypes.join(",")}
             onChange={handleFileInputChange}
-            className={styles.fileInput}
+            className="absolute inset-0 cursor-pointer opacity-0"
             disabled={isUploading}
           />
         )}
 
         {!selectedFile && !isUploading && (
-          <div className={styles.uploadContent}>
-            <div className={styles.uploadIcon}>📁</div>
-            <p className={styles.uploadText}>{placeholder}</p>
-            <p className={styles.uploadHint}>
-              Accepted formats: {acceptedFileTypes.join(", ")} (Max {maxFileSize}MB)
+          <div className="pointer-events-none flex flex-col items-center gap-2">
+            <span className="text-2xl">📁</span>
+            <p className="text-sm text-text">{placeholder}</p>
+            <p className="text-xs text-text-muted">
+              Accepted formats: {acceptedFileTypes.join(", ")} (max {maxFileSize}MB)
             </p>
           </div>
         )}
 
         {selectedFile && !isUploading && (
-          <div className={styles.fileInfo}>
-            <div className={styles.fileIcon}>📄</div>
-            <div className={styles.fileDetails}>
-              <p className={styles.fileName}>{selectedFile.name}</p>
-              <p className={styles.fileSize}>{formatFileSize(selectedFile.size)}</p>
+          <div className="flex items-center gap-4 text-left">
+            <span className="text-2xl">📄</span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-text">{selectedFile.name}</p>
+              <p className="text-xs text-text-muted">{formatFileSize(selectedFile.size)}</p>
             </div>
             <button
               type="button"
@@ -207,7 +211,8 @@ export default function FileUpload({
                 e.preventDefault();
                 clearFile();
               }}
-              className={styles.removeButton}
+              aria-label="Remove file"
+              className="flex h-8 w-8 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-surface-hover hover:text-text"
             >
               ✕
             </button>
@@ -215,13 +220,14 @@ export default function FileUpload({
         )}
 
         {isUploading && (
-          <div className={styles.uploadStatus}>
-            <p className={styles.uploadingText}>Uploading file...</p>
+          <div className="flex items-center justify-center gap-3 text-sm text-text-muted">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-text-muted/40 border-t-accent" />
+            Uploading file...
           </div>
         )}
       </div>
 
-      {error && <p className={styles.error}>{error}</p>}
+      {error && <p className="mt-2 text-sm text-error">{error}</p>}
     </div>
   );
-} 
+}

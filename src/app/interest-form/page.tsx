@@ -1,19 +1,15 @@
 "use client";
 
-import styles from "./page.module.css";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { ui } from "../components/ui";
 
 export default function InterestForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showInterestDropdown, setShowInterestDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const handleReturnToMain = () => {
-    // Use window.location to ensure full page reload for animations
-    window.location.href = "/";
-  };
 
   const [formData, setFormData] = useState({
     name: "",
@@ -36,34 +32,25 @@ export default function InterestForm() {
     { value: "policy", label: "Policy" },
   ];
 
-  // Handle clicking outside dropdown to close it
+  // Close the dropdown when clicking outside of it.
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      const dropdownContent = document.querySelector(`.${styles.dropdownContent}`);
-      const dropdownOverlay = document.querySelector(`.${styles.dropdownOverlay}`);
-      
-      if (showInterestDropdown && 
-          dropdownContent && 
-          !dropdownContent.contains(target) && 
-          dropdownOverlay && 
-          !dropdownOverlay.contains(target)) {
+      if (
+        showInterestDropdown &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowInterestDropdown(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showInterestDropdown]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleInterestChange = (interest: string) => {
@@ -83,7 +70,7 @@ export default function InterestForm() {
   };
 
   const getInterestLabel = (value: string) => {
-    return areaOptions.find(option => option.value === value)?.label || value;
+    return areaOptions.find((option) => option.value === value)?.label || value;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -103,13 +90,9 @@ export default function InterestForm() {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        // Success! Reset submission state
         setIsSubmitting(false);
-
-        // Redirect to success page
         router.push("/interest-form/success");
       } else {
-        // Handle server-side error
         throw new Error(result.error || "Submission failed");
       }
     } catch (error) {
@@ -122,7 +105,8 @@ export default function InterestForm() {
     // Fallback method: Create a temporary form to submit to Google Forms
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = "https://docs.google.com/forms/d/e/1FAIpQLSeDlUA5uoNE4ecN3wojKeZaQGoBOncZSGmlRteWcKd8nJsD5A/formResponse";
+    form.action =
+      "https://docs.google.com/forms/d/e/1FAIpQLSeDlUA5uoNE4ecN3wojKeZaQGoBOncZSGmlRteWcKd8nJsD5A/formResponse";
     form.target = "_blank";
 
     // Add basic form fields
@@ -156,44 +140,39 @@ export default function InterestForm() {
     form.submit();
     document.body.removeChild(form);
 
-    // Reset submission state
     setIsSubmitting(false);
-
-    // Redirect to success page
     router.push("/interest-form/success");
   };
 
-  return (
-    <div className={styles.applicationPage}>
-      <div className={styles.headerWithNav}>
-        <button onClick={handleReturnToMain} className={styles.returnButton}>
-          ← Return to Homepage
-        </button>
-      </div>
+  const isValid =
+    formData.name && formData.major && formData.email && formData.interests.length > 0;
 
-      <div className={styles.applicationContent}>
-        {/* Header */}
-        <div className={styles.applicationHeader}>
-          <p className={styles.smallText}>Join The Future of Healthcare Innovation</p>
-          <h1 className={styles.mainHeader}>Yale Helix Incubator</h1>
-          <h2 className={styles.subHeader}>Interest Form</h2>
-          <p className={styles.headerDescription}>
-            Are you interested in joining Yale Helix? Fill out this form to let us know about your interests and we&apos;ll be in touch!
+  return (
+    <div className={ui.page}>
+      <div className={ui.container}>
+        <Link href="/" className={ui.returnButton}>
+          &larr; Return to homepage
+        </Link>
+
+        <div className="mt-12">
+          <p className={ui.eyebrow}>Join the future of healthcare innovation</p>
+          <h1 className={ui.title}>Interest form</h1>
+          <p className={ui.subtitle}>
+            Interested in joining Yale Helix? Tell us about your interests and we will be in touch.
           </p>
         </div>
 
-        {/* Interest Form */}
-        <form onSubmit={handleSubmit} className={styles.applicationForm}>
-          <div className={styles.formSection}>
-            <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>Your Information</h3>
-              <div className={styles.sectionLine}></div>
+        <form onSubmit={handleSubmit} className="mt-12 space-y-10">
+          <section>
+            <div className="mb-6">
+              <h2 className={ui.sectionTitle}>Your information</h2>
+              <div className={ui.sectionRule} />
             </div>
 
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label htmlFor="name" className={styles.label}>
-                  Full Name <span className={styles.required}>*</span>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div>
+                <label htmlFor="name" className={ui.label}>
+                  Full name <span className={ui.required}>*</span>
                 </label>
                 <input
                   type="text"
@@ -201,14 +180,14 @@ export default function InterestForm() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={styles.input}
+                  className={ui.input}
                   required
                 />
               </div>
 
-              <div className={styles.formGroup}>
-                <label htmlFor="major" className={styles.label}>
-                  Major/Field of Study <span className={styles.required}>*</span>
+              <div>
+                <label htmlFor="major" className={ui.label}>
+                  Major or field of study <span className={ui.required}>*</span>
                 </label>
                 <input
                   type="text"
@@ -216,14 +195,14 @@ export default function InterestForm() {
                   name="major"
                   value={formData.major}
                   onChange={handleChange}
-                  className={styles.input}
+                  className={ui.input}
                   required
                 />
               </div>
 
-              <div className={styles.formGroup}>
-                <label htmlFor="email" className={styles.label}>
-                  Email Address <span className={styles.required}>*</span>
+              <div>
+                <label htmlFor="email" className={ui.label}>
+                  Email address <span className={ui.required}>*</span>
                 </label>
                 <input
                   type="email"
@@ -231,81 +210,72 @@ export default function InterestForm() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={styles.input}
+                  className={ui.input}
                   required
                 />
               </div>
 
-              <div className={styles.formGroup}>
-                <label className={styles.label}>
-                  Areas of Interest <span className={styles.required}>*</span>
+              <div>
+                <label className={ui.label}>
+                  Areas of interest <span className={ui.required}>*</span>
                 </label>
-                
-                {/* Selected Interests Display */}
+
                 {formData.interests.length > 0 && (
-                  <div className={styles.selectedInterests}>
+                  <div className="mb-2 flex flex-wrap gap-2">
                     {formData.interests.map((interest) => (
-                      <div key={interest} className={styles.interestCard}>
-                        <span>{getInterestLabel(interest)}</span>
+                      <span
+                        key={interest}
+                        className="inline-flex items-center gap-1.5 rounded-md bg-accent-soft px-2.5 py-1 text-sm text-text"
+                      >
+                        {getInterestLabel(interest)}
                         <button
                           type="button"
                           onClick={() => removeInterest(interest)}
-                          className={styles.removeInterest}
+                          aria-label={`Remove ${getInterestLabel(interest)}`}
+                          className="text-text-muted transition-colors hover:text-text"
                         >
                           ×
                         </button>
-                      </div>
+                      </span>
                     ))}
                   </div>
                 )}
 
-                {/* Interest Dropdown */}
-                <div className={styles.interestDropdown} ref={dropdownRef}>
+                <div className="relative" ref={dropdownRef}>
                   <button
                     type="button"
-                    onClick={() => setShowInterestDropdown(!showInterestDropdown)}
-                    className={styles.dropdownButton}
+                    onClick={() => setShowInterestDropdown((v) => !v)}
+                    className={`${ui.input} flex items-center justify-between text-left`}
                   >
-                    {formData.interests.length === 0 
-                      ? "Select areas of interest..." 
-                      : `Selected ${formData.interests.length} area${formData.interests.length !== 1 ? 's' : ''}`
-                    }
-                    <span className={styles.dropdownArrow}>▼</span>
+                    <span className={formData.interests.length === 0 ? "text-text-muted/60" : ""}>
+                      {formData.interests.length === 0
+                        ? "Select areas of interest..."
+                        : `Selected ${formData.interests.length} area${
+                            formData.interests.length !== 1 ? "s" : ""
+                          }`}
+                    </span>
+                    <span className="text-xs text-text-muted">▼</span>
                   </button>
-                  
+
                   {showInterestDropdown && (
-                    <>
-                      <div className={styles.dropdownOverlay} onClick={() => setShowInterestDropdown(false)} />
-                      <div className={styles.dropdownContent}>
-                        <div className={styles.dropdownHeader}>
-                          <h3 className={styles.dropdownTitle}>Select Areas of Interest</h3>
+                    <div className="absolute z-20 mt-2 max-h-72 w-full overflow-auto rounded-md border border-hairline bg-bg-elev p-1.5 shadow-elev">
+                      {areaOptions.map((option) => {
+                        const checked = formData.interests.includes(option.value);
+                        return (
                           <button
                             type="button"
-                            onClick={() => setShowInterestDropdown(false)}
-                            className={styles.closeButton}
-                          >
-                            ×
-                          </button>
-                        </div>
-                        {areaOptions.map((option) => (
-                          <div
                             key={option.value}
-                            className={`${styles.interestOption} ${
-                              formData.interests.includes(option.value) ? styles.selected : ''
+                            onClick={() => handleInterestChange(option.value)}
+                            className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm transition-colors ${
+                              checked ? "bg-accent-soft text-text" : "text-text-muted hover:bg-surface"
                             }`}
-                            onClick={() => {
-                              handleInterestChange(option.value);
-                              // Don't close dropdown immediately to allow multiple selections
-                            }}
                           >
-                            <span className={styles.optionLabel}>{option.label}</span>
-                            {formData.interests.includes(option.value) && (
-                              <span className={styles.checkmark}>✓</span>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </>
+                            {option.label}
+                            {checked && <span className="text-accent">✓</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
                   )}
                 </div>
 
@@ -313,36 +283,35 @@ export default function InterestForm() {
                 {formData.interests.map((interest) => {
                   const match = areaOptions.find((o) => o.value === interest);
                   return (
-                    <input 
-                      key={interest} 
-                      type="hidden" 
-                      name="entry.878899907" 
-                      value={match ? match.label : interest} 
+                    <input
+                      key={interest}
+                      type="hidden"
+                      name="entry.878899907"
+                      value={match ? match.label : interest}
                     />
                   );
                 })}
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* Submit Button */}
-          <div className={styles.submitSection}>
-            <button
-              type="submit"
-              className={styles.submitButton}
-              disabled={!formData.name || !formData.major || !formData.email || formData.interests.length === 0 || isSubmitting}
-            >
+          <div>
+            <button type="submit" className={ui.primaryButton} disabled={!isValid || isSubmitting}>
               {isSubmitting ? (
                 <>
-                  <span className={styles.spinner}></span>
-                  Submitting...
+                  <span className={ui.spinner} />
+                  Submitting
                 </>
               ) : (
-                "Submit Interest Form"
+                "Submit interest form"
               )}
             </button>
-            <p className={styles.submitNote}>
-              Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>
+            <p className={ui.note}>
+              Questions? Contact us at{" "}
+              <a href="mailto:admin@yalehelix.org" className={ui.link}>
+                admin@yalehelix.org
+              </a>
+              .
             </p>
           </div>
         </form>

@@ -1,79 +1,30 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { ui } from "../components/ui";
 
 export default function StudentLandingPage() {
-  const router = useRouter();
-
-  const handleReturnToMain = () => {
-    window.location.href = "/";
-  };
-
-  const handleApplyClick = () => {
-    router.push("/apply");
-  };
-
-  const handleInterestFormClick = () => {
-    router.push("/interest-form");
-  };
-
   return (
-    <div className={styles.studentLandingPage}>
-      <div className={styles.headerWithNav}>
-        <button onClick={handleReturnToMain} className={styles.returnButton}>
-          ← Return to Homepage
-        </button>
-      </div>
+    <div className={ui.page}>
+      <div className="mx-auto max-w-content px-5 py-16 md:px-8">
+        <Link href="/" className={ui.returnButton}>
+          &larr; Return to homepage
+        </Link>
 
-      <div className={styles.landingContent}>
-        {/* Header */}
-        <div className={styles.landingHeader}>
-          <h1 className={styles.mainHeader}>Join Yale Helix</h1>
-          <p className={styles.headerDescription}>
-            Apply to our student fellowship program and fill out our interest form to stay informed about future opportunities.
+        <div className="mt-16 max-w-2xl">
+          <p className={ui.eyebrow}>For students</p>
+          <h1 className={ui.title}>Join Yale Helix!</h1>
+          <p className={ui.subtitle}>
+            Student fellowship applications open in August. Get ready to apply!
           </p>
         </div>
 
-        {/* Options Cards */}
-        <div className={styles.optionsContainer}>
-          {/* Apply Option */}
-          <div className={styles.optionCard} onClick={handleApplyClick}>
-            <div className={styles.optionIcon}>
-              <i className="bi bi-person-plus"></i>
-            </div>
-            <div className={styles.optionContent}>
-              <h3 className={styles.optionTitle}>Student Fellowship Application</h3>
-              <p className={styles.optionDescription}>
-                Ready to join our incubator program? Submit your application for the 2025-2026 academic year. 
-                This comprehensive application includes questions about your background, interests, and a long-form 
-                submission showcasing your skills and creativity.
-              </p>
-              <div className={styles.optionAction}>
-                <span className={styles.actionText}>Start Application</span>
-                <span className={styles.actionArrow}>→</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Interest Form Option */}
-          <div className={styles.optionCard} onClick={handleInterestFormClick}>
-            <div className={styles.optionIcon}>
-              <i className="bi bi-envelope-heart"></i>
-            </div>
-            <div className={styles.optionContent}>
-              <h3 className={styles.optionTitle}>Interest Form</h3>
-              <p className={styles.optionDescription}>
-                Not ready to apply yet, but want to stay connected? Fill out our interest form to receive updates 
-                about future opportunities, events, and announcements. Perfect for students who want to learn more 
-                before committing to a full application.
-              </p>
-              <div className={styles.optionAction}>
-                <span className={styles.actionText}>Complete Interest Form</span>
-                <span className={styles.actionArrow}>→</span>
-              </div>
-            </div>
-          </div>
+        <div className="mt-10 max-w-2xl rounded-xl border border-hairline bg-surface p-8">
+          <span className="inline-block rounded-full border border-accent/40 bg-accent-soft px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-accent">
+            Opening in August!
+          </span>
+          <p className="mt-4 leading-relaxed text-text-muted">
+            Applications for the Yale Helix student fellowship open in <strong className="text-text">AUGUST</strong>.
+            Mark your calendar, check back then, and come build something incredible with us!
+          </p>
         </div>
       </div>
     </div>

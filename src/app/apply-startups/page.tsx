@@ -1,13 +1,92 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
 import FileUpload from "../components/FileUpload";
+import { ui } from "../components/ui";
+
+type FormData = {
+  startupName: string;
+  contactName: string;
+  email: string;
+  website: string;
+  linkedin: string;
+  startupDescription: string;
+  primaryProblem: string;
+  solution: string;
+  currentStage: string;
+  targetCustomers: string;
+  businessModel: string;
+  competitors: string;
+  team: string;
+  milestoneAchievements: string;
+  twelveMonthGoals: string;
+  studentRoles: string;
+  otherAccelerators: string;
+  additionalInfo: string;
+  pitchDeck: string;
+};
+
+type Field = {
+  key: keyof FormData;
+  label: string;
+  required?: boolean;
+  kind?: "text" | "url" | "email" | "textarea" | "select";
+  rows?: number;
+  placeholder?: string;
+  options?: string[];
+};
+
+const SECTIONS: { title: string; fields: Field[] }[] = [
+  {
+    title: "Basic information",
+    fields: [
+      { key: "startupName", label: "Startup name", required: true },
+      { key: "contactName", label: "Primary contact name", required: true },
+      { key: "email", label: "Email address", required: true, kind: "email" },
+      { key: "website", label: "Startup website", kind: "url", placeholder: "https://" },
+      { key: "linkedin", label: "LinkedIn profile", kind: "url", placeholder: "https://linkedin.com/in/" },
+    ],
+  },
+  {
+    title: "Startup information",
+    fields: [
+      { key: "startupDescription", label: "Describe your startup in one sentence", required: true, kind: "textarea", rows: 3 },
+      { key: "primaryProblem", label: "What is the primary problem your startup aims to solve?", required: true, kind: "textarea", rows: 4 },
+      { key: "solution", label: "Describe your solution and how it is unique", required: true, kind: "textarea", rows: 4 },
+      { key: "currentStage", label: "Current stage", required: true, kind: "select", options: ["Idea", "MVP", "Early Revenue", "Growth"] },
+      { key: "targetCustomers", label: "Who are your target customers?", required: true, kind: "textarea", rows: 3 },
+      { key: "businessModel", label: "Briefly describe your business model", required: true, kind: "textarea", rows: 3 },
+      { key: "competitors", label: "Who are your main competitors, and what differentiates you?", required: true, kind: "textarea", rows: 4 },
+    ],
+  },
+  {
+    title: "Team information",
+    fields: [
+      { key: "team", label: "List the names, roles, and brief bios of your team members", required: true, kind: "textarea", rows: 6 },
+    ],
+  },
+  {
+    title: "Progress and goals",
+    fields: [
+      { key: "milestoneAchievements", label: "What milestones have you achieved so far?", required: true, kind: "textarea", rows: 4 },
+      { key: "twelveMonthGoals", label: "What are your key goals for the next 6-12 months, and how can Helix help?", required: true, kind: "textarea", rows: 4 },
+      { key: "studentRoles", label: "What roles would you see Helix students taking in your startup?", required: true, kind: "textarea", rows: 4 },
+    ],
+  },
+  {
+    title: "Additional information",
+    fields: [
+      { key: "otherAccelerators", label: "Have you participated in any other incubators or accelerators?", kind: "textarea", rows: 3 },
+      { key: "additionalInfo", label: "Any additional information you would like to share?", kind: "textarea", rows: 4 },
+    ],
+  },
+];
 
 export default function StartupApplicationPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     startupName: "",
     contactName: "",
     email: "",
@@ -31,20 +110,12 @@ export default function StartupApplicationPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [currentFileUploaded, setCurrentFileUploaded] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleReturnToMain = () => {
-    // Use window.location to ensure full page reload for animations
-    window.location.href = "/";
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Function to check if all required fields are filled
@@ -71,26 +142,24 @@ export default function StartupApplicationPage() {
   const handleFileSelect = (file: File | null) => {
     if (file) {
       // Validate file size (4MB for pitch deck)
-              const maxSizeMB = 4;
+      const maxSizeMB = 4;
       if (file.size > maxSizeMB * 1024 * 1024) {
         alert(`File size must be less than ${maxSizeMB}MB`);
         return;
       }
-      
+
       // Validate file type (PDF only for pitch deck)
-      const acceptedTypes = ['.pdf'];
-      const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+      const acceptedTypes = [".pdf"];
+      const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
       if (!acceptedTypes.includes(fileExtension)) {
-        alert(`File type not supported. Accepted types: ${acceptedTypes.join(', ')}`);
+        alert(`File type not supported. Accepted types: ${acceptedTypes.join(", ")}`);
         return;
       }
-      
-      // Clear any previous errors and set file
+
       setSelectedFile(file);
       setCurrentFileUploaded(false);
       setFormData((prev) => ({ ...prev, pitchDeck: "" }));
     } else {
-      // File was removed
       setSelectedFile(null);
       setCurrentFileUploaded(false);
       setFormData((prev) => ({ ...prev, pitchDeck: "" }));
@@ -102,28 +171,23 @@ export default function StartupApplicationPage() {
     setIsSubmitting(true);
 
     try {
-      // First, submit the Google form with the current form data
-      // If there's a file that needs to be uploaded, we'll use a placeholder for now
-      const pitchDeckForForm = selectedFile && !currentFileUploaded ? 
-        `File selected: ${selectedFile.name} (will be uploaded after form submission)` : 
-        formData.pitchDeck;
+      // First, submit the Google form with the current form data.
+      const pitchDeckForForm =
+        selectedFile && !currentFileUploaded
+          ? `File selected: ${selectedFile.name} (will be uploaded after form submission)`
+          : formData.pitchDeck;
 
-      // Submit the Google form first
-      await submitFormToGoogle(pitchDeckForForm);
+      submitFormToGoogle(pitchDeckForForm);
 
       // Now handle file upload if needed
       if (selectedFile && !currentFileUploaded) {
-
-        
         try {
-          // Create FormData for upload
           const uploadFormData = new FormData();
-          uploadFormData.append('file', selectedFile);
-          uploadFormData.append('fileName', selectedFile.name);
-          uploadFormData.append('fileType', selectedFile.type);
-          uploadFormData.append('folderName', `${formData.startupName} - ${formData.contactName}`);
-          
-          // Upload to Google Drive
+          uploadFormData.append("file", selectedFile);
+          uploadFormData.append("fileName", selectedFile.name);
+          uploadFormData.append("fileType", selectedFile.type);
+          uploadFormData.append("folderName", `${formData.startupName} - ${formData.contactName}`);
+
           const uploadResponse = await fetch("/api/apply-startup/upload-startup", {
             method: "POST",
             body: uploadFormData,
@@ -136,20 +200,14 @@ export default function StartupApplicationPage() {
           const uploadResult = await uploadResponse.json();
           setFormData((prev) => ({ ...prev, pitchDeck: uploadResult.driveLink }));
           setCurrentFileUploaded(true);
-          
-
-          
         } catch (error) {
-          console.error('Upload error:', error);
-          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          console.error("Upload error:", error);
+          const errorMessage = error instanceof Error ? error.message : "Unknown error";
           throw new Error(`File upload failed: ${errorMessage}`);
         }
       }
 
-      // Reset submission state
       setIsSubmitting(false);
-
-      // Redirect to success page
       router.push("/apply-startups/success");
     } catch (error) {
       console.error("Submission error:", error);
@@ -158,70 +216,18 @@ export default function StartupApplicationPage() {
     }
   };
 
-  const submitApplicationToServer = async (pitchDeckLink: string) => {
-    try {
-      // Prepare the application data
-      const applicationData = {
-        startupName: formData.startupName,
-        contactName: formData.contactName,
-        email: formData.email,
-        website: formData.website,
-        linkedin: formData.linkedin,
-        startupDescription: formData.startupDescription,
-        primaryProblem: formData.primaryProblem,
-        solution: formData.solution,
-        currentStage: formData.currentStage,
-        targetCustomers: formData.targetCustomers,
-        businessModel: formData.businessModel,
-        competitors: formData.competitors,
-        team: formData.team,
-        milestoneAchievements: formData.milestoneAchievements,
-        twelveMonthGoals: formData.twelveMonthGoals,
-        studentRoles: formData.studentRoles,
-        otherAccelerators: formData.otherAccelerators,
-        additionalInfo: formData.additionalInfo,
-        pitchDeck: pitchDeckLink,
-      };
-
-      // Submit to our server-side API
-      const response = await fetch("/api/apply-startup/submit-startup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(applicationData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        // Success! Reset submission state
-        setIsSubmitting(false);
-
-        // Redirect to success page
-        router.push("/apply/success");
-      } else {
-        // Handle server-side error
-        throw new Error(result.error || "Submission failed");
-      }
-    } catch (error) {
-      // Fallback: Try client-side submission if server fails
-      submitFormToGoogle(pitchDeckLink);
-    }
-  };
-
   const submitFormToGoogle = (pitchDeckLink: string) => {
     // Submit Google form in the background using an iframe to prevent page redirect
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.name = 'google-form-submit';
-    
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.name = "google-form-submit";
+
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = "https://docs.google.com/forms/d/e/1FAIpQLSeTs-mkFf0y6AVKzVyg2Qx8eG4azWX_oC3GGRsNNtMYsagExQ/formResponse";
-    form.target = 'google-form-submit'; // Target the hidden iframe
-    
-    // Add all form fields
+    form.action =
+      "https://docs.google.com/forms/d/e/1FAIpQLSeTs-mkFf0y6AVKzVyg2Qx8eG4azWX_oC3GGRsNNtMYsagExQ/formResponse";
+    form.target = "google-form-submit"; // Target the hidden iframe
+
     const fields = [
       { name: "entry.171789341", value: formData.startupName },
       { name: "entry.359504525", value: formData.contactName },
@@ -254,377 +260,85 @@ export default function StartupApplicationPage() {
       }
     });
 
-    // Add iframe and form to DOM, submit, then clean up
     document.body.appendChild(iframe);
     document.body.appendChild(form);
     form.submit();
-    
-    // Clean up after submission
-    setTimeout(() => {
-      if (document.body.contains(iframe)) {
-        document.body.removeChild(iframe);
-      }
-      if (document.body.contains(form)) {
-        document.body.removeChild(form);
-      }
-    }, 1000);
 
-    // Note: Redirect is handled in the main function after file upload
+    setTimeout(() => {
+      if (document.body.contains(iframe)) document.body.removeChild(iframe);
+      if (document.body.contains(form)) document.body.removeChild(form);
+    }, 1000);
+  };
+
+  const renderField = (field: Field) => {
+    const common = {
+      id: field.key,
+      name: field.key,
+      value: formData[field.key],
+      onChange: handleChange,
+      required: field.required,
+    };
+
+    return (
+      <div key={field.key} className={field.kind === "textarea" || field.kind === "select" ? "sm:col-span-2" : ""}>
+        <label htmlFor={field.key} className={ui.label}>
+          {field.label} {field.required && <span className={ui.required}>*</span>}
+        </label>
+        {field.kind === "textarea" ? (
+          <textarea {...common} rows={field.rows ?? 3} className={ui.textarea} />
+        ) : field.kind === "select" ? (
+          <select {...common} className={ui.select}>
+            <option value="">Select stage</option>
+            {field.options?.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            {...common}
+            type={field.kind === "email" ? "email" : field.kind === "url" ? "url" : "text"}
+            placeholder={field.placeholder}
+            className={ui.input}
+          />
+        )}
+      </div>
+    );
   };
 
   return (
-    <div className={styles.applicationPage}>
-      <div className={styles.headerWithNav}>
-        <button onClick={handleReturnToMain} className={styles.returnButton}>
-          ← Return to Homepage
-        </button>
-      </div>
+    <div className={ui.page}>
+      <div className={ui.container}>
+        <Link href="/" className={ui.returnButton}>
+          &larr; Return to homepage
+        </Link>
 
-      <div className={styles.applicationContent}>
-        {/* Header with Return Button */}
-
-        {/* Header */}
-        <div className={styles.applicationHeader}>
-          <p className={styles.smallText}>Join The Future of Healthcare Innovation</p>
-          <h1 className={styles.mainHeader}>Yale Helix Incubator</h1>
-          <h2 className={styles.subHeader}>Startup Application 2025-2026</h2>
-          <p className={styles.headerDescription}>
-            Are you a founder in the healthcare, digital health, or biotech space ready to fast-track your growth? We invite
-            startups at any stage to apply, particularly those connected to the Yale and New Haven community, including Yale
-            alumni, graduate, and undergraduate students. Discover how the Yale Helix Incubator can be a valuable opportunity
-            for your team.
+        <div className="mt-12">
+          <p className={ui.eyebrow}>Join the future of healthcare innovation</p>
+          <h1 className={ui.title}>Startup application 2025-2026</h1>
+          <p className={ui.subtitle}>
+            Are you a founder in healthcare, digital health, or biotech ready to fast-track your
+            growth? We invite startups at any stage to apply, particularly those connected to the
+            Yale and New Haven community, including Yale alumni, graduate, and undergraduate students.
           </p>
         </div>
 
-        {/* Application Form - Using controlled submission */}
-        <form onSubmit={handleSubmit} className={styles.applicationForm}>
-          {/* Basic Information Section */}
-          <div className={styles.formSection}>
-            <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>Basic Information</h3>
-              <div className={styles.sectionLine}></div>
-            </div>
-
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.171789341" className={styles.label}>
-                  Startup Name <span className={styles.required}>*</span>
-                </label>
-                <input
-                  type="text"
-                  id="entry.171789341"
-                  name="entry.171789341"
-                  value={formData.startupName}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, startupName: e.target.value }))}
-                  className={styles.input}
-                  required
-                />
+        <form onSubmit={handleSubmit} className="mt-12 space-y-10">
+          {SECTIONS.map((section) => (
+            <section key={section.title}>
+              <div className="mb-6">
+                <h2 className={ui.sectionTitle}>{section.title}</h2>
+                <div className={ui.sectionRule} />
               </div>
+              <div className="grid gap-6 sm:grid-cols-2">{section.fields.map(renderField)}</div>
+            </section>
+          ))}
 
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.359504525" className={styles.label}>
-                  Primary Contact Name <span className={styles.required}>*</span>
-                </label>
-                <input
-                  type="text"
-                  id="entry.359504525"
-                  name="entry.359504525"
-                  value={formData.contactName}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, contactName: e.target.value }))}
-                  className={styles.input}
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.58582101" className={styles.label}>
-                  Email Address <span className={styles.required}>*</span>
-                </label>
-                <input
-                  type="email"
-                  id="entry.58582101"
-                  name="entry.58582101"
-                  value={formData.email}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                  className={styles.input}
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.883030032" className={styles.label}>
-                  Startup Website
-                </label>
-                <input
-                  type="url"
-                  id="entry.883030032"
-                  name="entry.883030032"
-                  value={formData.website}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, website: e.target.value }))}
-                  className={styles.input}
-                  placeholder="https://"
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.23302701" className={styles.label}>
-                  LinkedIn Profile
-                </label>
-                <input
-                  type="url"
-                  id="entry.23302701"
-                  name="entry.23302701"
-                  value={formData.linkedin}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, linkedin: e.target.value }))}
-                  className={styles.input}
-                  placeholder="https://linkedin.com/in/"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Startup Information Section */}
-          <div className={styles.formSection}>
-            <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>Startup Information</h3>
-              <div className={styles.sectionLine}></div>
-            </div>
-
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.1655775433" className={styles.label}>
-                  Describe your startup in one sentence <span className={styles.required}>*</span>
-                </label>
-                <textarea
-                  id="entry.1655775433"
-                  name="entry.1655775433"
-                  value={formData.startupDescription}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, startupDescription: e.target.value }))}
-                  className={styles.textarea}
-                  rows={3}
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.1777513500" className={styles.label}>
-                  What is the primary problem your startup aims to solve? <span className={styles.required}>*</span>
-                </label>
-                <textarea
-                  id="entry.1777513500"
-                  name="entry.1777513500"
-                  value={formData.primaryProblem}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, primaryProblem: e.target.value }))}
-                  className={styles.textarea}
-                  rows={4}
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.99637537" className={styles.label}>
-                  Describe your solution and how it is unique <span className={styles.required}>*</span>
-                </label>
-                <textarea
-                  id="entry.99637537"
-                  name="entry.99637537"
-                  value={formData.solution}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, solution: e.target.value }))}
-                  className={styles.textarea}
-                  rows={4}
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.1158341576" className={styles.label}>
-                  Current Stage <span className={styles.required}>*</span>
-                </label>
-                <select
-                  id="entry.1158341576"
-                  name="entry.1158341576"
-                  value={formData.currentStage}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, currentStage: e.target.value }))}
-                  className={styles.select}
-                  required
-                >
-                  <option value="">Select stage</option>
-                  <option value="Idea">Idea</option>
-                  <option value="MVP">MVP</option>
-                  <option value="Early Revenue">Early Revenue</option>
-                  <option value="Growth">Growth</option>
-                </select>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.1667235498" className={styles.label}>
-                  Who are your target customers? <span className={styles.required}>*</span>
-                </label>
-                <textarea
-                  id="entry.1667235498"
-                  name="entry.1667235498"
-                  value={formData.targetCustomers}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, targetCustomers: e.target.value }))}
-                  className={styles.textarea}
-                  rows={3}
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.298457997" className={styles.label}>
-                  Briefly describe your business model <span className={styles.required}>*</span>
-                </label>
-                <textarea
-                  id="entry.298457997"
-                  name="entry.298457997"
-                  value={formData.businessModel}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, businessModel: e.target.value }))}
-                  className={styles.textarea}
-                  rows={3}
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.1859300090" className={styles.label}>
-                  Who are your main competitors, and what differentiates you? <span className={styles.required}>*</span>
-                </label>
-                <textarea
-                  id="entry.1859300090"
-                  name="entry.1859300090"
-                  value={formData.competitors}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, competitors: e.target.value }))}
-                  className={styles.textarea}
-                  rows={4}
-                  required
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Team Information Section */}
-          <div className={styles.formSection}>
-            <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>Team Information</h3>
-              <div className={styles.sectionLine}></div>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="entry.1684025098" className={styles.label}>
-                List the names, roles, and brief bios of your team members <span className={styles.required}>*</span>
-              </label>
-              <textarea
-                id="entry.1684025098"
-                name="entry.1684025098"
-                value={formData.team}
-                onChange={(e) => setFormData((prev) => ({ ...prev, team: e.target.value }))}
-                className={styles.textarea}
-                rows={6}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Progress and Goals Section */}
-          <div className={styles.formSection}>
-            <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>Progress and Goals</h3>
-              <div className={styles.sectionLine}></div>
-            </div>
-
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.1602431770" className={styles.label}>
-                  What milestones have you achieved so far? <span className={styles.required}>*</span> <br></br> <br></br>
-                </label>
-                <textarea
-                  id="entry.1602431770"
-                  name="entry.1602431770"
-                  value={formData.milestoneAchievements}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, milestoneAchievements: e.target.value }))}
-                  className={styles.textarea}
-                  rows={4}
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.1881769432" className={styles.label}>
-                  What are your key goals for the next 6-12 months and how can Helix help?{" "}
-                  <span className={styles.required}>*</span>
-                </label>
-                <textarea
-                  id="entry.1881769432"
-                  name="entry.1881769432"
-                  value={formData.twelveMonthGoals}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, twelveMonthGoals: e.target.value }))}
-                  className={styles.textarea}
-                  rows={4}
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.2119814287" className={styles.label}>
-                  What role(s) would you see students from Helix taking in your startup?{" "}
-                  <span className={styles.required}>*</span>
-                </label>
-                <textarea
-                  id="entry.2119814287"
-                  name="entry.2119814287"
-                  value={formData.studentRoles}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, studentRoles: e.target.value }))}
-                  className={styles.textarea}
-                  rows={4}
-                  required
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Additional Information Section */}
-          <div className={styles.formSection}>
-            <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>Additional Information</h3>
-              <div className={styles.sectionLine}></div>
-            </div>
-
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.291054326" className={styles.label}>
-                  Have you participated in any other incubators or accelerators?
-                </label>
-                <textarea
-                  id="entry.291054326"
-                  name="entry.291054326"
-                  value={formData.otherAccelerators}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, otherAccelerators: e.target.value }))}
-                  className={styles.textarea}
-                  rows={3}
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="entry.1080397699" className={styles.label}>
-                  Any additional information you would like to share? <br></br> <br></br>
-                </label>
-                <textarea
-                  id="entry.1080397699"
-                  name="entry.1080397699"
-                  value={formData.additionalInfo}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, additionalInfo: e.target.value }))}
-                  className={styles.textarea}
-                  rows={4}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.formSection}>
-            <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>Pitch Deck</h3>
-              <div className={styles.sectionLine}></div>
+          <section>
+            <div className="mb-6">
+              <h2 className={ui.sectionTitle}>Pitch deck</h2>
+              <div className={ui.sectionRule} />
             </div>
             <FileUpload
               onUploadComplete={(driveLink) => {
@@ -632,51 +346,41 @@ export default function StartupApplicationPage() {
                 setCurrentFileUploaded(true);
               }}
               onFileSelect={handleFileSelect}
-
               acceptedFileTypes={[".pdf"]}
               maxFileSize={4}
-              label="Upload Pitch Deck"
+              label="Upload pitch deck"
               required={true}
               placeholder="Drag and drop your pitch deck here, or click to browse"
               uploadEndpoint="/api/apply-startup/upload-startup"
               autoUpload={false}
             />
-            {/* Hidden input for Google Forms submission */}
-            {formData.pitchDeck && <input type="hidden" name="entry.639898116" value={formData.pitchDeck} />}
-          </div>
+          </section>
 
-
-
-          {/* Submit Button */}
-          <div className={styles.submitSection}>
-            <button
-              type="submit"
-              className={styles.submitButton}
-              disabled={!isFormValid() || isSubmitting}
-            >
+          <div>
+            <button type="submit" className={ui.primaryButton} disabled={!isFormValid() || isSubmitting}>
               {isSubmitting ? (
                 <>
-                  <span className={styles.spinner}></span>
-                  {selectedFile && !currentFileUploaded ? "Submitting Form & Uploading File..." : "Submitting Application..."}
+                  <span className={ui.spinner} />
+                  {selectedFile && !currentFileUploaded
+                    ? "Submitting form and uploading file"
+                    : "Submitting application"}
                 </>
               ) : (
-                "Submit Application"
+                "Submit application"
               )}
             </button>
-            <p className={styles.submitNote}>
-              {isSubmitting 
-                ? "Please wait while we submit your form and upload your file..."
-                : !isFormValid() 
-                  ? (
-                    <>
-                      Please fill in all required fields and upload your pitch deck to submit your application.<br />
-                      If you encounter any issues, please feel free to contact us.
-                    </>
-                  )
-                  : "Your form will be submitted first, then files will be uploaded to Google Drive."
-              }
+            <p className={ui.note}>
+              {isSubmitting
+                ? "Please wait while we submit your form and upload your file."
+                : !isFormValid()
+                  ? "Please fill in all required fields and upload your pitch deck to submit your application."
+                  : "Your form will be submitted first, then your file is uploaded to Google Drive."}
               <br />
-              Questions? Contact us at <a href="mailto:admin@yalehelix.org">admin@yalehelix.org</a>
+              Questions? Contact us at{" "}
+              <a href="mailto:admin@yalehelix.org" className={ui.link}>
+                admin@yalehelix.org
+              </a>
+              .
             </p>
           </div>
         </form>
