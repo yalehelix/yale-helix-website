@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import FileUpload from "../components/FileUpload";
 import { ui } from "../components/ui";
+import { supabaseBrowser } from "@/lib/supabaseBrowser";
 
 type FormData = {
   startupName: string;
@@ -18,11 +19,9 @@ type FormData = {
   currentStage: string;
   targetCustomers: string;
   businessModel: string;
-  competitors: string;
   team: string;
   milestoneAchievements: string;
   twelveMonthGoals: string;
-  studentRoles: string;
   otherAccelerators: string;
   additionalInfo: string;
   // Mentorship
@@ -36,7 +35,6 @@ type FormData = {
   exampleProjects: string;
   desiredSkills: string;
   involvementLevel: string;
-  pitchDeck: string;
 };
 
 type Field = {
@@ -154,11 +152,9 @@ export default function StartupApplicationPage() {
     currentStage: "",
     targetCustomers: "",
     businessModel: "",
-    competitors: "",
     team: "",
     milestoneAchievements: "",
     twelveMonthGoals: "",
-    studentRoles: "",
     otherAccelerators: "",
     additionalInfo: "",
     mentorWhy: "",
@@ -170,10 +166,8 @@ export default function StartupApplicationPage() {
     exampleProjects: "",
     desiredSkills: "",
     involvementLevel: "",
-    pitchDeck: "",
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [currentFileUploaded, setCurrentFileUploaded] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
@@ -214,140 +208,69 @@ export default function StartupApplicationPage() {
       formData.skillSets.length > 0 &&
       formData.exampleProjects.trim() !== "" &&
       formData.involvementLevel.trim() !== "" &&
-      (selectedFile || formData.pitchDeck) // Either a file is selected or already uploaded
+      selectedFile !== null
     );
   };
 
   const handleFileSelect = (file: File | null) => {
-    if (file) {
-      // Validate file size (4MB for pitch deck)
-      const maxSizeMB = 4;
-      if (file.size > maxSizeMB * 1024 * 1024) {
-        alert(`File size must be less than ${maxSizeMB}MB`);
-        return;
-      }
-
-      // Validate file type (PDF only for pitch deck)
-      const acceptedTypes = [".pdf"];
-      const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
-      if (!acceptedTypes.includes(fileExtension)) {
-        alert(`File type not supported. Accepted types: ${acceptedTypes.join(", ")}`);
-        return;
-      }
-
-      setSelectedFile(file);
-      setCurrentFileUploaded(false);
-      setFormData((prev) => ({ ...prev, pitchDeck: "" }));
-    } else {
+    if (!file) {
       setSelectedFile(null);
-      setCurrentFileUploaded(false);
-      setFormData((prev) => ({ ...prev, pitchDeck: "" }));
+      return;
     }
+    const maxSizeMB = 50;
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      alert(`File size must be less than ${maxSizeMB}MB`);
+      return;
+    }
+    if (!file.name.toLowerCase().endsWith(".pdf")) {
+      alert("Please upload a PDF file.");
+      return;
+    }
+    setSelectedFile(file);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedFile) {
+      alert("Please upload your pitch deck (PDF).");
+      return;
+    }
     setIsSubmitting(true);
 
     try {
-      // First, submit the Google form with the current form data.
-      const pitchDeckForForm =
-        selectedFile && !currentFileUploaded
-          ? `File selected: ${selectedFile.name} (will be uploaded after form submission)`
-          : formData.pitchDeck;
+      // 1. Ask the server for a one-time signed upload URL.
+      const urlRes = await fetch("/api/apply-startup/upload-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileName: selectedFile.name }),
+      });
+      if (!urlRes.ok) throw new Error("Could not start the upload");
+      const { bucket, path, token } = await urlRes.json();
 
-      submitFormToGoogle(pitchDeckForForm);
+      // 2. Upload the deck straight to Supabase Storage (skips Vercel's 4.5MB limit).
+      const { error: uploadError } = await supabaseBrowser.storage
+        .from(bucket)
+        .uploadToSignedUrl(path, token, selectedFile, { contentType: "application/pdf" });
+      if (uploadError) throw uploadError;
 
-      // Now handle file upload if needed
-      if (selectedFile && !currentFileUploaded) {
-        try {
-          const uploadFormData = new FormData();
-          uploadFormData.append("file", selectedFile);
-          uploadFormData.append("fileName", selectedFile.name);
-          uploadFormData.append("fileType", selectedFile.type);
-          uploadFormData.append("folderName", `${formData.startupName} - ${formData.contactName}`);
-
-          const uploadResponse = await fetch("/api/apply-startup/upload-startup", {
-            method: "POST",
-            body: uploadFormData,
-          });
-
-          if (!uploadResponse.ok) {
-            throw new Error("File upload failed");
-          }
-
-          const uploadResult = await uploadResponse.json();
-          setFormData((prev) => ({ ...prev, pitchDeck: uploadResult.driveLink }));
-          setCurrentFileUploaded(true);
-        } catch (error) {
-          console.error("Upload error:", error);
-          const errorMessage = error instanceof Error ? error.message : "Unknown error";
-          throw new Error(`File upload failed: ${errorMessage}`);
-        }
+      // 3. Save the application, referencing the uploaded deck.
+      const submitRes = await fetch("/api/apply-startup/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, deckPath: path, deckFilename: selectedFile.name }),
+      });
+      if (!submitRes.ok) {
+        const data = await submitRes.json().catch(() => ({}));
+        throw new Error(data.error || "Submission failed");
       }
 
       setIsSubmitting(false);
       router.push("/apply-startups/success");
-    } catch (error) {
-      console.error("Submission error:", error);
+    } catch (err) {
+      console.error("Submission error:", err);
       setIsSubmitting(false);
       alert("There was an error submitting your application. Please try again.");
     }
-  };
-
-  const submitFormToGoogle = (pitchDeckLink: string) => {
-    // Submit Google form in the background using an iframe to prevent page redirect
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.name = "google-form-submit";
-
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action =
-      "https://docs.google.com/forms/d/e/1FAIpQLSeTs-mkFf0y6AVKzVyg2Qx8eG4azWX_oC3GGRsNNtMYsagExQ/formResponse";
-    form.target = "google-form-submit"; // Target the hidden iframe
-
-    // NOTE: The Mentorship and Students questions are collected here but are not yet
-    // mapped to Google Form entry IDs. Add the matching questions to the Google Form
-    // and wire their entry.<id>s below (skillSets is multi-value: append one input per item).
-    const fields = [
-      { name: "entry.171789341", value: formData.startupName },
-      { name: "entry.359504525", value: formData.contactName },
-      { name: "entry.58582101", value: formData.email },
-      { name: "entry.883030032", value: formData.website },
-      { name: "entry.23302701", value: formData.linkedin },
-      { name: "entry.1655775433", value: formData.startupDescription },
-      { name: "entry.1777513500", value: formData.primaryProblem },
-      { name: "entry.99637537", value: formData.solution },
-      { name: "entry.1158341576", value: formData.currentStage },
-      { name: "entry.1667235498", value: formData.targetCustomers },
-      { name: "entry.298457997", value: formData.businessModel },
-      { name: "entry.1684025098", value: formData.team },
-      { name: "entry.1602431770", value: formData.milestoneAchievements },
-      { name: "entry.2119814287", value: formData.twelveMonthGoals },
-      { name: "entry.1080397699", value: formData.otherAccelerators },
-      { name: "entry.1770175107", value: formData.additionalInfo },
-      { name: "entry.639898116", value: pitchDeckLink },
-    ];
-
-    fields.forEach((field) => {
-      if (field.value) {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = field.name;
-        input.value = field.value;
-        form.appendChild(input);
-      }
-    });
-
-    document.body.appendChild(iframe);
-    document.body.appendChild(form);
-    form.submit();
-
-    setTimeout(() => {
-      if (document.body.contains(iframe)) document.body.removeChild(iframe);
-      if (document.body.contains(form)) document.body.removeChild(form);
-    }, 1000);
   };
 
   const renderField = (field: Field) => {
@@ -503,17 +426,14 @@ export default function StartupApplicationPage() {
               <div className={ui.sectionRule} />
             </div>
             <FileUpload
-              onUploadComplete={(driveLink) => {
-                setFormData((prev) => ({ ...prev, pitchDeck: driveLink }));
-                setCurrentFileUploaded(true);
-              }}
+              onUploadComplete={() => {}}
               onFileSelect={handleFileSelect}
               acceptedFileTypes={[".pdf"]}
-              maxFileSize={4}
+              maxFileSize={50}
               label="Upload pitch deck"
               required={true}
               placeholder="Drag and drop your pitch deck here, or click to browse"
-              uploadEndpoint="/api/apply-startup/upload-startup"
+              uploadEndpoint="/api/apply-startup/upload-url"
               autoUpload={false}
             />
           </section>
@@ -523,9 +443,7 @@ export default function StartupApplicationPage() {
               {isSubmitting ? (
                 <>
                   <span className={ui.spinner} />
-                  {selectedFile && !currentFileUploaded
-                    ? "Submitting form and uploading file"
-                    : "Submitting application"}
+                  Submitting application
                 </>
               ) : (
                 "Submit application"
@@ -533,10 +451,10 @@ export default function StartupApplicationPage() {
             </button>
             <p className={ui.note}>
               {isSubmitting
-                ? "Please wait while we submit your form and upload your file."
+                ? "Please wait while we save your application and upload your deck."
                 : !isFormValid()
                   ? "Please fill in all required fields and upload your pitch deck to submit your application."
-                  : "Your form will be submitted first, then your file is uploaded to Google Drive."}
+                  : "Your pitch deck uploads directly and securely to our storage."}
               <br />
               Questions? Contact us at{" "}
               <a href="mailto:admin@yalehelix.org" className={ui.link}>
