@@ -12,14 +12,6 @@ const nextConfig = {
         ],
       },
 
-      // Cache vendor files for 1 month (+ long SWR)
-      {
-        source: '/assets/vendor/:path*',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=2592000, stale-while-revalidate=31536000' },
-        ],
-      },
-
       // Team images: very long, immutable (put BEFORE the general images rule)
       {
         source: '/assets/img/team/:path*',
@@ -42,16 +34,6 @@ const nextConfig = {
         source: '/assets/img/:path((?!team/|masonry-portfolio/).*)',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
-        ],
-      },
-
-      // Prevent CSS and JS caching during development (no-cache)
-      {
-        source: '/assets/:dir(css|js)/:path*',
-        headers: [
-          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
-          { key: 'Pragma', value: 'no-cache' },
-          { key: 'Expires', value: '0' },
         ],
       },
     ];

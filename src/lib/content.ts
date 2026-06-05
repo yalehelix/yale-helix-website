@@ -57,81 +57,6 @@ export type TimelineItem = {
   details?: string[];
 };
 
-export const STUDENT_TIMELINE: TimelineItem[] = [
-  {
-    date: "August 15",
-    event: "Applications open",
-    body: "The application asks for your resume, relevant experiences, and a series of short questions. We appreciate your time.",
-  },
-  {
-    date: "August 31",
-    event: "EC Bazaar",
-    body: "Join us at our table in the EC Bazaar. Talk to directors and learn more directly from members about Helix.",
-    location: "2-4pm at Commons",
-  },
-  {
-    date: "September 1",
-    event: "General information session",
-    body: "A formal presentation of Helix, the work expected from students, past projects, and the application process. Directors answer questions and share first-hand accounts.",
-    location: "7-8pm, WLH 207",
-  },
-  {
-    date: "September 4",
-    event: "Drop-in office hours #1",
-    body: "Chat in a casual setting with directors. Questions about applications are encouraged.",
-    location: "8-9pm in WLH 114",
-  },
-  {
-    date: "September 7",
-    event: "Written applications due, office hours #2",
-    body: "Applications are due at 11:59pm Eastern. Drop in for casual conversation with directors.",
-    location: "8-9pm in WLH 114",
-  },
-  {
-    date: "September 15",
-    event: "Decisions released",
-  },
-  {
-    date: "To be announced",
-    event: "First meeting",
-    body: "Get to know each other and come to see Helix as a family. We set expectations and discuss the training bootcamp, startup onboarding, and more.",
-  },
-];
-
-export const STARTUP_TIMELINE: TimelineItem[] = [
-  {
-    date: "August 1-15",
-    event: "Startup recruitment",
-    body: "Initial outreach and conversations.",
-    details: [
-      "Apply through the startup application form",
-      "Schedule conversations with the directors",
-      "Tell us your needs",
-    ],
-  },
-  {
-    date: "August 22",
-    event: "Pitches to directors",
-    location: "Tsai City",
-    details: [
-      "Provide details on startup and ideation",
-      "Present desired talent and expected roles",
-      "Provide a timeline for development",
-      "Create proposals on MVP and current progress",
-    ],
-  },
-  {
-    date: "August 25",
-    event: "Offers extended",
-  },
-  {
-    date: "September 27",
-    event: "Pitch day to Helix fellows",
-    location: "Tsai City",
-    details: ["Pitch startup to Helix fellows", "Present desired talent and expected roles"],
-  },
-];
-
 export type Startup = {
   name: string;
   image: string;
@@ -250,32 +175,6 @@ export const ADVISORY_BOARD = [
   { name: "Jorge Torres", title: "JD, Tsai CITY Entrepreneurial Advisor" },
   { name: "Howard P. Forman", title: "MD, MBA" },
   { name: "David Rosenthal", title: "MD, Venture Partner at AlleyCorp" },
-];
-
-export const FELLOWS = [
-  "Constanza Acevedo Fuenzalida",
-  "David Backer Peral",
-  "Giulio Sotto",
-  "Gustavo Zotin Gomes de Oliveira",
-  "Irene Sun",
-  "Ishir Rao",
-  "Jason Zhao",
-  "Jonathan Henkin",
-  "Kashvi Pundir",
-  "Kate Choi",
-  "Marcus Lee",
-  "Prateek Seela",
-  "Rachel Yoon",
-  "Renee Wu",
-  "Soleil Wizman",
-  "Stephanie Wan",
-  "William Wakefield",
-  "David Antwi",
-  "Antara Bajaj",
-  "Kaloyan Dimitrov",
-  "Atreya Manaswi",
-  "Bryan Joo",
-  "Emily Zhang",
 ];
 
 export const FOOTER = {
