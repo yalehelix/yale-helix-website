@@ -23,7 +23,7 @@ export default function Nav() {
     >
       <nav className="mx-auto flex h-16 max-w-content items-center justify-between px-5 md:px-8">
         <Link href="/" className="font-display text-lg font-semibold tracking-tight text-text">
-          Helix<span className="text-accent">.</span>
+          HELIX<span className="text-accent">.</span>
         </Link>
 
         <ul className="hidden items-center gap-7 lg:flex">
