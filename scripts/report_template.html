@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --navy: #00356b;
+        --accent: #4268ff;
+        --ink: #14181f;
+        --muted: #5b6573;
+        --line: #e4e7ec;
+      }
+      @page {
+        size: Letter;
+        margin: 18mm 16mm 16mm;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--ink);
+        font-size: 10.5px;
+        line-height: 1.55;
+        margin: 0;
+      }
+      .eyebrow {
+        font-family: "Space Grotesk", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 9px;
+        font-weight: 600;
+        color: var(--accent);
+        margin: 0 0 6px;
+      }
+      h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        margin: 0 0 14px;
+      }
+      .meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 28px;
+        padding: 14px 0 16px;
+        border-top: 2px solid var(--navy);
+        border-bottom: 1px solid var(--line);
+      }
+      .meta .item {
+        display: flex;
+        gap: 8px;
+      }
+      .meta .k {
+        color: var(--muted);
+        min-width: 90px;
+      }
+      .meta .v {
+        font-weight: 500;
+        word-break: break-word;
+      }
+      section {
+        margin-top: 18px;
+      }
+      h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--navy);
+        margin: 0 0 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid var(--line);
+      }
+      .field {
+        margin-bottom: 11px;
+        break-inside: avoid;
+      }
+      .field .label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+      .field .value {
+        white-space: pre-wrap;
+        color: var(--ink);
+      }
+      .deck-note {
+        margin-top: 22px;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--accent);
+        border-radius: 4px;
+        color: var(--muted);
+        background: #f8f9fb;
+      }
+      .deck-note strong {
+        color: var(--ink);
+      }
+      .footer {
+        margin-top: 26px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
+        font-size: 8.5px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <p class="eyebrow">Yale Helix &middot; Startup Application</p>
+    <h1>{{ app.startup_name }}</h1>
+
+    <div class="meta">
+      <div class="item"><span class="k">Contact</span><span class="v">{{ app.contact_name }}</span></div>
+      <div class="item"><span class="k">Email</span><span class="v">{{ app.email }}</span></div>
+      {% if app.website %}<div class="item"><span class="k">Website</span><span class="v">{{ app.website }}</span></div>{% endif %}
+      {% if app.linkedin %}<div class="item"><span class="k">LinkedIn</span><span class="v">{{ app.linkedin }}</span></div>{% endif %}
+      <div class="item"><span class="k">Submitted</span><span class="v">{{ app.submitted_human }}</span></div>
+      <div class="item"><span class="k">Deck</span><span class="v">{{ app.deck_filename or "attached" }}</span></div>
+    </div>
+
+    {% for heading, fields in sections %}
+    <section>
+      <h2>{{ heading }}</h2>
+      {% for label, value in fields %}{% if value %}
+      <div class="field">
+        <div class="label">{{ label }}</div>
+        <div class="value">{{ value }}</div>
+      </div>
+      {% endif %}{% endfor %}
+    </section>
+    {% endfor %}
+
+    <div class="deck-note">
+      <strong>Pitch deck</strong> &mdash; {{ app.deck_filename or "the submitted PDF" }} is appended on the following pages.
+    </div>
+
+    <div class="footer">Generated {{ generated_at }} &middot; Application ID {{ app.id }}</div>
+  </body>
+</html>

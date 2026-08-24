@@ -3,11 +3,31 @@
 import { motion, useReducedMotion } from "motion/react";
 import type { TimelineItem } from "@/lib/content";
 
-const STUDENT_TBA: TimelineItem[] = [
+const STUDENT_2026: TimelineItem[] = [
   {
-    date: "To be announced",
-    event: "Undergraduate recruitment",
-    body: "Key dates, information sessions, and the application deadline for the 2026 cycle will be posted here.",
+    date: "September 1",
+    event: "Helix @ 2026 Yale Entrepreneurship & Innovation Expo",
+    body: "11:00 AM to 1:00 PM.",
+  },
+  {
+    date: "September 6",
+    event: "Helix @ Extracurricular Bazaar",
+    body: "2:00 PM to 5:00 PM.",
+  },
+  {
+    date: "September 7",
+    event: "Helix Information Session",
+    body: "7:00 PM to 8:00 PM.",
+  },
+  {
+    date: "September 10",
+    event: "Helix Application Office Hours",
+    body: "7:00 PM to 9:00 PM.",
+  },
+  {
+    date: "September 12",
+    event: "2026-2027 Helix Fellows Applications Due",
+    body: "11:30 PM.",
   },
 ];
 
@@ -56,13 +76,13 @@ export default function Timeline() {
             2026 recruitment timeline
           </h2>
           <p className="mt-5 leading-relaxed text-text-muted">
-            Our 2026 recruitment timeline is being finalized. Check back soon for key dates,
-            information sessions, and application deadlines.
+            Key dates, information sessions, and the application deadline for the 2026-2027 Helix
+            Fellows cycle.
           </p>
         </div>
 
         <div className="mt-16 max-w-xl">
-          <Strand title="Undergraduate recruitment 2026" items={STUDENT_TBA} />
+          <Strand title="Undergraduate recruitment 2026" items={STUDENT_2026} />
         </div>
       </div>
     </section>
