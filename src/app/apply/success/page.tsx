@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ui } from "../components/ui";
+import { ui } from "../../components/ui";
 
-export default function StudentApplicationClosedPage() {
+export default function StudentApplicationSuccessPage() {
   return (
     <div className={ui.page}>
       <div className={ui.container}>
@@ -12,11 +12,11 @@ export default function StudentApplicationClosedPage() {
         </Link>
 
         <div className="mt-16 text-center">
-          <p className={ui.eyebrow}>Student fellowship</p>
-          <h1 className={ui.title}>Applications closed</h1>
+          <p className={ui.eyebrow}>Application received</p>
+          <h1 className={ui.title}>Application submitted successfully</h1>
           <p className="mx-auto mt-4 max-w-xl text-text-muted">
-            Thank you for your interest in the Yale Helix Incubator. The student fellow application is
-            currently closed. Please check back for future application cycles.
+            Thank you for applying to the Yale Helix student fellowship. We have received your
+            application and will be in touch soon.
           </p>
 
           <div className="mx-auto mt-10 max-w-md rounded-xl border border-hairline bg-surface p-7 text-left">

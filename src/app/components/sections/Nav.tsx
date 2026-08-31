@@ -41,14 +41,14 @@ export default function Nav() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <Link
-            href="/students"
-            className="rounded-md px-3 py-2 text-sm text-text-muted transition-colors hover:text-text"
+            href="/apply"
+            className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-fg shadow-accent transition-transform duration-150 hover:bg-accent active:translate-y-px"
           >
             Students
           </Link>
           <Link
             href="/apply-startups"
-            className="rounded-md bg-accent px-4 py-2 text-sm font-medium text-accent-fg shadow-accent transition-transform duration-150 hover:bg-accent active:translate-y-px"
+            className="rounded-md px-3 py-2 text-sm text-text-muted transition-colors hover:text-text"
           >
             Startups
           </Link>
@@ -97,16 +97,16 @@ export default function Nav() {
             ))}
             <li className="mt-2 flex gap-3">
               <Link
-                href="/students"
+                href="/apply"
                 onClick={() => setOpen(false)}
-                className="flex-1 rounded-md border border-hairline px-4 py-2.5 text-center text-sm text-text"
+                className="flex-1 rounded-md bg-accent px-4 py-2.5 text-center text-sm font-medium text-accent-fg"
               >
                 Students
               </Link>
               <Link
                 href="/apply-startups"
                 onClick={() => setOpen(false)}
-                className="flex-1 rounded-md bg-accent px-4 py-2.5 text-center text-sm font-medium text-accent-fg"
+                className="flex-1 rounded-md border border-hairline px-4 py-2.5 text-center text-sm text-text"
               >
                 Startups
               </Link>

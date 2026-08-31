@@ -4,6 +4,9 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 // Created lazily so importing this module never throws during `next build` — a missing
 // env var surfaces at request time instead of breaking the build.
 export const DECK_BUCKET = "startup-decks";
+export const RESUME_BUCKET = "student-resumes";
+export const PROJECT_FILE_BUCKET = "student-projects";
+export const SOLUTION_FILE_BUCKET = "student-solutions";
 
 let client: SupabaseClient | null = null;
 
