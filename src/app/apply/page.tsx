@@ -65,61 +65,66 @@ const AREAS_OF_INTEREST = [
   "Other",
 ];
 
-const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
-  {
-    title: "Basic information",
-    fields: [
-      { key: "firstName", label: "First name", required: true },
-      { key: "lastName", label: "Last name", required: true },
-      { key: "email", label: "Yale email address", required: true, kind: "email" },
-      { key: "classYear", label: "Class year", required: true, kind: "select", placeholder: "Select class year", options: CLASS_YEARS },
-      { key: "major", label: "Major / intended major", required: true },
-      {
-        key: "areasOfInterest",
-        label: "Which areas are you most interested in contributing to?",
-        help: "Select up to five.",
-        required: true,
-        kind: "checkboxes",
-        options: AREAS_OF_INTEREST,
-        maxSelections: 5,
-      },
-      { key: "linkedin", label: "LinkedIn profile", kind: "url", placeholder: "https://linkedin.com/in/" },
-    ],
-  },
-  {
-    title: "Getting to know you",
-    fields: [
-      {
-        key: "whyHelix",
-        label:
-          "Why are you interested in joining Yale Helix, and what do you hope to get out of working with an early-stage startup?",
-        required: true,
-        kind: "textarea",
-        rows: 4,
-        wordLimit: 100,
-      },
-      {
-        key: "skillsExperience",
-        label: "What skills, experiences, or perspectives would you bring to a Helix startup team?",
-        help: "You may draw from coursework, research, previous jobs or internships, student organizations, independent projects, or experiences outside of Yale.",
-        required: true,
-        kind: "textarea",
-        rows: 4,
-        wordLimit: 100,
-      },
-      {
-        key: "proudProject",
-        label:
-          "Tell us about something you've built, improved, researched, organized, or helped solve that you're proud of. What was your specific contribution?",
-        help: "This does not need to be related to startups or entrepreneurship.",
-        required: true,
-        kind: "textarea",
-        rows: 5,
-        wordLimit: 150,
-      },
-    ],
-  },
-];
+type Section = { number: number; title: string; note?: string; fields: Field[] };
+
+const SECTION_BASIC_INFO: Section = {
+  number: 1,
+  title: "Basic information",
+  fields: [
+    { key: "firstName", label: "First name", required: true },
+    { key: "lastName", label: "Last name", required: true },
+    { key: "email", label: "Yale email address", required: true, kind: "email" },
+    { key: "classYear", label: "Class year", required: true, kind: "select", placeholder: "Select class year", options: CLASS_YEARS },
+    { key: "major", label: "Major / intended major", required: true },
+    {
+      key: "areasOfInterest",
+      label: "Which areas are you most interested in contributing to?",
+      help: "Select up to five.",
+      required: true,
+      kind: "checkboxes",
+      options: AREAS_OF_INTEREST,
+      maxSelections: 5,
+    },
+    { key: "linkedin", label: "LinkedIn profile", kind: "url", placeholder: "https://linkedin.com/in/" },
+  ],
+};
+
+const SECTION_GETTING_TO_KNOW_YOU: Section = {
+  number: 3,
+  title: "Getting to know you",
+  fields: [
+    {
+      key: "whyHelix",
+      label:
+        "Why are you interested in joining Yale Helix, and what do you hope to get out of working with an early-stage startup?",
+      required: true,
+      kind: "textarea",
+      rows: 4,
+      wordLimit: 100,
+    },
+    {
+      key: "skillsExperience",
+      label: "What skills, experiences, or perspectives would you bring to a Helix startup team?",
+      help: "You may draw from coursework, research, previous jobs or internships, student organizations, independent projects, or experiences outside of Yale.",
+      required: true,
+      kind: "textarea",
+      rows: 4,
+      wordLimit: 100,
+    },
+    {
+      key: "proudProject",
+      label:
+        "Tell us about something you've built, improved, researched, organized, or helped solve that you're proud of. What was your specific contribution?",
+      help: "This does not need to be related to startups or entrepreneurship.",
+      required: true,
+      kind: "textarea",
+      rows: 5,
+      wordLimit: 150,
+    },
+  ],
+};
+
+const FIELD_SECTIONS: Section[] = [SECTION_BASIC_INFO, SECTION_GETTING_TO_KNOW_YOU];
 
 const PROJECT_FILE_TYPES = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg", ".zip"];
 const NOMA_CHALLENGE_WORD_LIMIT = 300;
@@ -169,7 +174,7 @@ export default function StudentApplicationPage() {
   const nomaChallengeWordCount = countWords(formData.nomaChallenge);
 
   const areSectionFieldsValid = () => {
-    for (const section of SECTIONS) {
+    for (const section of FIELD_SECTIONS) {
       for (const field of section.fields) {
         const value = formData[field.key];
         if (field.kind === "checkboxes") {
@@ -197,6 +202,19 @@ export default function StudentApplicationPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
   };
+
+  const renderSection = (section: Section) => (
+    <section key={section.title}>
+      <div className="mb-6">
+        <h2 className={ui.sectionTitle}>
+          Section {section.number} &mdash; {section.title}
+        </h2>
+        <div className={ui.sectionRule} />
+        {section.note && <p className="mt-3 text-sm leading-relaxed text-text-muted">{section.note}</p>}
+      </div>
+      <div className="grid gap-6 sm:grid-cols-2">{section.fields.map(renderField)}</div>
+    </section>
+  );
 
   const renderField = (field: Field) => {
     if (field.kind === "checkboxes") {
@@ -312,22 +330,11 @@ export default function StudentApplicationPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="mt-12 space-y-10">
-          {SECTIONS.map((section) => (
-            <section key={section.title}>
-              <div className="mb-6">
-                <h2 className={ui.sectionTitle}>{section.title}</h2>
-                <div className={ui.sectionRule} />
-                {section.note && (
-                  <p className="mt-3 text-sm leading-relaxed text-text-muted">{section.note}</p>
-                )}
-              </div>
-              <div className="grid gap-6 sm:grid-cols-2">{section.fields.map(renderField)}</div>
-            </section>
-          ))}
+          {renderSection(SECTION_BASIC_INFO)}
 
           <section>
             <div className="mb-6">
-              <h2 className={ui.sectionTitle}>Resume &amp; previous work</h2>
+              <h2 className={ui.sectionTitle}>Section 2 &mdash; Resume &amp; previous work</h2>
               <div className={ui.sectionRule} />
             </div>
 
@@ -428,9 +435,11 @@ export default function StudentApplicationPage() {
             </div>
           </section>
 
+          {renderSection(SECTION_GETTING_TO_KNOW_YOU)}
+
           <section>
             <div className="mb-6">
-              <h2 className={ui.sectionTitle}>Helix startup challenge</h2>
+              <h2 className={ui.sectionTitle}>Section 4 &mdash; Helix startup challenge</h2>
               <div className={ui.sectionRule} />
             </div>
 
