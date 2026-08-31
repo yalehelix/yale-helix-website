@@ -3,6 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ui } from "../components/ui";
+import FileUpload from "../components/FileUpload";
+
+const PROJECT_DESCRIPTION_WORD_LIMIT = 100;
 
 type FormData = {
   firstName: string;
@@ -12,7 +15,11 @@ type FormData = {
   major: string;
   areasOfInterest: string[];
   linkedin: string;
+  portfolioLink: string;
+  projectDescription: string;
 };
+
+const countWords = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
 
 type Field = {
   key: keyof FormData;
@@ -76,6 +83,8 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
   },
 ];
 
+const PROJECT_FILE_TYPES = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg", ".zip"];
+
 export default function StudentApplicationPage() {
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -85,7 +94,11 @@ export default function StudentApplicationPage() {
     major: "",
     areasOfInterest: [],
     linkedin: "",
+    portfolioLink: "",
+    projectDescription: "",
   });
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [projectFile, setProjectFile] = useState<File | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -107,6 +120,10 @@ export default function StudentApplicationPage() {
     });
   };
 
+  const isProjectDescriptionRequired =
+    formData.portfolioLink.trim() !== "" || projectFile !== null;
+  const projectDescriptionWordCount = countWords(formData.projectDescription);
+
   const isFormValid = () => {
     return (
       formData.firstName.trim() !== "" &&
@@ -114,7 +131,10 @@ export default function StudentApplicationPage() {
       formData.email.trim() !== "" &&
       formData.classYear.trim() !== "" &&
       formData.major.trim() !== "" &&
-      formData.areasOfInterest.length > 0
+      formData.areasOfInterest.length > 0 &&
+      resumeFile !== null &&
+      (!isProjectDescriptionRequired || formData.projectDescription.trim() !== "") &&
+      projectDescriptionWordCount <= PROJECT_DESCRIPTION_WORD_LIMIT
     );
   };
 
@@ -237,6 +257,109 @@ export default function StudentApplicationPage() {
               <div className="grid gap-6 sm:grid-cols-2">{section.fields.map(renderField)}</div>
             </section>
           ))}
+
+          <section>
+            <div className="mb-6">
+              <h2 className={ui.sectionTitle}>Resume &amp; previous work</h2>
+              <div className={ui.sectionRule} />
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <FileUpload
+                  onUploadComplete={() => {}}
+                  onFileSelect={setResumeFile}
+                  acceptedFileTypes={[".pdf", ".doc", ".docx"]}
+                  maxFileSize={20}
+                  label="Resume"
+                  required={true}
+                  placeholder="Drag and drop your resume here, or click to browse (PDF preferred)"
+                  uploadEndpoint="/api/apply-student/upload-resume"
+                  autoUpload={false}
+                />
+              </div>
+
+              <div className="sm:col-span-2 mt-4 rounded-xl border border-hairline bg-surface p-6">
+                <h3 className="text-sm font-semibold text-text">Previous work &amp; projects</h3>
+                <p className="mt-2 text-sm leading-relaxed text-text-muted">
+                  If applicable, you may share examples of previous work that demonstrate skills you
+                  could bring to a Helix startup. This section is completely optional. Helix does not
+                  expect applicants to have prior startup, research, technical, or professional
+                  experience, and you should not feel pressured to submit anything here. Not submitting
+                  previous work will not count against your application.
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-text-muted">
+                  We recognize that certain skills, particularly coding, engineering, design, research,
+                  AI/ML, data analysis, CAD/3D modeling, and other technical work, can be difficult to
+                  demonstrate through a written application alone. This section is simply an opportunity
+                  for applicants who already have relevant projects to show us what they have worked on.
+                  Examples may include GitHub repositories, coding or AI/ML projects, CAD/3D models,
+                  engineering projects, research posters, data analyses or visualizations, UI/UX
+                  portfolios, websites or apps, marketing materials, pitch decks, or other work you are
+                  proud of.
+                </p>
+              </div>
+
+              <div>
+                <label htmlFor="portfolioLink" className={ui.label}>
+                  Portfolio / GitHub / website link
+                </label>
+                <input
+                  id="portfolioLink"
+                  name="portfolioLink"
+                  type="url"
+                  value={formData.portfolioLink}
+                  onChange={handleChange}
+                  placeholder="https://"
+                  className={ui.input}
+                />
+              </div>
+
+              <div>
+                <FileUpload
+                  onUploadComplete={() => {}}
+                  onFileSelect={setProjectFile}
+                  acceptedFileTypes={PROJECT_FILE_TYPES}
+                  maxFileSize={50}
+                  label="Project file(s)"
+                  placeholder="Drag and drop a project file here, or click to browse"
+                  uploadEndpoint="/api/apply-student/upload-project"
+                  autoUpload={false}
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label htmlFor="projectDescription" className={ui.label}>
+                  Briefly describe anything you have shared and your individual contribution.{" "}
+                  {isProjectDescriptionRequired && <span className={ui.required}>*</span>}
+                </label>
+                <p className="mb-3 text-xs text-text-muted">
+                  {isProjectDescriptionRequired
+                    ? "Required since you added a link or file above."
+                    : "Optional."}{" "}
+                  {PROJECT_DESCRIPTION_WORD_LIMIT} words maximum.
+                </p>
+                <textarea
+                  id="projectDescription"
+                  name="projectDescription"
+                  rows={4}
+                  value={formData.projectDescription}
+                  onChange={handleChange}
+                  required={isProjectDescriptionRequired}
+                  className={ui.textarea}
+                />
+                <p
+                  className={`mt-1.5 text-xs ${
+                    projectDescriptionWordCount > PROJECT_DESCRIPTION_WORD_LIMIT
+                      ? "text-error"
+                      : "text-text-muted"
+                  }`}
+                >
+                  {projectDescriptionWordCount} / {PROJECT_DESCRIPTION_WORD_LIMIT} words
+                </p>
+              </div>
+            </div>
+          </section>
 
           <div>
             <button type="submit" className={ui.primaryButton} disabled={true}>
