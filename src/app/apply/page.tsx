@@ -279,9 +279,9 @@ export default function StudentApplicationPage() {
                 />
               </div>
 
-              <div className="sm:col-span-2 mt-4 rounded-xl border border-hairline bg-surface p-6">
-                <h3 className="text-sm font-semibold text-text">Previous work &amp; projects</h3>
-                <p className="mt-2 text-sm leading-relaxed text-text-muted">
+              <div className="sm:col-span-2 mt-4">
+                <h3 className={ui.sectionTitle}>Previous work &amp; projects</h3>
+                <p className="mt-3 text-sm leading-relaxed text-text-muted">
                   If applicable, you may share examples of previous work that demonstrate skills you
                   could bring to a Helix startup. This section is completely optional. Helix does not
                   expect applicants to have prior startup, research, technical, or professional
