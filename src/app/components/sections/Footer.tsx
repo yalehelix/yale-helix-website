@@ -42,7 +42,7 @@ export default function Footer() {
             <p className="text-sm font-medium text-text">Apply</p>
             <ul className="mt-4 space-y-2.5">
               <li>
-                <Link href="/students" className="text-sm text-text-muted transition-colors hover:text-text">
+                <Link href="/apply" className="text-sm text-text-muted transition-colors hover:text-text">
                   Student fellowship
                 </Link>
               </li>

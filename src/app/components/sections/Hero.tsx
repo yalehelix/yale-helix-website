@@ -49,7 +49,7 @@ export default function Hero() {
 
         <div className="mt-12 flex flex-wrap justify-center gap-5">
           <Link
-            href="/students"
+            href="/apply"
             className="group flex min-w-[220px] flex-col items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-8 text-center backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-accent/50 hover:bg-white/10 hover:shadow-accent"
           >
             <span className="text-accent">
