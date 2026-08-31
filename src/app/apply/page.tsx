@@ -133,6 +133,25 @@ const SECTION_GETTING_TO_KNOW_YOU: Section = {
 
 const RETREAT_COMMITMENT_OPTIONS = ["Yes", "No", "Other"];
 
+const COMMITMENT_LEVEL_FIELD: Field = {
+  key: "commitmentLevel",
+  label:
+    "If selected, are you able to commit to actively participating in Helix and working with your assigned startup throughout the program?",
+  help: "This typically involves a commitment of 4-8 hours of work per week.",
+  required: true,
+  kind: "radio",
+  options: ["Yes", "No", "Unsure / I would like to discuss potential conflicts"],
+};
+
+const RETREAT_COMMITMENT_FIELD: Field = {
+  key: "retreatCommitment",
+  label: "Are you able to commit to attending the retreat from October 2-4?",
+  help: "One day only, more specifics are TBD. We highly encourage attending.",
+  required: true,
+  kind: "radio",
+  options: RETREAT_COMMITMENT_OPTIONS,
+};
+
 const SECTION_FINAL_INFO: Section = {
   number: 6,
   title: "Final information",
@@ -144,23 +163,8 @@ const SECTION_FINAL_INFO: Section = {
       rows: 4,
       wordLimit: 100,
     },
-    {
-      key: "commitmentLevel",
-      label:
-        "If selected, are you able to commit to actively participating in Helix and working with your assigned startup throughout the program?",
-      help: "This typically involves a commitment of 4-8 hours of work per week.",
-      required: true,
-      kind: "radio",
-      options: ["Yes", "No", "Unsure / I would like to discuss potential conflicts"],
-    },
-    {
-      key: "retreatCommitment",
-      label: "Are you able to commit to attending the retreat from October 2-4?",
-      help: "One day only, more specifics are TBD. We highly encourage attending.",
-      required: true,
-      kind: "radio",
-      options: RETREAT_COMMITMENT_OPTIONS,
-    },
+    COMMITMENT_LEVEL_FIELD,
+    RETREAT_COMMITMENT_FIELD,
   ],
 };
 
@@ -320,7 +324,39 @@ export default function StudentApplicationPage() {
     }
   };
 
-  const renderSection = (section: Section) => (
+  const renderRadioOptions = (field: Field) => {
+    const value = formData[field.key] as string;
+    return (
+      <div className="grid gap-2">
+        {field.options?.map((opt) => {
+          const checked = value === opt;
+          return (
+            <button
+              type="button"
+              key={opt}
+              onClick={() => setFormData((prev) => ({ ...prev, [field.key]: opt }))}
+              className={`flex items-center gap-2.5 rounded-md border px-3 py-2 text-left text-sm transition-colors ${
+                checked
+                  ? "border-accent bg-accent-soft text-text"
+                  : "border-hairline bg-surface text-text-muted hover:border-accent/40"
+              }`}
+            >
+              <span
+                className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
+                  checked ? "border-accent" : "border-hairline"
+                }`}
+              >
+                {checked && <span className="h-2 w-2 rounded-full bg-accent" />}
+              </span>
+              {opt}
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderSection = (section: Section, excludeKeys: (keyof FormData)[] = []) => (
     <section key={section.title}>
       <div className="mb-6">
         <h2 className={ui.sectionTitle}>
@@ -329,7 +365,9 @@ export default function StudentApplicationPage() {
         <div className={ui.sectionRule} />
         {section.note && <p className="mt-3 text-sm leading-relaxed text-text-muted">{section.note}</p>}
       </div>
-      <div className="grid gap-6 sm:grid-cols-2">{section.fields.map(renderField)}</div>
+      <div className="grid gap-6 sm:grid-cols-2">
+        {section.fields.filter((f) => !excludeKeys.includes(f.key)).map(renderField)}
+      </div>
     </section>
   );
 
@@ -377,39 +415,13 @@ export default function StudentApplicationPage() {
     }
 
     if (field.kind === "radio") {
-      const value = formData[field.key] as string;
       return (
         <div key={field.key}>
           <label className={ui.label}>
             {field.label} {field.required && <span className={ui.required}>*</span>}
           </label>
           {field.help && <p className="mb-3 text-xs text-text-muted">{field.help}</p>}
-          <div className="grid gap-2">
-            {field.options?.map((opt) => {
-              const checked = value === opt;
-              return (
-                <button
-                  type="button"
-                  key={opt}
-                  onClick={() => setFormData((prev) => ({ ...prev, [field.key]: opt }))}
-                  className={`flex items-center gap-2.5 rounded-md border px-3 py-2 text-left text-sm transition-colors ${
-                    checked
-                      ? "border-accent bg-accent-soft text-text"
-                      : "border-hairline bg-surface text-text-muted hover:border-accent/40"
-                  }`}
-                >
-                  <span
-                    className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
-                      checked ? "border-accent" : "border-hairline"
-                    }`}
-                  >
-                    {checked && <span className="h-2 w-2 rounded-full bg-accent" />}
-                  </span>
-                  {opt}
-                </button>
-              );
-            })}
-          </div>
+          {renderRadioOptions(field)}
         </div>
       );
     }
@@ -823,24 +835,46 @@ export default function StudentApplicationPage() {
             </div>
           </section>
 
-          {renderSection(SECTION_FINAL_INFO)}
+          {renderSection(SECTION_FINAL_INFO, ["commitmentLevel", "retreatCommitment"])}
 
-          {isRetreatCommitmentOtherRequired && (
-            <div className="-mt-6">
-              <label htmlFor="retreatCommitmentOther" className={ui.label}>
-                Please specify <span className={ui.required}>*</span>
+          <div className="-mt-4 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+            <div>
+              <label className={ui.label}>
+                {COMMITMENT_LEVEL_FIELD.label} {COMMITMENT_LEVEL_FIELD.required && <span className={ui.required}>*</span>}
               </label>
-              <input
-                id="retreatCommitmentOther"
-                name="retreatCommitmentOther"
-                type="text"
-                value={formData.retreatCommitmentOther}
-                onChange={handleChange}
-                required
-                className={ui.input}
-              />
+              {COMMITMENT_LEVEL_FIELD.help && (
+                <p className="mb-3 text-xs text-text-muted">{COMMITMENT_LEVEL_FIELD.help}</p>
+              )}
             </div>
-          )}
+            <div>
+              <label className={ui.label}>
+                {RETREAT_COMMITMENT_FIELD.label} {RETREAT_COMMITMENT_FIELD.required && <span className={ui.required}>*</span>}
+              </label>
+              {RETREAT_COMMITMENT_FIELD.help && (
+                <p className="mb-3 text-xs text-text-muted">{RETREAT_COMMITMENT_FIELD.help}</p>
+              )}
+            </div>
+            <div>{renderRadioOptions(COMMITMENT_LEVEL_FIELD)}</div>
+            <div>
+              {renderRadioOptions(RETREAT_COMMITMENT_FIELD)}
+              {isRetreatCommitmentOtherRequired && (
+                <div className="mt-3">
+                  <label htmlFor="retreatCommitmentOther" className={ui.label}>
+                    Please specify <span className={ui.required}>*</span>
+                  </label>
+                  <input
+                    id="retreatCommitmentOther"
+                    name="retreatCommitmentOther"
+                    type="text"
+                    value={formData.retreatCommitmentOther}
+                    onChange={handleChange}
+                    required
+                    className={ui.input}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
 
           <div>
             <button type="submit" className={ui.primaryButton} disabled={!isFormValid() || isSubmitting}>
