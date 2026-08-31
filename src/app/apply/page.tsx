@@ -70,7 +70,6 @@ const AREAS_OF_INTEREST = [
   "Robotics",
   "CAD / 3D Modeling & Printing",
   "Design / UI/UX",
-  "Other",
 ];
 
 type Section = { number: number; title: string; note?: string; fields: Field[] };
@@ -225,6 +224,7 @@ export default function StudentApplicationPage() {
   const projectDescriptionWordCount = countWords(formData.projectDescription);
   const nomaChallengeWordCount = countWords(formData.nomaChallenge);
   const solutionDescriptionWordCount = countWords(formData.solutionDescription);
+  const isSolutionDescriptionRequired = formData.solutionLink.trim() !== "" || solutionFile !== null;
   const isRetreatCommitmentOtherRequired = formData.retreatCommitment === "Other";
 
   const areSectionFieldsValid = () => {
@@ -251,6 +251,7 @@ export default function StudentApplicationPage() {
       formData.nomaChallenge.trim() !== "" &&
       nomaChallengeWordCount <= NOMA_CHALLENGE_WORD_LIMIT &&
       solutionDescriptionWordCount <= SOLUTION_DESCRIPTION_WORD_LIMIT &&
+      (!isSolutionDescriptionRequired || formData.solutionDescription.trim() !== "") &&
       (!isRetreatCommitmentOtherRequired || formData.retreatCommitmentOther.trim() !== "")
     );
   };
@@ -365,6 +366,44 @@ export default function StudentApplicationPage() {
                     }`}
                   >
                     {checked && <span className="text-[10px] leading-none">✓</span>}
+                  </span>
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+
+    if (field.kind === "radio") {
+      const value = formData[field.key] as string;
+      return (
+        <div key={field.key}>
+          <label className={ui.label}>
+            {field.label} {field.required && <span className={ui.required}>*</span>}
+          </label>
+          {field.help && <p className="mb-3 text-xs text-text-muted">{field.help}</p>}
+          <div className="grid gap-2">
+            {field.options?.map((opt) => {
+              const checked = value === opt;
+              return (
+                <button
+                  type="button"
+                  key={opt}
+                  onClick={() => setFormData((prev) => ({ ...prev, [field.key]: opt }))}
+                  className={`flex items-center gap-2.5 rounded-md border px-3 py-2 text-left text-sm transition-colors ${
+                    checked
+                      ? "border-accent bg-accent-soft text-text"
+                      : "border-hairline bg-surface text-text-muted hover:border-accent/40"
+                  }`}
+                >
+                  <span
+                    className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
+                      checked ? "border-accent" : "border-hairline"
+                    }`}
+                  >
+                    {checked && <span className="h-2 w-2 rounded-full bg-accent" />}
                   </span>
                   {opt}
                 </button>
@@ -753,10 +792,14 @@ export default function StudentApplicationPage() {
 
               <div className="sm:col-span-2">
                 <label htmlFor="solutionDescription" className={ui.label}>
-                  Briefly tell us what we&apos;re looking at and how it relates to your proposed solution.
+                  Briefly tell us what we&apos;re looking at and how it relates to your proposed solution.{" "}
+                  {isSolutionDescriptionRequired && <span className={ui.required}>*</span>}
                 </label>
                 <p className="mb-3 text-xs text-text-muted">
-                  Optional. {SOLUTION_DESCRIPTION_WORD_LIMIT} words maximum.
+                  {isSolutionDescriptionRequired
+                    ? "Required since you added a link or file above."
+                    : "Optional."}{" "}
+                  {SOLUTION_DESCRIPTION_WORD_LIMIT} words maximum.
                 </p>
                 <textarea
                   id="solutionDescription"
@@ -764,6 +807,7 @@ export default function StudentApplicationPage() {
                   rows={3}
                   value={formData.solutionDescription}
                   onChange={handleChange}
+                  required={isSolutionDescriptionRequired}
                   className={ui.textarea}
                 />
                 <p
