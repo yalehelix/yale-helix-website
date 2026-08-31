@@ -17,6 +17,10 @@ type FormData = {
   linkedin: string;
   portfolioLink: string;
   projectDescription: string;
+  whyHelix: string;
+  skillsExperience: string;
+  proudProject: string;
+  nomaChallenge: string;
 };
 
 const countWords = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
@@ -31,6 +35,7 @@ type Field = {
   options?: string[];
   help?: string;
   maxSelections?: number;
+  wordLimit?: number;
 };
 
 const CLASS_YEARS = ["2027", "2028", "2029", "2030"];
@@ -81,9 +86,43 @@ const SECTIONS: { title: string; note?: string; fields: Field[] }[] = [
       { key: "linkedin", label: "LinkedIn profile", kind: "url", placeholder: "https://linkedin.com/in/" },
     ],
   },
+  {
+    title: "Getting to know you",
+    fields: [
+      {
+        key: "whyHelix",
+        label:
+          "Why are you interested in joining Yale Helix, and what do you hope to get out of working with an early-stage startup?",
+        required: true,
+        kind: "textarea",
+        rows: 4,
+        wordLimit: 100,
+      },
+      {
+        key: "skillsExperience",
+        label: "What skills, experiences, or perspectives would you bring to a Helix startup team?",
+        help: "You may draw from coursework, research, previous jobs or internships, student organizations, independent projects, or experiences outside of Yale.",
+        required: true,
+        kind: "textarea",
+        rows: 4,
+        wordLimit: 100,
+      },
+      {
+        key: "proudProject",
+        label:
+          "Tell us about something you've built, improved, researched, organized, or helped solve that you're proud of. What was your specific contribution?",
+        help: "This does not need to be related to startups or entrepreneurship.",
+        required: true,
+        kind: "textarea",
+        rows: 5,
+        wordLimit: 150,
+      },
+    ],
+  },
 ];
 
 const PROJECT_FILE_TYPES = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg", ".zip"];
+const NOMA_CHALLENGE_WORD_LIMIT = 300;
 
 export default function StudentApplicationPage() {
   const [formData, setFormData] = useState<FormData>({
@@ -96,6 +135,10 @@ export default function StudentApplicationPage() {
     linkedin: "",
     portfolioLink: "",
     projectDescription: "",
+    whyHelix: "",
+    skillsExperience: "",
+    proudProject: "",
+    nomaChallenge: "",
   });
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [projectFile, setProjectFile] = useState<File | null>(null);
@@ -123,18 +166,31 @@ export default function StudentApplicationPage() {
   const isProjectDescriptionRequired =
     formData.portfolioLink.trim() !== "" || projectFile !== null;
   const projectDescriptionWordCount = countWords(formData.projectDescription);
+  const nomaChallengeWordCount = countWords(formData.nomaChallenge);
+
+  const areSectionFieldsValid = () => {
+    for (const section of SECTIONS) {
+      for (const field of section.fields) {
+        const value = formData[field.key];
+        if (field.kind === "checkboxes") {
+          if (field.required && (value as string[]).length === 0) return false;
+        } else {
+          if (field.required && (value as string).trim() === "") return false;
+          if (field.wordLimit && countWords(value as string) > field.wordLimit) return false;
+        }
+      }
+    }
+    return true;
+  };
 
   const isFormValid = () => {
     return (
-      formData.firstName.trim() !== "" &&
-      formData.lastName.trim() !== "" &&
-      formData.email.trim() !== "" &&
-      formData.classYear.trim() !== "" &&
-      formData.major.trim() !== "" &&
-      formData.areasOfInterest.length > 0 &&
+      areSectionFieldsValid() &&
       resumeFile !== null &&
       (!isProjectDescriptionRequired || formData.projectDescription.trim() !== "") &&
-      projectDescriptionWordCount <= PROJECT_DESCRIPTION_WORD_LIMIT
+      projectDescriptionWordCount <= PROJECT_DESCRIPTION_WORD_LIMIT &&
+      formData.nomaChallenge.trim() !== "" &&
+      nomaChallengeWordCount <= NOMA_CHALLENGE_WORD_LIMIT
     );
   };
 
@@ -202,7 +258,18 @@ export default function StudentApplicationPage() {
         </label>
         {field.help && <p className="mb-3 text-xs text-text-muted">{field.help}</p>}
         {field.kind === "textarea" ? (
-          <textarea {...common} rows={field.rows ?? 3} className={ui.textarea} />
+          <>
+            <textarea {...common} rows={field.rows ?? 3} className={ui.textarea} />
+            {field.wordLimit && (
+              <p
+                className={`mt-1.5 text-xs ${
+                  countWords(value) > field.wordLimit ? "text-error" : "text-text-muted"
+                }`}
+              >
+                {countWords(value)} / {field.wordLimit} words
+              </p>
+            )}
+          </>
         ) : field.kind === "select" ? (
           <select {...common} className={ui.select}>
             <option value="">{field.placeholder ?? "Select"}</option>
@@ -356,6 +423,113 @@ export default function StudentApplicationPage() {
                   }`}
                 >
                   {projectDescriptionWordCount} / {PROJECT_DESCRIPTION_WORD_LIMIT} words
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <div className="mb-6">
+              <h2 className={ui.sectionTitle}>Helix startup challenge</h2>
+              <div className={ui.sectionRule} />
+            </div>
+
+            <div className="space-y-6 text-sm leading-relaxed text-text-muted">
+              <div>
+                <h3 className="text-sm font-semibold text-text">Before you begin</h3>
+                <p className="mt-2">We want to hear how you think.</p>
+                <p className="mt-2">
+                  Generative AI tools may be used to help edit, organize, or clarify your writing.
+                  However, the ideas, reasoning, and proposed solutions in your application should be
+                  your own. Please do not use AI to generate a solution and submit it as your own
+                  thinking. Applications may be reviewed for signs of AI-generated content, and
+                  applicants may be asked to explain or expand upon their proposed solution during the
+                  selection process. We will be running application prompts through AI, we are looking
+                  for your original ideas.
+                </p>
+                <p className="mt-2">
+                  There is no correct answer. We are not looking for the most polished or technically
+                  sophisticated response. We are looking for agency, originality, curiosity,
+                  resourcefulness, and thoughtful problem-solving. Creative and unconventional approaches
+                  are encouraged.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-text">Meet Noma</h3>
+                <p className="mt-2">
+                  Noma is an early-stage healthcare startup developing a wearable patch that continuously
+                  monitors patients after they leave the hospital. The patch collects heart rate,
+                  temperature, respiratory rate, and movement data and alerts patients and their care
+                  teams when patterns suggest that a patient may be deteriorating.
+                </p>
+                <p className="mt-2">
+                  Noma recently completed a small pilot with one hospital. Patients generally liked the
+                  device, but the company has encountered several challenges:
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-5">
+                  <li>Clinicians are receiving too many alerts and have started ignoring some of them.</li>
+                  <li>Some older patients stop wearing the patch after a few days.</li>
+                  <li>The company has limited funding and a team of only six people.</li>
+                </ul>
+                <p className="mt-2">
+                  The founders aren&apos;t sure whether they should prioritize improving the technology,
+                  conducting more clinical validation, improving the patient experience, or finding
+                  additional hospital partners.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-text">Your challenge</h3>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-6">
+              <div>
+                <label htmlFor="nomaChallenge" className={ui.label}>
+                  Imagine Noma has brought you onto its team for the next month. What would you do?{" "}
+                  <span className={ui.required}>*</span>
+                </label>
+                <p className="mb-3 text-sm leading-relaxed text-text-muted">
+                  Earlier in this application, you selected the skill sets and areas in which you&apos;re
+                  most interested in contributing to a startup. Now we want to see how you would actually
+                  apply them. Approach Noma&apos;s challenges from whatever perspective best reflects your
+                  interests, skills, and way of thinking. You are not expected to solve every problem the
+                  company is facing. Instead, identify ONE problem you would prioritize and propose a
+                  solution.
+                </p>
+                <p className="mb-3 text-sm leading-relaxed text-text-muted">
+                  For example, someone interested in software engineering might approach the problem very
+                  differently from someone interested in biology, marketing, product design, data
+                  science, finance, or public health. That&apos;s intentional. There is no preferred
+                  discipline or type of solution.
+                </p>
+                <p className="mb-3 text-sm leading-relaxed text-text-muted">Briefly address:</p>
+                <ol className="mb-3 list-decimal space-y-1 pl-5 text-sm leading-relaxed text-text-muted">
+                  <li>What problem would you prioritize, and why?</li>
+                  <li>What would you actually do to address it?</li>
+                  <li>How would you determine whether your solution worked?</li>
+                </ol>
+                <p className="mb-3 text-xs text-text-muted">
+                  We encourage you to be specific and creative. We&apos;re interested in how you approach
+                  the problem, not in finding a single correct answer. {NOMA_CHALLENGE_WORD_LIMIT} words
+                  maximum.
+                </p>
+                <textarea
+                  id="nomaChallenge"
+                  name="nomaChallenge"
+                  rows={8}
+                  value={formData.nomaChallenge}
+                  onChange={handleChange}
+                  required
+                  className={ui.textarea}
+                />
+                <p
+                  className={`mt-1.5 text-xs ${
+                    nomaChallengeWordCount > NOMA_CHALLENGE_WORD_LIMIT ? "text-error" : "text-text-muted"
+                  }`}
+                >
+                  {nomaChallengeWordCount} / {NOMA_CHALLENGE_WORD_LIMIT} words
                 </p>
               </div>
             </div>
