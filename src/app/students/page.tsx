@@ -1,30 +1,34 @@
+"use client";
+
 import Link from "next/link";
 import { ui } from "../components/ui";
 
-export default function StudentLandingPage() {
+export default function StudentApplicationClosedPage() {
   return (
     <div className={ui.page}>
-      <div className="mx-auto max-w-content px-5 py-16 md:px-8">
+      <div className={ui.container}>
         <Link href="/" className={ui.returnButton}>
           &larr; Return to homepage
         </Link>
 
-        <div className="mt-16 max-w-2xl">
-          <p className={ui.eyebrow}>For students</p>
-          <h1 className={ui.title}>Join Yale Helix!</h1>
-          <p className={ui.subtitle}>
-            Student fellowship applications open in August. Get ready to apply!
+        <div className="mt-16 text-center">
+          <p className={ui.eyebrow}>Student fellowship</p>
+          <h1 className={ui.title}>Applications closed</h1>
+          <p className="mx-auto mt-4 max-w-xl text-text-muted">
+            Thank you for your interest in the Yale Helix Incubator. The student fellow application is
+            currently closed. Please check back for future application cycles.
           </p>
-        </div>
 
-        <div className="mt-10 max-w-2xl rounded-xl border border-hairline bg-surface p-8">
-          <span className="inline-block rounded-full border border-accent/40 bg-accent-soft px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-accent">
-            Opening in August!
-          </span>
-          <p className="mt-4 leading-relaxed text-text-muted">
-            Applications for the Yale Helix student fellowship open in <strong className="text-text">AUGUST</strong>.
-            Mark your calendar, check back then, and come build something incredible with us!
-          </p>
+          <div className="mx-auto mt-10 max-w-md rounded-xl border border-hairline bg-surface p-7 text-left">
+            <h2 className={ui.sectionTitle}>Questions?</h2>
+            <p className="mt-2 text-sm leading-relaxed text-text-muted">
+              For any questions about the student fellow program, reach out to us at{" "}
+              <a href="mailto:admin@yalehelix.org" className={ui.link}>
+                admin@yalehelix.org
+              </a>
+              .
+            </p>
+          </div>
         </div>
       </div>
     </div>
