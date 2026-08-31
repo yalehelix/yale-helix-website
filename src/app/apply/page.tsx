@@ -21,6 +21,12 @@ type FormData = {
   skillsExperience: string;
   proudProject: string;
   nomaChallenge: string;
+  solutionLink: string;
+  solutionDescription: string;
+  additionalInfo: string;
+  commitmentLevel: string;
+  retreatCommitment: string;
+  retreatCommitmentOther: string;
 };
 
 const countWords = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
@@ -124,10 +130,45 @@ const SECTION_GETTING_TO_KNOW_YOU: Section = {
   ],
 };
 
-const FIELD_SECTIONS: Section[] = [SECTION_BASIC_INFO, SECTION_GETTING_TO_KNOW_YOU];
+const RETREAT_COMMITMENT_OPTIONS = ["Yes", "No", "Other"];
+
+const SECTION_FINAL_INFO: Section = {
+  number: 6,
+  title: "Final information",
+  fields: [
+    {
+      key: "additionalInfo",
+      label: "Is there anything else you would like us to know?",
+      kind: "textarea",
+      rows: 4,
+      wordLimit: 100,
+    },
+    {
+      key: "commitmentLevel",
+      label:
+        "If selected, are you able to commit to actively participating in Helix and working with your assigned startup throughout the program?",
+      help: "This typically involves a commitment of 4-8 hours of work per week.",
+      required: true,
+      kind: "radio",
+      options: ["Yes", "No", "Unsure / I would like to discuss potential conflicts"],
+    },
+    {
+      key: "retreatCommitment",
+      label: "Are you able to commit to attending the retreat from October 2-4?",
+      help: "One day only, more specifics are TBD. We highly encourage attending.",
+      required: true,
+      kind: "radio",
+      options: RETREAT_COMMITMENT_OPTIONS,
+    },
+  ],
+};
+
+const FIELD_SECTIONS: Section[] = [SECTION_BASIC_INFO, SECTION_GETTING_TO_KNOW_YOU, SECTION_FINAL_INFO];
 
 const PROJECT_FILE_TYPES = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg", ".zip"];
+const SOLUTION_FILE_TYPES = [".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg", ".zip", ".ppt", ".pptx"];
 const NOMA_CHALLENGE_WORD_LIMIT = 300;
+const SOLUTION_DESCRIPTION_WORD_LIMIT = 75;
 
 export default function StudentApplicationPage() {
   const [formData, setFormData] = useState<FormData>({
@@ -144,9 +185,16 @@ export default function StudentApplicationPage() {
     skillsExperience: "",
     proudProject: "",
     nomaChallenge: "",
+    solutionLink: "",
+    solutionDescription: "",
+    additionalInfo: "",
+    commitmentLevel: "",
+    retreatCommitment: "",
+    retreatCommitmentOther: "",
   });
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [projectFile, setProjectFile] = useState<File | null>(null);
+  const [solutionFile, setSolutionFile] = useState<File | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -172,6 +220,8 @@ export default function StudentApplicationPage() {
     formData.portfolioLink.trim() !== "" || projectFile !== null;
   const projectDescriptionWordCount = countWords(formData.projectDescription);
   const nomaChallengeWordCount = countWords(formData.nomaChallenge);
+  const solutionDescriptionWordCount = countWords(formData.solutionDescription);
+  const isRetreatCommitmentOtherRequired = formData.retreatCommitment === "Other";
 
   const areSectionFieldsValid = () => {
     for (const section of FIELD_SECTIONS) {
@@ -195,7 +245,9 @@ export default function StudentApplicationPage() {
       (!isProjectDescriptionRequired || formData.projectDescription.trim() !== "") &&
       projectDescriptionWordCount <= PROJECT_DESCRIPTION_WORD_LIMIT &&
       formData.nomaChallenge.trim() !== "" &&
-      nomaChallengeWordCount <= NOMA_CHALLENGE_WORD_LIMIT
+      nomaChallengeWordCount <= NOMA_CHALLENGE_WORD_LIMIT &&
+      solutionDescriptionWordCount <= SOLUTION_DESCRIPTION_WORD_LIMIT &&
+      (!isRetreatCommitmentOtherRequired || formData.retreatCommitmentOther.trim() !== "")
     );
   };
 
@@ -543,6 +595,144 @@ export default function StudentApplicationPage() {
               </div>
             </div>
           </section>
+
+          <section>
+            <div className="mb-6">
+              <h2 className={ui.sectionTitle}>Section 5 &mdash; Optional: bring your solution to life</h2>
+              <div className={ui.sectionRule} />
+            </div>
+
+            <div className="space-y-3 text-sm leading-relaxed text-text-muted">
+              <p>
+                Want to show us rather than just tell us? If helpful, you may submit something that
+                demonstrates or expands upon your proposed solution. This could be something you create
+                specifically for this challenge, a rough prototype or sketch, a small analysis, or another
+                format that helps communicate your idea.
+              </p>
+              <p>
+                This is completely optional. You are NOT expected to submit an additional file, and
+                choosing not to do so will not negatively affect your application. We recognize that some
+                proposed solutions lend themselves much more naturally to tangible deliverables than
+                others.
+              </p>
+              <p>Depending on your approach, you might choose to submit:</p>
+              <ul className="list-disc space-y-1.5 pl-5">
+                <li>
+                  <strong className="text-text">Marketing &amp; Communications:</strong> A mock
+                  advertisement, social media campaign, brochure, outreach email, landing page, or
+                  messaging strategy
+                </li>
+                <li>
+                  <strong className="text-text">Software / AI:</strong> Code, pseudocode, model
+                  architecture, prototype, or GitHub repository
+                </li>
+                <li>
+                  <strong className="text-text">Data Science:</strong> An analysis, visualization,
+                  dashboard, or example of how you would evaluate available data
+                </li>
+                <li>
+                  <strong className="text-text">Design / UI/UX:</strong> A wireframe, interface mockup,
+                  patient journey, or product redesign
+                </li>
+                <li>
+                  <strong className="text-text">Engineering:</strong> A sketch, CAD model, schematic,
+                  prototype, or proposed hardware modification
+                </li>
+                <li>
+                  <strong className="text-text">Biology / Clinical Research:</strong> An experimental
+                  design, study protocol, clinical workflow, figure, or proposed validation approach
+                </li>
+                <li>
+                  <strong className="text-text">Business / Finance:</strong> A market analysis, financial
+                  model, competitor analysis, customer acquisition strategy, or pitch deck
+                </li>
+                <li>
+                  <strong className="text-text">Product:</strong> A product roadmap, feature
+                  prioritization framework, user research plan, or prototype
+                </li>
+                <li>
+                  <strong className="text-text">Policy / Public Health:</strong> A regulatory strategy,
+                  reimbursement analysis, implementation plan, or stakeholder analysis
+                </li>
+              </ul>
+              <p>These are only examples, feel free to get creative.</p>
+            </div>
+
+            <div className="mt-6 grid gap-6 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <FileUpload
+                  onUploadComplete={() => {}}
+                  onFileSelect={setSolutionFile}
+                  acceptedFileTypes={SOLUTION_FILE_TYPES}
+                  maxFileSize={50}
+                  label="Upload supporting file(s)"
+                  placeholder="Drag and drop a file here, or click to browse"
+                  uploadEndpoint="/api/apply-student/upload-solution"
+                  autoUpload={false}
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label htmlFor="solutionLink" className={ui.label}>
+                  Link to GitHub, website, prototype, or other supporting material
+                </label>
+                <input
+                  id="solutionLink"
+                  name="solutionLink"
+                  type="url"
+                  value={formData.solutionLink}
+                  onChange={handleChange}
+                  placeholder="https://"
+                  className={ui.input}
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label htmlFor="solutionDescription" className={ui.label}>
+                  Briefly tell us what we&apos;re looking at and how it relates to your proposed solution.
+                </label>
+                <p className="mb-3 text-xs text-text-muted">
+                  Optional. {SOLUTION_DESCRIPTION_WORD_LIMIT} words maximum.
+                </p>
+                <textarea
+                  id="solutionDescription"
+                  name="solutionDescription"
+                  rows={3}
+                  value={formData.solutionDescription}
+                  onChange={handleChange}
+                  className={ui.textarea}
+                />
+                <p
+                  className={`mt-1.5 text-xs ${
+                    solutionDescriptionWordCount > SOLUTION_DESCRIPTION_WORD_LIMIT
+                      ? "text-error"
+                      : "text-text-muted"
+                  }`}
+                >
+                  {solutionDescriptionWordCount} / {SOLUTION_DESCRIPTION_WORD_LIMIT} words
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {renderSection(SECTION_FINAL_INFO)}
+
+          {isRetreatCommitmentOtherRequired && (
+            <div className="-mt-6">
+              <label htmlFor="retreatCommitmentOther" className={ui.label}>
+                Please specify <span className={ui.required}>*</span>
+              </label>
+              <input
+                id="retreatCommitmentOther"
+                name="retreatCommitmentOther"
+                type="text"
+                value={formData.retreatCommitmentOther}
+                onChange={handleChange}
+                required
+                className={ui.input}
+              />
+            </div>
+          )}
 
           <div>
             <button type="submit" className={ui.primaryButton} disabled={true}>
