@@ -623,8 +623,8 @@ export default function StudentApplicationPage() {
                   messaging strategy
                 </li>
                 <li>
-                  <strong className="text-text">Software / AI:</strong> Code, pseudocode, model
-                  architecture, prototype, or GitHub repository
+                  <strong className="text-text">Software / AI:</strong> Code, model architecture,
+                  agentic workflow
                 </li>
                 <li>
                   <strong className="text-text">Data Science:</strong> An analysis, visualization,
