@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ui } from "../components/ui";
 import FileUpload from "../components/FileUpload";
+import { supabaseBrowser } from "@/lib/supabaseBrowser";
 
 const PROJECT_DESCRIPTION_WORD_LIMIT = 100;
 
@@ -195,6 +197,8 @@ export default function StudentApplicationPage() {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [projectFile, setProjectFile] = useState<File | null>(null);
   const [solutionFile, setSolutionFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -251,8 +255,68 @@ export default function StudentApplicationPage() {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const uploadFile = async (
+    file: File,
+    endpoint: string,
+  ): Promise<{ path: string; filename: string }> => {
+    const urlRes = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fileName: file.name }),
+    });
+    if (!urlRes.ok) throw new Error("Could not start the upload");
+    const { bucket, path, token } = await urlRes.json();
+
+    const { error: uploadError } = await supabaseBrowser.storage
+      .from(bucket)
+      .uploadToSignedUrl(path, token, file);
+    if (uploadError) throw uploadError;
+
+    return { path, filename: file.name };
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!resumeFile) {
+      alert("Please upload your resume.");
+      return;
+    }
+    setIsSubmitting(true);
+
+    try {
+      const resume = await uploadFile(resumeFile, "/api/apply-student/upload-resume");
+      const project = projectFile
+        ? await uploadFile(projectFile, "/api/apply-student/upload-project")
+        : null;
+      const solution = solutionFile
+        ? await uploadFile(solutionFile, "/api/apply-student/upload-solution")
+        : null;
+
+      const submitRes = await fetch("/api/apply-student/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          resumePath: resume.path,
+          resumeFilename: resume.filename,
+          projectPath: project?.path ?? "",
+          projectFilename: project?.filename ?? "",
+          solutionPath: solution?.path ?? "",
+          solutionFilename: solution?.filename ?? "",
+        }),
+      });
+      if (!submitRes.ok) {
+        const data = await submitRes.json().catch(() => ({}));
+        throw new Error(data.error || "Submission failed");
+      }
+
+      setIsSubmitting(false);
+      router.push("/apply/success");
+    } catch (err) {
+      console.error("Submission error:", err);
+      setIsSubmitting(false);
+      alert("There was an error submitting your application. Please try again.");
+    }
   };
 
   const renderSection = (section: Section) => (
@@ -735,11 +799,22 @@ export default function StudentApplicationPage() {
           )}
 
           <div>
-            <button type="submit" className={ui.primaryButton} disabled={true}>
-              Submit application
+            <button type="submit" className={ui.primaryButton} disabled={!isFormValid() || isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <span className={ui.spinner} />
+                  Submitting application
+                </>
+              ) : (
+                "Submit application"
+              )}
             </button>
             <p className={ui.note}>
-              This application is still being drafted, more sections are coming soon.
+              {isSubmitting
+                ? "Please wait while we save your application and upload your files."
+                : !isFormValid()
+                  ? "Please fill in all required fields and upload your resume to submit your application."
+                  : "Your files upload directly and securely to our storage."}
               <br />
               Questions? Contact us at{" "}
               <a href="mailto:admin@yalehelix.org" className={ui.link}>
