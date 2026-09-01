@@ -15,9 +15,10 @@ const STUDENT_2026: TimelineItem[] = [
     body: "2:00 PM to 5:00 PM.",
   },
   {
-    date: "September 7",
+    date: "September 9",
     event: "Helix Information Session",
     body: "7:00 PM to 8:00 PM.",
+    location: "WLH 119",
   },
   {
     date: "September 10",
@@ -59,6 +60,9 @@ function Strand({ title, items }: { title: string; items: TimelineItem[] }) {
             <p className="text-sm font-medium uppercase tracking-wider text-accent">{item.date}</p>
             <p className="mt-1 font-display text-lg font-medium text-text">{item.event}</p>
             {item.body && <p className="mt-1.5 text-sm leading-relaxed text-text-muted">{item.body}</p>}
+            {item.location && (
+              <p className="mt-1 text-sm leading-relaxed text-text-muted">{item.location}</p>
+            )}
           </motion.li>
         ))}
       </ol>
