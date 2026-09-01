@@ -61,7 +61,11 @@ function Strand({ title, items }: { title: string; items: TimelineItem[] }) {
             <p className="mt-1 font-display text-lg font-medium text-text">{item.event}</p>
             {item.body && <p className="mt-1.5 text-sm leading-relaxed text-text-muted">{item.body}</p>}
             {item.location && (
-              <p className="mt-1 text-sm leading-relaxed text-text-muted">{item.location}</p>
+              <p className="mt-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent">
+                  {item.location}
+                </span>
+              </p>
             )}
           </motion.li>
         ))}
